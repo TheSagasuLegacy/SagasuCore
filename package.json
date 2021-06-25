@@ -1,8 +1,8 @@
 {
   "name": "sagasu-core",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Core repository for project sagasu, which provides services that are the most important.",
+  "author": "ProjectSagasu",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
