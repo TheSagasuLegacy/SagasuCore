@@ -4436,6 +4436,11 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
+prettier-plugin-organize-imports@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.nlark.com/prettier-plugin-organize-imports/download/prettier-plugin-organize-imports-2.2.0.tgz#dcdd5222416a90bd819734f131fea4a22b1c613a"
+  integrity sha1-3N1SIkFqkL2BlzTxMf6koiscYTo=
+
 prettier@^2.2.1:
   version "2.3.1"
   resolved "https://registry.nlark.com/prettier/download/prettier-2.3.1.tgz#76903c3f8c4449bc9ac597acefa24dc5ad4cbea6"
