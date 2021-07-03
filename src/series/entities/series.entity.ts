@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Episodes } from './episodes.entity';
 
 @Entity()
 export class Series {
@@ -17,6 +18,6 @@ export class Series {
   @Column({ default: null })
   air_date: Date | null;
 
-  @Column({ default: null })
-  episodes: number | null;
+  @OneToMany(() => Episodes, (episode) => episode.series)
+  episodes: Episodes[];
 }
