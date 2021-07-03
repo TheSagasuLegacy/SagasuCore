@@ -4590,11 +4590,6 @@ neo-async@^2.6.2:
   resolved "https://registry.nlark.com/neo-async/download/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha1-tKr7k+OustgXTKU88WOrfXMIMF8=
 
-nestjs-typeorm-paginate@^2.5.3:
-  version "2.5.3"
-  resolved "https://registry.nlark.com/nestjs-typeorm-paginate/download/nestjs-typeorm-paginate-2.5.3.tgz#9feae2131f854f20f0ff513aff0c7dca8f7ad43a"
-  integrity sha1-n+riEx+FTyDw/1E6/wx9yo961Do=
-
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.nlark.com/nice-try/download/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
