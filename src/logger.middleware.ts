@@ -6,15 +6,18 @@ import { NextFunction, Request, Response } from 'express';
 export class LoggerMiddleware implements NestMiddleware {
   private logger: Logger = new Logger(LoggerMiddleware.name);
   use(req: Request, res: Response, next: NextFunction) {
+    this.logger.setContext;
     const begin = new Date().getTime();
     res.on('finish', () => {
       const delta = new Date().getTime() - begin;
       this.logger.log(
         clc.cyanBright(req.ip) +
           ' - ' +
-          clc.magentaBright(req.method) +
+          clc.red(req.method) +
           ' | ' +
           clc.green(req.originalUrl) +
+          ' ' +
+          clc.magentaBright(res.statusCode.toString()) +
           ' ' +
           clc.yellow(`+${delta}ms`),
       );
