@@ -11,5 +11,6 @@ import { SeriesService } from './series.service';
   imports: [TypeOrmModule.forFeature([Series, Episodes])],
   controllers: [SeriesController, EpisodesController],
   providers: [SeriesService, EpisodesService],
+  exports: [TypeOrmModule],
 })
 export class SeriesModule {}
