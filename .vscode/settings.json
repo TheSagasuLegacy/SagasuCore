@@ -1,7 +1,9 @@
 {
     "cSpell.words": [
         "Sagasu",
-        "nestjs"
+        "nestjs",
+        "postgres",
+        "typeorm"
     ],
     "editor.formatOnSave": true,
 }
