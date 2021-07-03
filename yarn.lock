@@ -687,10 +687,40 @@
 
 "@nestjs/typeorm@^7.1.5":
   version "7.1.5"
-  resolved "https://registry.nlark.com/@nestjs/typeorm/download/@nestjs/typeorm-7.1.5.tgz#50e3bf85ff8cf78d47d8dd19210c5f02b488f5e3"
+  resolved "https://registry.npm.taobao.org/@nestjs/typeorm/download/@nestjs/typeorm-7.1.5.tgz#50e3bf85ff8cf78d47d8dd19210c5f02b488f5e3"
   integrity sha1-UOO/hf+M941H2N0ZIQxfArSI9eM=
   dependencies:
     uuid "8.3.1"
+
+"@nestjsx/crud-request@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.nlark.com/@nestjsx/crud-request/download/@nestjsx/crud-request-5.0.0-alpha.3.tgz#ee62f5ff454daef4973990faf9d1568e2a4b9bc8"
+  integrity sha1-7mL1/0VNrvSXOZD6+dFWjipLm8g=
+  dependencies:
+    "@nestjsx/util" "^5.0.0-alpha.3"
+    qs "^6.8.0"
+
+"@nestjsx/crud-typeorm@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.nlark.com/@nestjsx/crud-typeorm/download/@nestjsx/crud-typeorm-5.0.0-alpha.3.tgz#069dedb5cc82fd4749082594b5f6952c160fcd51"
+  integrity sha1-Bp3ttcyC/UdJCCWUtfaVLBYPzVE=
+  dependencies:
+    "@zmotivat0r/o0" "^1.0.2"
+
+"@nestjsx/crud@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.nlark.com/@nestjsx/crud/download/@nestjsx/crud-5.0.0-alpha.3.tgz#84d494ceb5b10135afe53c62ed2a0e8015522f8b"
+  integrity sha1-hNSUzrWxATWv5Txi7SoOgBVSL4s=
+  dependencies:
+    "@nestjsx/crud-request" "^5.0.0-alpha.3"
+    "@nestjsx/util" "^5.0.0-alpha.3"
+    deepmerge "^3.2.0"
+    pluralize "^8.0.0"
+
+"@nestjsx/util@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.nlark.com/@nestjsx/util/download/@nestjsx/util-5.0.0-alpha.3.tgz#d1182280e9254f0d335efa369da17fa25d260135"
+  integrity sha1-0RgigOklTw0zXvo2naF/ol0mATU=
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -964,6 +994,11 @@
   dependencies:
     "@types/superagent" "*"
 
+"@types/validator@^13.1.3":
+  version "13.6.1"
+  resolved "https://registry.nlark.com/@types/validator/download/@types/validator-13.6.1.tgz?cache=0&sync_timestamp=1625250376267&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fvalidator%2Fdownload%2F%40types%2Fvalidator-13.6.1.tgz#2a9b5c1a26fdef985ebca467ed3127181153c3e2"
+  integrity sha1-KptcGib975hevKRn7TEnGBFTw+I=
+
 "@types/yargs-parser@*":
   version "20.2.1"
   resolved "https://registry.nlark.com/@types/yargs-parser/download/@types/yargs-parser-20.2.1.tgz#3b9ce2489919d9e4fea439b76916abc34b2df129"
@@ -1180,6 +1215,11 @@
   version "4.2.2"
   resolved "https://registry.nlark.com/@xtuc/long/download/@xtuc/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha1-0pHGpOl5ibXGHZrPOWrk/hM6cY0=
+
+"@zmotivat0r/o0@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.nlark.com/@zmotivat0r/o0/download/@zmotivat0r/o0-1.0.2.tgz#5eb069a631678736234d4c34b07c3a2bae8f8e4b"
+  integrity sha1-XrBppjFnhzYjTUw0sHw6K66Pjks=
 
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
@@ -1834,6 +1874,11 @@ cjs-module-lexer@^0.6.0:
   resolved "https://registry.nlark.com/cjs-module-lexer/download/cjs-module-lexer-0.6.0.tgz#4186fcca0eae175970aee870b9fe2d6cf8d5655f"
   integrity sha1-QYb8yg6uF1lwruhwuf4tbPjVZV8=
 
+class-transformer@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.npm.taobao.org/class-transformer/download/class-transformer-0.4.0.tgz#b52144117b423c516afb44cc1c76dbad31c2165b"
+  integrity sha1-tSFEEXtCPFFq+0TMHHbbrTHCFls=
+
 class-utils@^0.3.5:
   version "0.3.6"
   resolved "https://registry.nlark.com/class-utils/download/class-utils-0.3.6.tgz#f93369ae8b9a7ce02fd41faad0ca83033190c463"
@@ -1843,6 +1888,15 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+class-validator@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.npm.taobao.org/class-validator/download/class-validator-0.13.1.tgz?cache=0&sync_timestamp=1610599911360&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fclass-validator%2Fdownload%2Fclass-validator-0.13.1.tgz#381b2001ee6b9e05afd133671fbdf760da7dec67"
+  integrity sha1-OBsgAe5rngWv0TNnH733YNp97Gc=
+  dependencies:
+    "@types/validator" "^13.1.3"
+    libphonenumber-js "^1.9.7"
+    validator "^13.5.2"
 
 cli-cursor@^3.1.0:
   version "3.1.0"
@@ -2176,6 +2230,11 @@ deep-is@^0.1.3, deep-is@~0.1.3:
   version "0.1.3"
   resolved "https://registry.nlark.com/deep-is/download/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
   integrity sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=
+
+deepmerge@^3.2.0:
+  version "3.3.0"
+  resolved "https://registry.nlark.com/deepmerge/download/deepmerge-3.3.0.tgz#d3c47fd6f3a93d517b14426b0628a17b0125f5f7"
+  integrity sha1-08R/1vOpPVF7FEJrBiihewEl9fc=
 
 deepmerge@^4.2.2:
   version "4.2.2"
@@ -4172,6 +4231,11 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+libphonenumber-js@^1.9.7:
+  version "1.9.20"
+  resolved "https://registry.nlark.com/libphonenumber-js/download/libphonenumber-js-1.9.20.tgz#b9c84c56b3a574e4bf4323181b11f424deea1eca"
+  integrity sha1-uchMVrOldOS/QyMYGxH0JN7qHso=
+
 lines-and-columns@^1.1.6:
   version "1.1.6"
   resolved "https://registry.nlark.com/lines-and-columns/download/lines-and-columns-1.1.6.tgz?cache=0&sync_timestamp=1622685829939&other_urls=https%3A%2F%2Fregistry.nlark.com%2Flines-and-columns%2Fdownload%2Flines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
@@ -5059,7 +5123,7 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-pluralize@8.0.0:
+pluralize@8.0.0, pluralize@^8.0.0:
   version "8.0.0"
   resolved "https://registry.nlark.com/pluralize/download/pluralize-8.0.0.tgz#1a6fa16a38d12a1901e0320fa017051c539ce3b1"
   integrity sha1-Gm+hajjRKhkB4DIPoBcFHFOc47E=
@@ -5182,7 +5246,7 @@ qs@6.7.0:
   resolved "https://registry.nlark.com/qs/download/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
   integrity sha1-QdwaAV49WB8WIXdr4xr7KHapsbw=
 
-qs@^6.9.4:
+qs@^6.8.0, qs@^6.9.4:
   version "6.10.1"
   resolved "https://registry.nlark.com/qs/download/qs-6.10.1.tgz#4931482fa8d647a5aab799c5271d2133b981fb6a"
   integrity sha1-STFIL6jWR6Wqt5nFJx0hM7mB+2o=
@@ -6532,6 +6596,11 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
+
+validator@^13.5.2:
+  version "13.6.0"
+  resolved "https://registry.nlark.com/validator/download/validator-13.6.0.tgz#1e71899c14cdc7b2068463cb24c1cc16f6ec7059"
+  integrity sha1-HnGJnBTNx7IGhGPLJMHMFvbscFk=
 
 vary@^1, vary@~1.1.2:
   version "1.1.2"
