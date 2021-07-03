@@ -7,10 +7,12 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateSeriesDto } from './dto/create-series.dto';
 import { UpdateSeriesDto } from './dto/update-series.dto';
 import { SeriesService } from './series.service';
 
+@ApiTags('series')
 @Controller('series')
 export class SeriesController {
   constructor(private readonly seriesService: SeriesService) {}
@@ -21,13 +23,13 @@ export class SeriesController {
   }
 
   @Get()
-  findAll() {
-    return this.seriesService.findAll();
+  async findAll() {
+    return await this.seriesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.seriesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.seriesService.findOne(+id);
   }
 
   @Patch(':id')
