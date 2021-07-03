@@ -9,6 +9,8 @@ import { SeriesService } from './series.service';
 @Crud({
   model: { type: Series },
   dto: { create: CreateSeriesDto, update: UpdateSeriesDto },
+  routes: { exclude: ['replaceOneBase'] },
+  query: { alwaysPaginate: true, join: { episodes: { eager: true } } },
 })
 @ApiTags('series')
 @Controller('series')
