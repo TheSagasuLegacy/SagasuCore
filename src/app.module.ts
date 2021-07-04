@@ -1,3 +1,4 @@
+import { BullModule } from '@nestjs/bull';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -9,9 +10,10 @@ import { SeriesModule } from './series/series.module';
 
 @Module({
   imports: [
-    SeriesModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(),
+    BullModule.forRoot({}),
+    SeriesModule,
     ScraperModule,
   ],
   controllers: [AppController],
