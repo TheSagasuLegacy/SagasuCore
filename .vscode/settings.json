@@ -1,9 +1,11 @@
 {
     "cSpell.words": [
+        "Bangumi",
         "Sagasu",
         "nestjs",
         "postgres",
         "typeorm"
     ],
     "editor.formatOnSave": true,
+    "debug.javascript.autoAttachFilter": "smart",
 }
