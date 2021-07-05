@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
   Unique,
@@ -10,7 +9,6 @@ import { Series } from './series.entity';
 
 @Entity()
 @Unique(['series', 'name', 'sort'])
-@Index(['bangumi_id'], { unique: true })
 export class Episodes {
   @PrimaryGeneratedColumn()
   id: number;
@@ -18,10 +16,10 @@ export class Episodes {
   @ManyToOne(() => Series, (series) => series.episodes, { nullable: false })
   series: Series;
 
-  @Column()
-  name: string;
-
   @Column({ default: null })
+  name?: string;
+
+  @Column({ default: null, type: 'float' })
   sort?: number;
 
   @Column({ default: null })
@@ -29,7 +27,4 @@ export class Episodes {
 
   @Column({ default: null })
   air_date?: Date;
-
-  @Column({ default: null })
-  bangumi_id?: number;
 }
