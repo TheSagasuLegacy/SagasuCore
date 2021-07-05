@@ -8,7 +8,7 @@ import {
 import { Episodes } from './episodes.entity';
 
 @Entity()
-@Index(['name'], { unique: true })
+@Index(['bangumi_id'], { unique: true })
 export class Series {
   @PrimaryGeneratedColumn()
   id: number;
@@ -24,6 +24,9 @@ export class Series {
 
   @Column({ default: null })
   air_date?: Date;
+
+  @Column({ default: null })
+  bangumi_id?: number;
 
   @OneToMany(() => Episodes, (episode) => episode.series)
   episodes: Episodes[];

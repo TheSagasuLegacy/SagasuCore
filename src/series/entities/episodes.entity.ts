@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
   Unique,
@@ -9,6 +10,7 @@ import { Series } from './series.entity';
 
 @Entity()
 @Unique(['series', 'name', 'sort'])
+@Index(['bangumi_id'], { unique: true })
 export class Episodes {
   @PrimaryGeneratedColumn()
   id: number;
@@ -27,4 +29,7 @@ export class Episodes {
 
   @Column({ default: null })
   air_date?: Date;
+
+  @Column({ default: null })
+  bangumi_id?: number;
 }
