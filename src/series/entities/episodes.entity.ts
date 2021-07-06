@@ -1,14 +1,24 @@
 import {
   Column,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
-  Unique,
 } from 'typeorm';
 import { Series } from './series.entity';
 
+export enum EpisodeType {
+  Main = 0,
+  Special = 1,
+  Opening = 2,
+  Ending = 3,
+  Advertising = 4,
+  MAD = 5,
+  Other = 6,
+}
+
 @Entity()
-@Unique(['series', 'name', 'sort'])
+@Index(['series', 'sort', 'type'], { unique: true })
 export class Episodes {
   @PrimaryGeneratedColumn()
   id: number;
@@ -21,6 +31,9 @@ export class Episodes {
 
   @Column({ default: null, type: 'float' })
   sort?: number;
+
+  @Column({ default: null, type: 'enum', enum: EpisodeType })
+  type?: EpisodeType;
 
   @Column({ default: null })
   name_cn?: string;
