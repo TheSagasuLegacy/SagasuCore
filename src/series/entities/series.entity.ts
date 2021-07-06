@@ -4,6 +4,8 @@ import {
   Index,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  VersionColumn,
 } from 'typeorm';
 import { Episodes } from './episodes.entity';
 
@@ -30,4 +32,10 @@ export class Series {
 
   @OneToMany(() => Episodes, (episode) => episode.series)
   episodes: Episodes[];
+
+  @UpdateDateColumn({ nullable: true })
+  updated?: Date;
+
+  @VersionColumn({ nullable: true })
+  version?: number;
 }

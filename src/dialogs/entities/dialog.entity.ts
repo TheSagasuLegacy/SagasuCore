@@ -12,7 +12,7 @@ export class Dialogs {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Episodes, { nullable: false })
+  @ManyToOne(() => Episodes, { nullable: false, cascade: true })
   owner: Episodes;
 
   @Column()

@@ -4,6 +4,8 @@ import {
   Index,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  VersionColumn,
 } from 'typeorm';
 import { Series } from './series.entity';
 
@@ -23,7 +25,10 @@ export class Episodes {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Series, (series) => series.episodes, { nullable: false })
+  @ManyToOne(() => Series, (series) => series.episodes, {
+    nullable: false,
+    cascade: true,
+  })
   series: Series;
 
   @Column({ default: null })
@@ -40,4 +45,10 @@ export class Episodes {
 
   @Column({ default: null })
   air_date?: Date;
+
+  @UpdateDateColumn({ nullable: true })
+  updated?: Date;
+
+  @VersionColumn({ nullable: true })
+  version?: number;
 }
