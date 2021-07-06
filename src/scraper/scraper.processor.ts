@@ -1,11 +1,18 @@
-import { Process, Processor } from '@nestjs/bull';
+import { OnQueueFailed, Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
-import { Job } from 'bull';
+import { Job, JobOptions } from 'bull';
+import * as dayjs from 'dayjs';
+import * as customParseFormat from 'dayjs/plugin/customParseFormat';
 import got from 'got';
 import { Episodes } from 'src/series/entities/episodes.entity';
 import { Connection } from 'typeorm';
 import { Series } from '../series/entities/series.entity';
-import { SCRAPE_QUEUE } from './scraper.constants';
+import {
+  SCRAPE_QUEUE,
+  SCRAPE_QUEUE_GET,
+  SCRAPE_QUEUE_MAIN,
+  SCRAPE_QUEUE_PERSIST,
+} from './scraper.constants';
 
 interface BangumiData {
   id: number;
@@ -24,73 +31,100 @@ interface BangumiData {
   }[];
 }
 
+dayjs.extend(customParseFormat);
+
 @Processor(SCRAPE_QUEUE)
 export class ScrapeConsumer {
   private logger: Logger = new Logger(ScrapeConsumer.name);
 
+  public jobConfig: JobOptions = {
+    removeOnFail: true,
+    removeOnComplete: true,
+    timeout: 5 * 60 * 1000,
+  };
+
   constructor(private connection: Connection) {}
 
-  @Process({ name: 'main', concurrency: 1 })
+  @Process({ name: SCRAPE_QUEUE_MAIN })
   async createScrapeTask(job: Job) {
     const { begin, end, workers } = job.data as {
       begin: number;
       end: number;
       workers: number;
     };
+    const progress = job.progress() as number | null;
+    const total = end - (progress || begin);
     let running = 0;
+    let finished = 0;
     for (let current = begin; current <= end; current++) {
-      await job.progress((current - begin) / (end - begin));
       while (running >= workers) {
         await this.sleep(100);
       }
+      await job.progress(current);
       running += 1;
-      (await job.queue.add('get', { page: current }))
+      (await job.queue.add(SCRAPE_QUEUE_GET, { page: current }, this.jobConfig))
         .finished()
-        .finally(() => (running -= 1));
+        .finally(() => {
+          running--;
+          finished++;
+        });
+    }
+    while (finished < total) {
+      await this.sleep(100);
     }
     return;
   }
 
-  @Process('get')
+  @Process(SCRAPE_QUEUE_GET)
   async getBangumiData(job: Job) {
     const { page } = job.data as { page: number };
-    const { body, readableLength } = await got<BangumiData>(
+    const { body } = await got<BangumiData>(
       `https://api.bgm.tv/subject/${page}`,
       {
         http2: true,
         responseType: 'json',
         dnsCache: true,
         searchParams: { responseGroup: 'large' },
+        retry: 5,
+        hooks: {
+          beforeRetry: [
+            (options, error, retry) =>
+              this.logger.warn(
+                `Network request to "${options.url}" failed: ${error}, retried ${retry} times.`,
+              ),
+          ],
+        },
       },
     );
-    this.logger.log(
-      `Bangumi page ${page} get finished, size ${readableLength}.`,
-    );
+    this.logger.verbose(`Get page ${page} from bangumi successfully.`);
     if (body.type !== 2) {
       return;
     }
-    await job.queue.add('persist', body);
+    this.logger.log(`Bangumi ${body.id}-"${body.name}" get finished.`);
+    await job.queue.add(SCRAPE_QUEUE_PERSIST, body, this.jobConfig);
     return;
   }
 
-  @Process('persist')
+  @Process(SCRAPE_QUEUE_PERSIST)
   async persistBangumiData(job: Job) {
     const data = job.data as BangumiData;
-    await this.connection.transaction(async (manager) => {
+    await this.connection.manager.transaction(async (manager) => {
       const series = manager.create(Series, {
         name: data.name,
-        name_cn: !!data.name_cn.trim() ? data.name_cn : null,
-        description: !!data.summary.trim() ? data.summary : null,
-        air_date: !!data.air_date.trim() ? new Date(data.air_date) : null,
+        bangumi_id: data.id,
+        name_cn: this.utils.string(data.name_cn),
+        description: this.utils.string(data.summary),
+        air_date: this.utils.date(this.utils.string(data.air_date)),
       });
       await manager.save(series);
       const episodes = data.eps.map((value) =>
         manager.create(Episodes, {
           series: series,
-          name: value.name,
           sort: value.sort,
-          name_cn: !!value.name_cn.trim() ? value.name_cn : null,
-          air_date: !!value.airdate.trim() ? new Date(value.airdate) : null,
+          type: value.type,
+          name: this.utils.string(value.name),
+          name_cn: this.utils.string(value.name_cn),
+          air_date: this.utils.date(this.utils.string(value.airdate)),
         }),
       );
       await manager.save(episodes);
@@ -98,9 +132,28 @@ export class ScrapeConsumer {
     this.logger.log(`Bangumi ${data.id}-"${data.name}" persisted.`);
   }
 
+  @OnQueueFailed()
+  onError(job: Job, error: Error) {
+    this.logger.error(
+      `Error occurred during processing job "${job.name}":\n${error.stack}`,
+    );
+    void job.remove();
+  }
+
   async sleep(ms: number) {
     await new Promise((resolve) => {
       setTimeout(resolve, ms);
     });
   }
+
+  private utils = {
+    string(value: string): string | null {
+      const trimmed = value.trim();
+      return trimmed ? trimmed : null;
+    },
+    date(value: string | null): Date | null {
+      const date = dayjs(value, 'YYYY MM DD', 'zh-cn');
+      return date.isValid() ? date.toDate() : null;
+    },
+  };
 }
