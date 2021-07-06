@@ -923,11 +923,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/he@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.nlark.com/@types/he/download/@types/he-1.1.1.tgz?cache=0&sync_timestamp=1621241327704&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fhe%2Fdownload%2F%40types%2Fhe-1.1.1.tgz#19e14033c4ee8f1a702c74dcc6182664839ac2b7"
-  integrity sha1-GeFAM8TujxpwLHTcxhgmZIOawrc=
-
 "@types/http-cache-semantics@*":
   version "4.0.0"
   resolved "https://registry.nlark.com/@types/http-cache-semantics/download/@types/http-cache-semantics-4.0.0.tgz"
@@ -3470,11 +3465,6 @@ has@^1.0.3:
   integrity sha1-ci18v8H2qoJB8W3YFOAR4fQeh5Y=
   dependencies:
     function-bind "^1.1.1"
-
-he@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.nlark.com/he/download/he-1.2.0.tgz"
-  integrity sha1-hK5l+n6vsWX922FWauFLrwVmTw8=
 
 highlight.js@^10.7.1:
   version "10.7.3"
