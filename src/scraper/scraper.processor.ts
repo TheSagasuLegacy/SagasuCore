@@ -86,6 +86,7 @@ export class ScrapeConsumer {
         dnsCache: true,
         searchParams: { responseGroup: 'large' },
         retry: 5,
+        timeout: 6000,
         hooks: {
           beforeRetry: [
             (options, error, retry) =>
