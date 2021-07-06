@@ -1,26 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDialogDto } from './dto/create-dialog.dto';
-import { UpdateDialogDto } from './dto/update-dialog.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { Repository } from 'typeorm';
+import { Dialogs } from './entities/dialog.entity';
 
 @Injectable()
-export class DialogsService {
-  create(createDialogDto: CreateDialogDto) {
-    return 'This action adds a new dialog';
-  }
-
-  findAll() {
-    return `This action returns all dialogs`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} dialog`;
-  }
-
-  update(id: number, updateDialogDto: UpdateDialogDto) {
-    return `This action updates a #${id} dialog`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} dialog`;
+export class DialogsService extends TypeOrmCrudService<Dialogs> {
+  constructor(@InjectRepository(Dialogs) repo: Repository<Dialogs>) {
+    super(repo);
   }
 }

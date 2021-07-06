@@ -1,34 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { Crud, CrudController } from '@nestjsx/crud';
 import { DialogsService } from './dialogs.service';
 import { CreateDialogDto } from './dto/create-dialog.dto';
 import { UpdateDialogDto } from './dto/update-dialog.dto';
+import { Dialogs } from './entities/dialog.entity';
 
+@Crud({
+  model: { type: Dialogs },
+  dto: { create: CreateDialogDto, update: UpdateDialogDto },
+  routes: { exclude: ['replaceOneBase'] },
+  query: {
+    alwaysPaginate: true,
+    join: { owner: { eager: true }, 'owner.series': { eager: true } },
+  },
+})
+@ApiTags('dialogs')
 @Controller('dialogs')
-export class DialogsController {
-  constructor(private readonly dialogsService: DialogsService) {}
-
-  @Post()
-  create(@Body() createDialogDto: CreateDialogDto) {
-    return this.dialogsService.create(createDialogDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.dialogsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dialogsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDialogDto: UpdateDialogDto) {
-    return this.dialogsService.update(+id, updateDialogDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dialogsService.remove(+id);
-  }
+export class DialogsController implements CrudController<Dialogs> {
+  constructor(public service: DialogsService) {}
 }

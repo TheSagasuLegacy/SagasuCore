@@ -4,10 +4,10 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { DialogsModule } from './dialogs/dialogs.module';
 import { LoggerMiddleware } from './logger.middleware';
 import { ScraperModule } from './scraper/scraper.module';
 import { SeriesModule } from './series/series.module';
-import { DialogsModule } from './dialogs/dialogs.module';
 
 @Module({
   imports: [
