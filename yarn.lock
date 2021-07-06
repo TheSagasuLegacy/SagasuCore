@@ -363,6 +363,16 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@elastic/elasticsearch@^7.13.0":
+  version "7.13.0"
+  resolved "https://registry.nlark.com/@elastic/elasticsearch/download/@elastic/elasticsearch-7.13.0.tgz#6dcf511dfa91187e22c81e54f41f4bd0fd96b4d6"
+  integrity sha1-bc9RHfqRGH4iyB5U9B9L0P2WtNY=
+  dependencies:
+    debug "^4.3.1"
+    hpagent "^0.1.1"
+    ms "^2.1.3"
+    secure-json-parse "^2.4.0"
+
 "@eslint/eslintrc@^0.4.2":
   version "0.4.2"
   resolved "https://registry.nlark.com/@eslint/eslintrc/download/@eslint/eslintrc-0.4.2.tgz"
@@ -645,6 +655,11 @@
     path-to-regexp "3.2.0"
     tslib "2.2.0"
     uuid "8.3.2"
+
+"@nestjs/elasticsearch@^7.1.0":
+  version "7.1.0"
+  resolved "https://registry.npm.taobao.org/@nestjs/elasticsearch/download/@nestjs/elasticsearch-7.1.0.tgz#ba77a11d419b9aa542252a83b6490ef8c458fed4"
+  integrity sha1-unehHUGbmqVCJSqDtkkO+MRY/tQ=
 
 "@nestjs/mapped-types@0.4.1":
   version "0.4.1"
@@ -1111,14 +1126,6 @@
     "@typescript-eslint/typescript-estree" "4.28.2"
     debug "^4.3.1"
 
-"@typescript-eslint/scope-manager@4.28.1":
-  version "4.28.1"
-  resolved "https://registry.nlark.com/@typescript-eslint/scope-manager/download/@typescript-eslint/scope-manager-4.28.1.tgz?cache=0&sync_timestamp=1624900794929&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40typescript-eslint%2Fscope-manager%2Fdownload%2F%40typescript-eslint%2Fscope-manager-4.28.1.tgz"
-  integrity sha1-/TwgYnzcEpM/bZizhpQNjQzoqZE=
-  dependencies:
-    "@typescript-eslint/types" "4.28.1"
-    "@typescript-eslint/visitor-keys" "4.28.1"
-
 "@typescript-eslint/scope-manager@4.28.2":
   version "4.28.2"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-4.28.2.tgz#451dce90303a3ce283750111495d34c9c204e510"
@@ -1127,28 +1134,10 @@
     "@typescript-eslint/types" "4.28.2"
     "@typescript-eslint/visitor-keys" "4.28.2"
 
-"@typescript-eslint/types@4.28.1":
-  version "4.28.1"
-  resolved "https://registry.nlark.com/@typescript-eslint/types/download/@typescript-eslint/types-4.28.1.tgz?cache=0&sync_timestamp=1624900793875&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40typescript-eslint%2Ftypes%2Fdownload%2F%40typescript-eslint%2Ftypes-4.28.1.tgz"
-  integrity sha1-0PLsvvNoRjTbNXubv8l7lLgo+D8=
-
 "@typescript-eslint/types@4.28.2":
   version "4.28.2"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-4.28.2.tgz#e6b9e234e0e9a66c4d25bab881661e91478223b5"
   integrity sha512-Gr15fuQVd93uD9zzxbApz3wf7ua3yk4ZujABZlZhaxxKY8ojo448u7XTm/+ETpy0V0dlMtj6t4VdDvdc0JmUhA==
-
-"@typescript-eslint/typescript-estree@4.28.1":
-  version "4.28.1"
-  resolved "https://registry.nlark.com/@typescript-eslint/typescript-estree/download/@typescript-eslint/typescript-estree-4.28.1.tgz?cache=0&sync_timestamp=1624900676364&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40typescript-eslint%2Ftypescript-estree%2Fdownload%2F%40typescript-eslint%2Ftypescript-estree-4.28.1.tgz"
-  integrity sha1-r4gq5BdA0fJo44tND60h5+jYaoE=
-  dependencies:
-    "@typescript-eslint/types" "4.28.1"
-    "@typescript-eslint/visitor-keys" "4.28.1"
-    debug "^4.3.1"
-    globby "^11.0.3"
-    is-glob "^4.0.1"
-    semver "^7.3.5"
-    tsutils "^3.21.0"
 
 "@typescript-eslint/typescript-estree@4.28.2":
   version "4.28.2"
@@ -1162,14 +1151,6 @@
     is-glob "^4.0.1"
     semver "^7.3.5"
     tsutils "^3.21.0"
-
-"@typescript-eslint/visitor-keys@4.28.1":
-  version "4.28.1"
-  resolved "https://registry.nlark.com/@typescript-eslint/visitor-keys/download/@typescript-eslint/visitor-keys-4.28.1.tgz?cache=0&sync_timestamp=1624900794493&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40typescript-eslint%2Fvisitor-keys%2Fdownload%2F%40typescript-eslint%2Fvisitor-keys-4.28.1.tgz"
-  integrity sha1-FipRXuJV8YpgaO3CbfeTzcHskVc=
-  dependencies:
-    "@typescript-eslint/types" "4.28.1"
-    eslint-visitor-keys "^2.0.0"
 
 "@typescript-eslint/visitor-keys@4.28.2":
   version "4.28.2"
@@ -3476,6 +3457,11 @@ hosted-git-info@^2.1.4:
   resolved "https://registry.nlark.com/hosted-git-info/download/hosted-git-info-2.8.9.tgz"
   integrity sha1-3/wL+aIcAiCQkPKqaUKeFBTa8/k=
 
+hpagent@^0.1.1:
+  version "0.1.2"
+  resolved "https://registry.nlark.com/hpagent/download/hpagent-0.1.2.tgz#cab39c66d4df2d4377dbd212295d878deb9bdaa9"
+  integrity sha1-yrOcZtTfLUN329ISKV2Hjeub2qk=
+
 html-encoding-sniffer@^2.0.1:
   version "2.0.1"
   resolved "https://registry.nlark.com/html-encoding-sniffer/download/html-encoding-sniffer-2.0.1.tgz"
@@ -4901,7 +4887,7 @@ ms@2.1.2:
   resolved "https://registry.nlark.com/ms/download/ms-2.1.2.tgz"
   integrity sha1-0J0fNXtEP0kzgqjrPM0YOHKuYAk=
 
-ms@^2.1.1:
+ms@^2.1.1, ms@^2.1.3:
   version "2.1.3"
   resolved "https://registry.nlark.com/ms/download/ms-2.1.3.tgz"
   integrity sha1-V0yBOM4dK1hh8LRFedut1gxmFbI=
@@ -6074,6 +6060,11 @@ schema-utils@^3.0.0:
     "@types/json-schema" "^7.0.6"
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
+
+secure-json-parse@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.npm.taobao.org/secure-json-parse/download/secure-json-parse-2.4.0.tgz#5aaeaaef85c7a417f76271a4f5b0cc3315ddca85"
+  integrity sha1-Wq6q74XHpBf3YnGk9bDMMxXdyoU=
 
 "semver@2 || 3 || 4 || 5", semver@^5.3.0, semver@^5.5.0:
   version "5.7.1"
