@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { LoggerMiddleware } from './logger.middleware';
 import { ScraperModule } from './scraper/scraper.module';
 import { SeriesModule } from './series/series.module';
+import { DialogsModule } from './dialogs/dialogs.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { SeriesModule } from './series/series.module';
     BullModule.forRoot({}),
     SeriesModule,
     ScraperModule,
+    DialogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
