@@ -4,8 +4,10 @@ EXPOSE 3000
 
 COPY ./ /data
 
-RUN npm install -g yarn && \
-    yarn install --production && \
+WORKDIR /data
+
+RUN yarn global add @nestjs/cli && \
+    yarn install && \
     yarn run build
 
-ENTRYPOINT [ "yarn","run","start:prod" ]
+CMD [ "/bin/sh","./docker/entrypoint" ]

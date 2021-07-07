@@ -5,10 +5,6 @@ volumes:
   sagasu_redis: {}
   sagasu_postgres: {}
 
-net:
-  default:
-    name: sagasu_network
-
 services:
   redis:
     image: redis:alpine
@@ -30,7 +26,9 @@ services:
 
   elasticsearch:
     container_name: sagasu_es
-    dockerfile: ./docker/elasticsearch.dockerfile
+    build:
+      dockerfile: ./docker/elasticsearch.dockerfile
+      context: .
     volumes:
       - sagasu_es:/usr/share/elasticsearch/data
     ports:
@@ -41,7 +39,9 @@ services:
 
   core:
     container_name: sagasu_core
-    dockerfile: ./docker/core.dockerfile
+    build:
+      dockerfile: ./docker/core.dockerfile
+      context: .
     depends_on:
       - redis
       - postgres
@@ -49,4 +49,6 @@ services:
     ports:
       - '3000:3000'
     environment:
-      DATABASE_URL: postgres://postgres:password@
+      DATABASE_URL: postgres://postgres:password@postgres:5432/postgres
+      REDIS_URL: redis://redis:6379
+      ES_NODE: http://elasticsearch:9200
