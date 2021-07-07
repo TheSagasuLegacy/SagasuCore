@@ -12,34 +12,35 @@ export class SeriesIndexService {
    */
   async create() {
     try {
-      return await this.elastic.indices.get({ index: 'series' });
+      await this.elastic.indices.get({ index: 'series' });
     } catch {
-      const result = await this.elastic.indices.create({
-        index: 'series',
-        body: {
-          mappings: {
-            properties: {
-              name: {
-                type: 'text',
-                analyzer: 'kuromoji',
-              },
-              name_cn: {
-                type: 'text',
-                analyzer: 'smartcn',
-              },
-              description: {
-                type: 'text',
-                analyzer: 'smartcn',
-              },
-            },
+      await this.elastic.indices.create({ index: 'series' });
+    }
+    const result = await this.elastic.indices.putMapping({
+      index: 'series',
+      body: {
+        properties: {
+          name: {
+            type: 'text',
+            analyzer: 'kuromoji',
+          },
+          name_cn: {
+            type: 'text',
+            analyzer: 'smartcn',
+          },
+          description: {
+            type: 'text',
+            analyzer: 'smartcn',
           },
         },
-      });
-      this.logger.log(
-        `Index of series created, code=${result.statusCode}, body=${result.body}`,
-      );
-      return result;
-    }
+      },
+    });
+    this.logger.log(
+      `Mapping updated, code=${result.statusCode}, body=${JSON.stringify(
+        result.body,
+      )}`,
+    );
+    return result;
   }
 
   async insert(data: {
@@ -64,13 +65,24 @@ export class SeriesIndexService {
   }
 
   async search(
-    match: { name?: string; name_cn?: string; description?: string },
+    keyword: string,
+    fields: ('name' | 'name_cn' | 'description')[],
     from?: number,
     size?: number,
   ) {
     return this.elastic.search({
       index: 'series',
-      body: { from, size, query: { match } },
+      body: {
+        from,
+        size,
+        query: {
+          multi_match: { query: keyword, fields },
+        },
+        highlight: {
+          type: 'plain',
+          fields: Object.fromEntries(fields.map((value) => [value, {}])),
+        },
+      },
     });
   }
 
