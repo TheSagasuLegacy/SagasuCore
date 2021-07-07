@@ -1,0 +1,10 @@
+#!/bin/sh -xve
+
+if [ -d '/dist' ]
+then
+    yarn run build
+fi
+
+yarn run migrate
+
+yarn run start:prod

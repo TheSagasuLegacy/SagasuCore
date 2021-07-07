@@ -17,6 +17,7 @@
     "typeorm": "yarn run build && typeorm",
     "typeorm:generate": "yarn run typeorm migration:generate -n",
     "typeorm:run": "yarn run typeorm migration:run",
+    "migrate": "typeorm migration:run",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
