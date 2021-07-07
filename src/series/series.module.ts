@@ -6,6 +6,7 @@ import { Episodes } from './entities/episodes.entity';
 import { Series } from './entities/series.entity';
 import { EpisodesController } from './episodes.controller';
 import { EpisodesService } from './episodes.service';
+import { SeriesSearchService } from './series-search.service';
 import { SeriesController } from './series.controller';
 import { SeriesService } from './series.service';
 import { SeriesSubscriber } from './series.subscriber';
@@ -18,6 +19,7 @@ import { SeriesSubscriber } from './series.subscriber';
     SeriesSubscriber,
     EpisodesService,
     SeriesIndexService,
+    SeriesSearchService,
   ],
   exports: [TypeOrmModule],
 })

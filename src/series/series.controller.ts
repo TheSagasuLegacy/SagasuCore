@@ -1,10 +1,16 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Query, Req } from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
-import { SeriesIndexService } from 'src/elastic-index/series/series.service';
+import { plainToClass } from 'class-transformer';
+import { Request } from 'express';
 import { CreateSeriesDto } from './dto/create-series.dto';
+import {
+  SeriesSearchQuery,
+  SeriesSearchResponse,
+} from './dto/search-series.dto';
 import { UpdateSeriesDto } from './dto/update-series.dto';
 import { Series } from './entities/series.entity';
+import { SeriesSearchService } from './series-search.service';
 import { SeriesService } from './series.service';
 
 @Crud({
@@ -18,11 +24,18 @@ import { SeriesService } from './series.service';
 export class SeriesController implements CrudController<Series> {
   constructor(
     public service: SeriesService,
-    public elastic: SeriesIndexService,
+    public searchService: SeriesSearchService,
   ) {}
 
+  @ApiOkResponse({ type: SeriesSearchResponse })
   @Get('search')
-  async search(@Query('keyword') keyword: string) {
-    return this.elastic.search(keyword, ['description', 'name', 'name_cn']);
+  async search(@Query() _: SeriesSearchQuery, @Req() request: Request) {
+    const query = plainToClass(SeriesSearchQuery, request.query);
+    return this.searchService.search(
+      query.keyword,
+      typeof query.fields == 'string' ? [query.fields] : query.fields,
+      query.from,
+      query.size,
+    );
   }
 }
