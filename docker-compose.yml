@@ -1,0 +1,52 @@
+version: '3.8'
+
+volumes:
+  sagasu_es: {}
+  sagasu_redis: {}
+  sagasu_postgres: {}
+
+net:
+  default:
+    name: sagasu_network
+
+services:
+  redis:
+    image: redis:alpine
+    container_name: sagasu_redis
+    volumes:
+      - sagasu_redis:/data
+    ports:
+      - '6379:6379'
+
+  postgres:
+    image: postgres:alpine
+    container_name: sagasu_postgres
+    volumes:
+      - sagasu_postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: password
+
+  elasticsearch:
+    container_name: sagasu_es
+    dockerfile: ./docker/elasticsearch.dockerfile
+    volumes:
+      - sagasu_es:/usr/share/elasticsearch/data
+    ports:
+      - '9200:9200'
+    environment:
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      discovery.type: single-node
+
+  core:
+    container_name: sagasu_core
+    dockerfile: ./docker/core.dockerfile
+    depends_on:
+      - redis
+      - postgres
+      - elasticsearch
+    ports:
+      - '3000:3000'
+    environment:
+      DATABASE_URL: postgres://postgres:password@
