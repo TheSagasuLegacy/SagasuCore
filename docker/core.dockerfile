@@ -6,8 +6,7 @@ COPY ./ /data
 
 WORKDIR /data
 
-RUN yarn global add @nestjs/cli && \
-    yarn install && \
+RUN yarn install --verbose && \
     yarn run build
 
-CMD [ "/bin/sh","./docker/entrypoint" ]
+CMD [ "/bin/sh","-xve","./docker/entrypoint" ]
