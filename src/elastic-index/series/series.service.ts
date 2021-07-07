@@ -11,36 +11,35 @@ export class SeriesIndexService {
    * Create index of series
    */
   async create() {
-    if (
-      (await this.elastic.indices.get({ index: 'series' })).statusCode == 200
-    ) {
-      return;
-    }
-    const result = await this.elastic.indices.create({
-      index: 'series',
-      body: {
-        mappings: {
-          properties: {
-            name: {
-              type: 'text',
-              analyzer: 'kuromoji',
-            },
-            name_cn: {
-              type: 'text',
-              analyzer: 'smartcn',
-            },
-            description: {
-              type: 'text',
-              analyzer: 'smartcn',
+    try {
+      return await this.elastic.indices.get({ index: 'series' });
+    } catch {
+      const result = await this.elastic.indices.create({
+        index: 'series',
+        body: {
+          mappings: {
+            properties: {
+              name: {
+                type: 'text',
+                analyzer: 'kuromoji',
+              },
+              name_cn: {
+                type: 'text',
+                analyzer: 'smartcn',
+              },
+              description: {
+                type: 'text',
+                analyzer: 'smartcn',
+              },
             },
           },
         },
-      },
-    });
-    this.logger.log(
-      `Index of series created, code=${result.statusCode}, body=${result.body}`,
-    );
-    return result;
+      });
+      this.logger.log(
+        `Index of series created, code=${result.statusCode}, body=${result.body}`,
+      );
+      return result;
+    }
   }
 
   async insert(data: {
