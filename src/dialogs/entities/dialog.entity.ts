@@ -1,19 +1,17 @@
-import { Episodes } from 'src/series/entities/episodes.entity';
 import {
   Column,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  VersionColumn,
 } from 'typeorm';
+import { SubtitleFile } from './files.entity';
 
 @Entity()
 export class Dialogs {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @ManyToOne(() => Episodes, { nullable: false, cascade: true })
-  owner: Episodes;
 
   @Column()
   content: string;
@@ -24,9 +22,15 @@ export class Dialogs {
   @Column()
   end: number;
 
-  @Column({ default: null })
-  filename?: string;
+  @ManyToOne(() => SubtitleFile, (file) => file.dialogs, {
+    nullable: false,
+    cascade: true,
+  })
+  file: SubtitleFile;
 
   @UpdateDateColumn()
   updated: Date;
+
+  @VersionColumn()
+  version: number;
 }
