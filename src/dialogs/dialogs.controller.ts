@@ -12,7 +12,7 @@ import { Dialogs } from './entities/dialog.entity';
   routes: { exclude: ['replaceOneBase'] },
   query: {
     alwaysPaginate: true,
-    join: { owner: { eager: true }, 'owner.series': { eager: true } },
+    join: { file: { eager: true } },
   },
 })
 @ApiTags('dialogs')
