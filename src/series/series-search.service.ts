@@ -56,22 +56,26 @@ export class SeriesSearchService {
       from,
       size,
     )) as SearchResponse;
-    return plainToClass(SeriesSearchResponse, {
+    const response: SeriesSearchResponse = {
       cost: result.body.took,
       total: result.body.hits.total.value,
       max_score: result.body.hits.max_score,
-      results: await Promise.all(
-        result.body.hits.hits.map(async (value) => {
-          const id = Number.parseFloat(value._id);
-          const series = await this.database.findOne(id, {
-            loadEagerRelations: false,
-          });
-          return {
-            ...series,
-            highlights: value.highlight,
-          };
-        }),
-      ),
-    });
+      results: [],
+    };
+    await Promise.all(
+      result.body.hits.hits.map(async (hit) => {
+        const id = parseInt(hit._id);
+        const result = await this.database.findOne(id, { relations: [] });
+        if (result === undefined) {
+          return;
+        }
+        response.results.push({
+          info: result,
+          search: { highlight: hit.highlight, score: hit._score },
+        });
+      }),
+    );
+    response.results.sort((a, b) => a.search.score - b.search.score).reverse();
+    return plainToClass(SeriesSearchResponse, response);
   }
 }

@@ -3,13 +3,20 @@ import { Type } from 'class-transformer';
 import { Max, Min } from 'class-validator';
 import { Series } from '../entities/series.entity';
 
-class SeriesSearchResult extends OmitType(Series, ['episodes'] as const) {
-  highlight: {
-    name?: string[];
-    name_cn?: string[];
-    description?: string;
+class SeriesSearchInfo extends OmitType(Series, ['episodes'] as const) {}
+
+class SeriesSearchResult {
+  info: SeriesSearchInfo;
+  search: {
+    highlight: {
+      name?: string[];
+      name_cn?: string[];
+      description?: string[];
+    };
+    score: number;
   };
 }
+
 export class SeriesSearchResponse {
   cost: number;
   total: number;
