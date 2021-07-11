@@ -23,7 +23,6 @@ export class DialogsIndexService {
             fields: {
               suggest: {
                 type: 'completion',
-                tokenizer: 'smartcn_tokenizer',
                 analyzer: 'smartcn',
               },
             },
@@ -33,7 +32,7 @@ export class DialogsIndexService {
       },
     });
     this.logger.log(
-      `Mapping created, code=${result.statusCode}, body=${JSON.stringify(
+      `Mapping updated, code=${result.statusCode}, body=${JSON.stringify(
         result.body,
       )}`,
     );
@@ -75,7 +74,7 @@ export class DialogsIndexService {
   async suggest(keyword: string, field: 'content' | 'filename') {
     return this.elastic.search({
       index: 'dialogs',
-      body: { suggest: { suggest: { text: keyword, term: { field } } } },
+      body: { suggest: { suggest: { text: keyword, completion: { field } } } },
     });
   }
 
