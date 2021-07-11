@@ -1,4 +1,3 @@
-import { BullModule } from '@nestjs/bull';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,7 +6,6 @@ import { AppService } from './app.service';
 import { DialogsModule } from './dialogs/dialogs.module';
 import { ElasticIndexModule } from './elastic-index/elastic-index.module';
 import { LoggerMiddleware } from './logger.middleware';
-import { ScraperModule } from './scraper/scraper.module';
 import { SeriesModule } from './series/series.module';
 
 @Module({
@@ -20,15 +18,7 @@ import { SeriesModule } from './series/series.module';
         url: config.get<string>('DATABASE_URL'),
       }),
     }),
-    BullModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        redis: config.get<string>('REDIS_URL'),
-      }),
-    }),
     SeriesModule,
-    ScraperModule,
     DialogsModule,
     ElasticIndexModule,
   ],
