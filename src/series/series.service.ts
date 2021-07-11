@@ -11,7 +11,10 @@ export class SeriesService extends TypeOrmCrudService<Series> {
   }
 
   async getByBgmId(bgmId: number): Promise<Series> {
-    const result = await this.repo.findOne({ bangumi_id: bgmId });
+    const result = await this.repo.findOne(
+      { bangumi_id: bgmId },
+      { relations: ['episodes'] },
+    );
     if (result == undefined) {
       throw new NotFoundException(null, 'Not found series by bangumi_id');
     }

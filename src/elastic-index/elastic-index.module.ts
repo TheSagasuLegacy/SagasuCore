@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
-import { DialogsService } from './dialogs/dialogs.service';
+import { DialogsIndexService } from './dialogs/dialogs.service';
 import { SeriesIndexService } from './series/series.service';
 
 @Module({
@@ -14,7 +14,7 @@ import { SeriesIndexService } from './series/series.service';
       }),
     }),
   ],
-  providers: [SeriesIndexService, DialogsService],
+  providers: [SeriesIndexService, DialogsIndexService],
   exports: [ElasticsearchModule, SeriesIndexService],
 })
 export class ElasticIndexModule {}
