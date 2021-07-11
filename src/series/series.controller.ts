@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Req } from '@nestjs/common';
+import { Controller, Get, Param, Query, Req } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { plainToClass } from 'class-transformer';
@@ -37,5 +37,10 @@ export class SeriesController implements CrudController<Series> {
       query.from,
       query.size,
     );
+  }
+
+  @Get('bgm/:bgmId')
+  async getByBgmId(@Param('bgmId') bgmId: number) {
+    return this.service.getByBgmId(bgmId);
   }
 }
