@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 volumes:
   sagasu_es: {}
@@ -34,7 +34,7 @@ services:
     ports:
       - '9200:9200'
     environment:
-      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      ES_JAVA_OPTS: -Xms1G -Xmx1G
       discovery.type: single-node
 
   core:
