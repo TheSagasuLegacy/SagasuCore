@@ -1,8 +1,16 @@
+import { IsUUID } from 'class-validator';
+
 export class CreateDialogDto {
   content: string;
+
   begin: number;
+
   end: number;
-  filename?: string;
+
+  @IsUUID()
+  file: string;
+
   episode?: number;
+
   series: number;
 }

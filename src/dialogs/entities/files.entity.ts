@@ -17,10 +17,10 @@ export class SubtitleFile {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ length: 1024 })
   filename: string;
 
-  @Column()
+  @Column({ length: 40 })
   sha1: string;
 
   @ManyToOne(() => Series, { cascade: true, nullable: false })
