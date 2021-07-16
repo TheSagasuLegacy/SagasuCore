@@ -1786,9 +1786,9 @@ buffer@^6.0.3:
     ieee754 "^1.2.1"
 
 bull@^3.22.10:
-  version "3.23.0"
-  resolved "https://registry.yarnpkg.com/bull/-/bull-3.23.0.tgz#d4843b24886a83b8af0e227319d5e1e5a7292c86"
-  integrity sha512-A677aSD7a2dKrfTLcyfhp+S92c5mvztEJaDEElAkBaqTbHCDTqpc3apS4dLSKM9EDKhf1jbrjlpkJxrxCb32+w==
+  version "3.25.0"
+  resolved "https://registry.yarnpkg.com/bull/-/bull-3.25.0.tgz#d80e690e7bed84016fc4f83633c5dcac0255032a"
+  integrity sha512-11g4x/1skDW5gt0AE/7hOQ+Hhyfo29CPymO9yGvgGrEa5WlTY9nvmJdRE4XfGMj2dgUNuTTQuNJYrTzyiOiyLg==
   dependencies:
     cron-parser "^2.13.0"
     debuglog "^1.0.0"
