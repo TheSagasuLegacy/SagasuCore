@@ -9,8 +9,4 @@ export class CreateDialogDto {
 
   @IsUUID()
   file: string;
-
-  episode?: number;
-
-  series: number;
 }

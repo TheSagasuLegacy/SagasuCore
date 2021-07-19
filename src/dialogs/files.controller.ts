@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { CreateSubtitleFileDto } from './dto/create-file.dto';
@@ -19,4 +19,9 @@ import { FilesService } from './files.service';
 @Controller('files')
 export class FilesController implements CrudController<SubtitleFile> {
   constructor(public service: FilesService) {}
+
+  @Get('sha1/:sha1')
+  async getBySha1(@Param('sha1') sha1: string) {
+    return this.service.getBySha1(sha1);
+  }
 }
