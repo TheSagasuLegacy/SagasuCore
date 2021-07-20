@@ -5458,9 +5458,9 @@ prettier-linter-helpers@^1.0.0:
     fast-diff "^1.1.2"
 
 prettier-plugin-organize-imports@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.nlark.com/prettier-plugin-organize-imports/download/prettier-plugin-organize-imports-2.2.0.tgz"
-  integrity sha1-3N1SIkFqkL2BlzTxMf6koiscYTo=
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-organize-imports/-/prettier-plugin-organize-imports-2.3.2.tgz#b8a5446093d1ef5273abc05d2afc1924b40f4009"
+  integrity sha512-kWjQUX+ajt/h2ORXSyaXCTDcXO+01FSOz+xUVsaqJ9a0JGkr0fbUQ6GQARl4sI1fSBv8Y68d6iudz3l0i6uU3Q==
 
 prettier@^2.2.1:
   version "2.3.2"
