@@ -28,6 +28,7 @@ export class DialogsIndexService {
             },
           },
           filename: { type: 'text', analyzer: 'standard' },
+          id: { type: 'keyword' },
         },
       },
     });
@@ -44,6 +45,17 @@ export class DialogsIndexService {
       index: 'dialogs',
       id: data.id,
       body: { content: data.content, filename: data.filename },
+    });
+  }
+
+  async bulkInsert(data: { id: string; content: string; filename: string }[]) {
+    return this.elastic.helpers.bulk({
+      datasource: data.map((doc) => ({
+        content: doc.content,
+        filename: doc.filename,
+        id: doc.id,
+      })),
+      onDocument: (doc) => ({ index: { _index: 'dialogs', _id: doc.id } }),
     });
   }
 
