@@ -4,6 +4,7 @@
         "Sagasu",
         "nestjs",
         "postgres",
+        "smartcn",
         "typeorm"
     ],
     "editor.formatOnSave": true,
