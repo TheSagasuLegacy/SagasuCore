@@ -9,4 +9,8 @@ export class DialogsService extends TypeOrmCrudService<Dialogs> {
   constructor(@InjectRepository(Dialogs) repo: Repository<Dialogs>) {
     super(repo);
   }
+
+  getByFileId(fileId: string): Promise<Dialogs[]> {
+    return this.repo.find({ where: { file: fileId }, relations: ['file'] });
+  }
 }

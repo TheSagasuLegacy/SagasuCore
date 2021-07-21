@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { DialogsService } from './dialogs.service';
@@ -19,4 +19,9 @@ import { Dialogs } from './entities/dialog.entity';
 @Controller('dialogs')
 export class DialogsController implements CrudController<Dialogs> {
   constructor(public service: DialogsService) {}
+
+  @Get('file/:id')
+  async getByFileId(@Param('id') id: string) {
+    return this.service.getByFileId(id);
+  }
 }

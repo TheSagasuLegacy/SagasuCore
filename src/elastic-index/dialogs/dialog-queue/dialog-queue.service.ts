@@ -13,7 +13,8 @@ export const CRON_NAME = 'dialog-queue-process-cron';
 export class DialogQueueService {
   private logger: Logger = new Logger(DialogQueueService.name);
   private futures: Map<string, Future<DialogData>> = new Map();
-  concurrency = 1024;
+  private running = false;
+  concurrency = 2048;
 
   constructor(
     @InjectQueue(QUEUE_NAME) public queue: Queue<DialogData>,
@@ -45,41 +46,52 @@ export class DialogQueueService {
 
   @Cron(CronExpression.EVERY_30_SECONDS, { name: CRON_NAME })
   async process() {
-    while (true) {
-      const waiting = await this.queue.getWaitingCount();
-      const jobs = await Promise.all(
-        Array.from(this.futures.keys()).map((id) => this.queue.getJob(id)),
-      );
-      const total = jobs.length + waiting;
+    if (this.running) {
+      this.logger.debug('There has been a scheduled task running, skip.');
+    }
+    try {
+      this.running = true;
 
-      if (total <= 0) {
-        this.logger.debug(
-          'No job waiting or processing, skip job bulk process',
+      while (true) {
+        const waiting = await this.queue.getWaitingCount();
+        const jobs = await Promise.all(
+          Array.from(this.futures.keys()).map((id) => this.queue.getJob(id)),
         );
-        return;
-      }
+        const total = jobs.length + waiting;
 
-      if (jobs.length < Math.min(this.concurrency, total)) {
-        await Future.sleep(500);
-        continue;
-      }
+        if (total <= 0) {
+          this.logger.debug(
+            'No job waiting or processing, skip job bulk process',
+          );
+          return;
+        }
 
-      try {
-        const response = await this.index.bulkInsert(
-          jobs.map((job) => job.data),
-        );
-        this.logger.log(
-          `${jobs.length}/${total} jobs completed,` +
-            ` respond ${JSON.stringify(response)},` +
-            ` remain ${waiting} waiting.`,
-        );
-        jobs.forEach((job) =>
-          this.futures.get(job.id as string).setResult(job.data),
-        );
-      } catch (err) {
-        this.logger.error(err);
-        jobs.forEach((job) => this.futures.get(job.id as string).setError(err));
+        if (jobs.length < Math.min(this.concurrency, total)) {
+          await Future.sleep(500);
+          continue;
+        }
+
+        try {
+          const response = await this.index.bulkInsert(
+            jobs.map((job) => job.data),
+          );
+          this.logger.log(
+            `${jobs.length}/${total} jobs completed,` +
+              ` respond ${JSON.stringify(response)},` +
+              ` remain ${waiting} waiting.`,
+          );
+          jobs.forEach((job) =>
+            this.futures.get(job.id as string).setResult(job.data),
+          );
+        } catch (err) {
+          this.logger.error(err);
+          jobs.forEach((job) =>
+            this.futures.get(job.id as string).setError(err),
+          );
+        }
       }
+    } finally {
+      this.running = false;
     }
   }
 }
