@@ -11,16 +11,11 @@ export class DialogsSearchService {
     @InjectRepository(Dialogs) private database: Repository<Dialogs>,
   ) {}
 
-  async search(
-    keyword: string,
-    fields: ('content' | 'filename')[],
-    from?: number,
-    size?: number,
-  ) {
-    return this.elastic.search(keyword, fields, from, size);
+  async search(keyword: string, from?: number, size?: number) {
+    return this.elastic.search(keyword, from, size);
   }
 
-  async suggest(keyword: string, field: 'content' | 'filename') {
-    return this.elastic.suggest(keyword, field);
+  async suggest(keyword: string) {
+    return this.elastic.suggest(keyword);
   }
 }

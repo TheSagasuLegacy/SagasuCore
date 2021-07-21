@@ -2,14 +2,8 @@ import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { Queue } from 'bull';
-import { DialogsIndexService } from '../dialogs.service';
+import { DialogData, DialogsIndexService } from '../dialogs.service';
 import { Future } from './future';
-
-export interface DialogData {
-  content: string;
-  filename: string;
-  id: string;
-}
 
 export const QUEUE_NAME = 'dialog-queue';
 

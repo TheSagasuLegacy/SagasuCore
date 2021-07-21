@@ -32,7 +32,6 @@ export class DialogsSubscriber implements EntitySubscriberInterface<Dialogs> {
     await this.queue.push({
       id: event.entity.id,
       content: event.entity.content,
-      filename: event.entity.file.filename,
     });
   }
 
@@ -40,7 +39,6 @@ export class DialogsSubscriber implements EntitySubscriberInterface<Dialogs> {
     const result = await this.index.insert({
       id: event.entity.id,
       content: event.entity.content,
-      filename: event.entity.file.filename,
     });
     this.logger.verbose(
       `Elastic index for ${event.entity.id} updated, body=${JSON.stringify(

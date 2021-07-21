@@ -1,6 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
 
+export interface DialogData {
+  id: string;
+  content: string;
+}
+
 @Injectable()
 export class DialogsIndexService {
   private logger: Logger = new Logger(DialogsIndexService.name);
@@ -27,7 +32,6 @@ export class DialogsIndexService {
               },
             },
           },
-          filename: { type: 'text', analyzer: 'standard' },
           id: { type: 'keyword' },
         },
       },
@@ -40,19 +44,18 @@ export class DialogsIndexService {
     return result;
   }
 
-  async insert(data: { id: string; content: string; filename: string }) {
+  async insert(data: DialogData) {
     return this.elastic.index({
       index: 'dialogs',
       id: data.id,
-      body: { content: data.content, filename: data.filename },
+      body: { content: data.content },
     });
   }
 
-  async bulkInsert(data: { id: string; content: string; filename: string }[]) {
+  async bulkInsert(data: DialogData[]) {
     return this.elastic.helpers.bulk({
       datasource: data.map((doc) => ({
         content: doc.content,
-        filename: doc.filename,
         id: doc.id,
       })),
       onDocument: (doc) => ({ index: { _index: 'dialogs', _id: doc.id } }),
@@ -63,30 +66,29 @@ export class DialogsIndexService {
     return this.elastic.get({ index: 'dialogs', id });
   }
 
-  async search(
-    keyword: string,
-    fields: ('content' | 'filename')[],
-    from?: number,
-    size?: number,
-  ) {
+  async search(keyword: string, from?: number, size?: number) {
     return this.elastic.search({
       index: 'dialogs',
       body: {
         from,
         size,
-        query: { multi_match: { query: keyword, fields } },
+        query: { match: { content: keyword } },
         highlight: {
           type: 'plain',
-          fields: Object.fromEntries(fields.map((value) => [value, {}])),
+          fields: { content: {} },
         },
       },
     });
   }
 
-  async suggest(keyword: string, field: 'content' | 'filename') {
+  async suggest(keyword: string) {
     return this.elastic.search({
       index: 'dialogs',
-      body: { suggest: { suggest: { text: keyword, completion: { field } } } },
+      body: {
+        suggest: {
+          suggest: { text: keyword, completion: { field: 'content' } },
+        },
+      },
     });
   }
 
