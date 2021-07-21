@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -9,6 +10,7 @@ import {
 import { SubtitleFile } from './files.entity';
 
 @Entity()
+@Index(['file'])
 export class Dialogs {
   @PrimaryGeneratedColumn('uuid')
   id: string;
