@@ -4,7 +4,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import {
   DialogQueueService,
-  DialogQueueServiceProcessor,
   QUEUE_NAME as DIALOG_QUEUE_NAME,
 } from './dialogs/dialog-queue/dialog-queue.service';
 import { DialogsIndexService } from './dialogs/dialogs.service';
@@ -27,14 +26,17 @@ import { SeriesIndexService } from './series/series.service';
         removeOnComplete: true,
         removeOnFail: true,
       },
+      settings: {
+        lockDuration: 5 * 60 * 1000,
+      },
     }),
   ],
-  providers: [
+  providers: [SeriesIndexService, DialogsIndexService, DialogQueueService],
+  exports: [
+    ElasticsearchModule,
     SeriesIndexService,
     DialogsIndexService,
     DialogQueueService,
-    DialogQueueServiceProcessor,
   ],
-  exports: [ElasticsearchModule, SeriesIndexService],
 })
 export class ElasticIndexModule {}

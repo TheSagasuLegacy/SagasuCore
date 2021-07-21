@@ -1,4 +1,5 @@
 import { Logger } from '@nestjs/common';
+import { DialogQueueService } from 'src/elastic-index/dialogs/dialog-queue/dialog-queue.service';
 import { DialogsIndexService } from 'src/elastic-index/dialogs/dialogs.service';
 import {
   Connection,
@@ -16,10 +17,11 @@ export class DialogsSubscriber implements EntitySubscriberInterface<Dialogs> {
 
   constructor(
     private connection: Connection,
-    private elasticIndex: DialogsIndexService,
+    private index: DialogsIndexService,
+    private queue: DialogQueueService,
   ) {
     this.connection.subscribers.push(this);
-    this.elasticIndex.create();
+    this.index.create();
   }
 
   listenTo() {
@@ -27,20 +29,15 @@ export class DialogsSubscriber implements EntitySubscriberInterface<Dialogs> {
   }
 
   async afterInsert(event: InsertEvent<Dialogs>) {
-    const result = await this.elasticIndex.insert({
+    await this.queue.push({
       id: event.entity.id,
       content: event.entity.content,
       filename: event.entity.file.filename,
     });
-    this.logger.verbose(
-      `Elastic index for ${event.entity.id} inserted, body=${JSON.stringify(
-        result.body,
-      )}.`,
-    );
   }
 
   async afterUpdate(event: UpdateEvent<Dialogs>) {
-    const result = await this.elasticIndex.insert({
+    const result = await this.index.insert({
       id: event.entity.id,
       content: event.entity.content,
       filename: event.entity.file.filename,
@@ -53,7 +50,7 @@ export class DialogsSubscriber implements EntitySubscriberInterface<Dialogs> {
   }
 
   async afterRemove(event: RemoveEvent<Dialogs>) {
-    const result = await this.elasticIndex.delete(event.entity.id);
+    const result = await this.index.delete(event.entity.id);
     this.logger.verbose(
       `Elastic index for ${event.entity.id} removed, body=${JSON.stringify(
         result.body,

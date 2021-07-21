@@ -1,15 +1,9 @@
-import {
-  InjectQueue,
-  OnQueueActive,
-  OnQueueCompleted,
-  OnQueueFailed,
-  OnQueueStalled,
-  Processor,
-} from '@nestjs/bull';
+import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
-import { Cron, SchedulerRegistry } from '@nestjs/schedule';
-import { Job, Queue } from 'bull';
+import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
+import { Queue } from 'bull';
 import { DialogsIndexService } from '../dialogs.service';
+import { Future } from './future';
 
 export interface DialogData {
   content: string;
@@ -23,11 +17,29 @@ export const CRON_NAME = 'dialog-queue-process-cron';
 
 @Injectable()
 export class DialogQueueService {
+  private logger: Logger = new Logger(DialogQueueService.name);
+  private futures: Map<string, Future<DialogData>> = new Map();
+  concurrency = 1024;
+
   constructor(
     @InjectQueue(QUEUE_NAME) public queue: Queue<DialogData>,
     private index: DialogsIndexService,
     private scheduler: SchedulerRegistry,
-  ) {}
+  ) {
+    queue.process(this.concurrency, async (job, done) => {
+      const future = new Future<DialogData>();
+      this.futures.set(job.id as string, future);
+      try {
+        await future;
+      } catch (err) {
+        done(err as Error);
+      }
+      await future
+        .then((value) => done(null, value))
+        .catch((error) => done(error))
+        .finally(() => this.futures.delete(job.id as string));
+    });
+  }
 
   get cron() {
     return this.scheduler.getCronJob(CRON_NAME);
@@ -37,43 +49,43 @@ export class DialogQueueService {
     return this.queue.add(data, { jobId: data.id });
   }
 
-  @Cron('*/15 * * * * *', { name: CRON_NAME })
-  async process(size?: number) {
-    const jobs = await this.queue.getDelayed(0, size);
-    if (jobs.length <= 0) {
-      return;
+  @Cron(CronExpression.EVERY_30_SECONDS, { name: CRON_NAME })
+  async process() {
+    while (true) {
+      const waiting = await this.queue.getWaitingCount();
+      const jobs = await Promise.all(
+        Array.from(this.futures.keys()).map((id) => this.queue.getJob(id)),
+      );
+      const total = jobs.length + waiting;
+
+      if (total <= 0) {
+        this.logger.debug(
+          'No job waiting or processing, skip job bulk process',
+        );
+        return;
+      }
+
+      if (jobs.length < Math.min(this.concurrency, total)) {
+        await Future.sleep(500);
+        continue;
+      }
+
+      try {
+        const response = await this.index.bulkInsert(
+          jobs.map((job) => job.data),
+        );
+        this.logger.log(
+          `${jobs.length}/${total} jobs completed,` +
+            ` respond ${JSON.stringify(response)},` +
+            ` remain ${waiting} waiting.`,
+        );
+        jobs.forEach((job) =>
+          this.futures.get(job.id as string).setResult(job.data),
+        );
+      } catch (err) {
+        this.logger.error(err);
+        jobs.forEach((job) => this.futures.get(job.id as string).setError(err));
+      }
     }
-    try {
-      const response = await this.index.bulkInsert(jobs.map((job) => job.data));
-      jobs.forEach((job) => job.moveToCompleted());
-      return response;
-    } catch (err) {
-      jobs.forEach((job) => job.moveToFailed(err));
-    }
-  }
-}
-
-@Processor(QUEUE_NAME)
-export class DialogQueueServiceProcessor {
-  logger: Logger = new Logger(DialogQueueServiceProcessor.name);
-
-  @OnQueueActive()
-  onActive(job: Job<DialogData>) {
-    this.logger.verbose(`${job.data.id} in queue is being processed`);
-  }
-
-  @OnQueueFailed()
-  onError(job: Job<DialogData>, error: Error) {
-    this.logger.warn(`${job.data.id} failed due to error: ${error.message}`);
-  }
-
-  @OnQueueStalled()
-  onStalled(job: Job<DialogData>) {
-    this.logger.debug(`${job.data.id} stalled in queue`);
-  }
-
-  @OnQueueCompleted()
-  onCompleted(job: Job<DialogData>, result: any) {
-    this.logger.verbose(`${job.data.id} finished with result: ${result}`);
   }
 }
