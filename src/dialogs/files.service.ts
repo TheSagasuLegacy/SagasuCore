@@ -20,4 +20,11 @@ export class FilesService extends TypeOrmCrudService<SubtitleFile> {
     }
     return result;
   }
+
+  async getBySeriesId(id: number): Promise<SubtitleFile[]> {
+    return this.repo.find({
+      where: { series: id },
+      relations: ['episode'],
+    });
+  }
 }

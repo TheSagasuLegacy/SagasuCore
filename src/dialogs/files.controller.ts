@@ -24,4 +24,9 @@ export class FilesController implements CrudController<SubtitleFile> {
   async getBySha1(@Param('sha1') sha1: string) {
     return this.service.getBySha1(sha1);
   }
+
+  @Get('series/:id')
+  async getBySeriesId(@Param('id') id: number) {
+    return this.service.getBySeriesId(id);
+  }
 }

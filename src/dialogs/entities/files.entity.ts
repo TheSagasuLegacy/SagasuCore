@@ -13,6 +13,7 @@ import { Dialogs } from './dialog.entity';
 
 @Entity()
 @Index(['sha1'], { unique: true })
+@Index(['series'])
 export class SubtitleFile {
   @PrimaryGeneratedColumn('uuid')
   id: string;
