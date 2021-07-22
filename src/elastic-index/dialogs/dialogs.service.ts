@@ -53,11 +53,8 @@ export class DialogsIndexService {
   }
 
   async bulkInsert(data: DialogData[]) {
-    return this.elastic.helpers.bulk({
-      datasource: data.map((doc) => ({
-        content: doc.content,
-        id: doc.id,
-      })),
+    return await this.elastic.helpers.bulk({
+      datasource: data,
       onDocument: (doc) => ({ index: { _index: 'dialogs', _id: doc.id } }),
     });
   }

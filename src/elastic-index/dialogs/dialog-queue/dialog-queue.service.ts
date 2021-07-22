@@ -1,7 +1,7 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
-import { Queue } from 'bull';
+import { Job, Queue } from 'bull';
 import { DialogData, DialogsIndexService } from '../dialogs.service';
 import { Future } from './future';
 
@@ -12,9 +12,12 @@ export const CRON_NAME = 'dialog-queue-process-cron';
 @Injectable()
 export class DialogQueueService {
   private logger: Logger = new Logger(DialogQueueService.name);
-  private futures: Map<string, Future<DialogData>> = new Map();
+  private futures: Map<
+    string,
+    { future: Future<DialogData>; job: Job<DialogData> }
+  > = new Map();
   private running = false;
-  concurrency = 2048;
+  private concurrency = 2048;
 
   constructor(
     @InjectQueue(QUEUE_NAME) public queue: Queue<DialogData>,
@@ -23,12 +26,7 @@ export class DialogQueueService {
   ) {
     queue.process(this.concurrency, async (job, done) => {
       const future = new Future<DialogData>();
-      this.futures.set(job.id as string, future);
-      try {
-        await future;
-      } catch (err) {
-        done(err as Error);
-      }
+      this.futures.set(job.id as string, { future, job });
       await future
         .then((value) => done(null, value))
         .catch((error) => done(error))
@@ -48,15 +46,15 @@ export class DialogQueueService {
   async process() {
     if (this.running) {
       this.logger.debug('There has been a scheduled task running, skip.');
+      return;
     }
+
     try {
       this.running = true;
 
       while (true) {
         const waiting = await this.queue.getWaitingCount();
-        const jobs = await Promise.all(
-          Array.from(this.futures.keys()).map((id) => this.queue.getJob(id)),
-        );
+        const jobs = Array.from(this.futures.values()).map((item) => item.job);
         const total = jobs.length + waiting;
 
         if (total <= 0) {
@@ -81,12 +79,12 @@ export class DialogQueueService {
               ` remain ${waiting} waiting.`,
           );
           jobs.forEach((job) =>
-            this.futures.get(job.id as string).setResult(job.data),
+            this.futures.get(job.id as string)?.future.setResult(job.data),
           );
         } catch (err) {
           this.logger.error(err);
           jobs.forEach((job) =>
-            this.futures.get(job.id as string).setError(err),
+            this.futures.get(job.id as string)?.future.setError(err),
           );
         }
       }
