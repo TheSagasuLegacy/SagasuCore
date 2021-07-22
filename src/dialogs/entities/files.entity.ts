@@ -23,6 +23,9 @@ export class SubtitleFile {
   @Column({ length: 40 })
   sha1: string;
 
+  @Column({ default: null })
+  remark?: string;
+
   @ManyToOne(() => Series, { cascade: true, nullable: false })
   series: Series;
 

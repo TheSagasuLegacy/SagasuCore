@@ -7,6 +7,8 @@ export class CreateSubtitleFileDto {
   @Length(40)
   sha1: string;
 
+  remark?: string;
+
   series: number;
 
   episode?: number;
