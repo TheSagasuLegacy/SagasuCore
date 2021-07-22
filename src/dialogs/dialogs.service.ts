@@ -11,6 +11,6 @@ export class DialogsService extends TypeOrmCrudService<Dialogs> {
   }
 
   getByFileId(fileId: string): Promise<Dialogs[]> {
-    return this.repo.find({ where: { file: fileId }, relations: ['file'] });
+    return this.repo.find({ where: { file: fileId } });
   }
 }
