@@ -9,6 +9,7 @@ import { DialogsModule } from './dialogs/dialogs.module';
 import { ElasticIndexModule } from './elastic-index/elastic-index.module';
 import { LoggerMiddleware } from './logger.middleware';
 import { SeriesModule } from './series/series.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { SeriesModule } from './series/series.module';
     SeriesModule,
     DialogsModule,
     ElasticIndexModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
