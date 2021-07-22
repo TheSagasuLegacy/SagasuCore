@@ -1294,6 +1294,13 @@ accepts@~1.3.7:
     mime-types "~2.1.24"
     negotiator "0.6.2"
 
+accesscontrol@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.nlark.com/accesscontrol/download/accesscontrol-2.2.1.tgz#c942c48e330841c619682309a8c3aeec6bec66eb"
+  integrity sha1-yULEjjMIQcYZaCMJqMOu7GvsZus=
+  dependencies:
+    notation "^1.3.6"
+
 acorn-globals@^6.0.0:
   version "6.0.0"
   resolved "https://registry.nlark.com/acorn-globals/download/acorn-globals-6.0.0.tgz"
@@ -4849,6 +4856,13 @@ neo-async@^2.6.2:
   resolved "https://registry.nlark.com/neo-async/download/neo-async-2.6.2.tgz"
   integrity sha1-tKr7k+OustgXTKU88WOrfXMIMF8=
 
+nest-access-control@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.nlark.com/nest-access-control/download/nest-access-control-2.0.2.tgz#6006204352306e33f576bbce749379b3043b5df8"
+  integrity sha1-YAYgQ1IwbjP1drvOdJN5swQ7Xfg=
+  dependencies:
+    accesscontrol "^2.2.1"
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.nlark.com/nice-try/download/nice-try-1.0.5.tgz"
@@ -4968,6 +4982,11 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"
   resolved "https://registry.nlark.com/normalize-path/download/normalize-path-3.0.0.tgz"
   integrity sha1-Dc1p/yOhybEf0JeDFmRKA4ghamU=
+
+notation@^1.3.6:
+  version "1.3.6"
+  resolved "https://registry.nlark.com/notation/download/notation-1.3.6.tgz#bc87b88d1f1159e2931e7f9317a3020313790321"
+  integrity sha1-vIe4jR8RWeKTHn+TF6MCAxN5AyE=
 
 npm-bundled@^1.0.1:
   version "1.1.2"
