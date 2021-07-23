@@ -10,9 +10,11 @@ import { Dialogs } from './entities/dialog.entity';
   model: { type: Dialogs },
   dto: { create: CreateDialogDto, update: UpdateDialogDto },
   routes: { exclude: ['replaceOneBase'] },
+  params: { id: { field: 'id', type: 'uuid', primary: true } },
   query: {
     alwaysPaginate: true,
     join: { file: { eager: true } },
+    maxLimit: 200,
   },
 })
 @ApiTags('dialogs')

@@ -10,9 +10,11 @@ import { FilesService } from './files.service';
   model: { type: SubtitleFile },
   dto: { create: CreateSubtitleFileDto, update: UpdateSubtitleFileDto },
   routes: { exclude: ['replaceOneBase'] },
+  params: { id: { field: 'id', type: 'uuid', primary: true } },
   query: {
     alwaysPaginate: true,
     join: { series: { eager: true }, episode: { eager: true } },
+    maxLimit: 50,
   },
 })
 @ApiTags('files')
