@@ -9,6 +9,4 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
-    commit-message:
-      prefix: ":arrow_up: "
     versioning-strategy: lockfile-only
