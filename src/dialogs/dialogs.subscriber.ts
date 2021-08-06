@@ -1,5 +1,4 @@
 import { Logger } from '@nestjs/common';
-import { DialogQueueService } from 'src/elastic-index/dialogs/dialog-queue/dialog-queue.service';
 import { DialogsIndexService } from 'src/elastic-index/dialogs/dialogs.service';
 import { storage } from 'src/request-local.middleware';
 import {
@@ -21,7 +20,6 @@ export class DialogsSubscriber implements EntitySubscriberInterface<Dialogs> {
   constructor(
     private connection: Connection,
     private index: DialogsIndexService,
-    private queue: DialogQueueService,
   ) {
     this.connection.subscribers.push(this);
     this.index.create();
