@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { DialogsModule } from './dialogs/dialogs.module';
 import { ElasticIndexModule } from './elastic-index/elastic-index.module';
 import { LoggerMiddleware } from './logger.middleware';
+import { RequestLocalMiddleware } from './request-local.middleware';
 import { SeriesModule } from './series/series.module';
 import { UsersModule } from './users/users.module';
 
@@ -39,6 +40,7 @@ import { UsersModule } from './users/users.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestLocalMiddleware).forRoutes('**');
     consumer.apply(LoggerMiddleware).forRoutes('**');
   }
 }
