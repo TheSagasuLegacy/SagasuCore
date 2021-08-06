@@ -1,6 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { DialogQueueService } from 'src/elastic-index/dialogs/dialog-queue/dialog-queue.service';
 import { DialogsIndexService } from 'src/elastic-index/dialogs/dialogs.service';
+import { storage } from 'src/request-local.middleware';
 import {
   Connection,
   EntitySubscriberInterface,
@@ -10,6 +11,8 @@ import {
   UpdateEvent,
 } from 'typeorm';
 import { Dialogs } from './entities/dialog.entity';
+
+export const BULK_SYMBOL = 'isBulk';
 
 @EventSubscriber()
 export class DialogsSubscriber implements EntitySubscriberInterface<Dialogs> {
@@ -29,7 +32,11 @@ export class DialogsSubscriber implements EntitySubscriberInterface<Dialogs> {
   }
 
   async afterInsert(event: InsertEvent<Dialogs>) {
-    await this.queue.push({
+    const bulk = storage.getStore()?.get(BULK_SYMBOL) as boolean;
+    if (bulk) {
+      return;
+    }
+    await this.index.insert({
       id: event.entity.id,
       content: event.entity.content,
     });
