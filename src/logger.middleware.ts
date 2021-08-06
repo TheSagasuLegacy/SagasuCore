@@ -6,7 +6,6 @@ import { NextFunction, Request, Response } from 'express';
 export class LoggerMiddleware implements NestMiddleware {
   private logger: Logger = new Logger(LoggerMiddleware.name);
   use(req: Request, res: Response, next: NextFunction) {
-    this.logger.setContext;
     const begin = new Date().getTime();
     res.on('finish', () => {
       const delta = new Date().getTime() - begin;
