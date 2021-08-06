@@ -589,11 +589,6 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@nestjs/bull@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.nlark.com/@nestjs/bull/download/@nestjs/bull-0.3.1.tgz"
-  integrity sha1-p/fbpoB/0Yos/f2TYAhXsxCz+Mo=
-
 "@nestjs/cli@^7.6.0":
   version "7.6.0"
   resolved "https://registry.nlark.com/@nestjs/cli/download/@nestjs/cli-7.6.0.tgz"
@@ -853,13 +848,6 @@
     "@types/connect" "*"
     "@types/node" "*"
 
-"@types/bull@^3.15.1":
-  version "3.15.3"
-  resolved "https://registry.yarnpkg.com/@types/bull/-/bull-3.15.3.tgz#c55a7644465547bd77d70a1c80f10aadf58d5dd5"
-  integrity sha512-JL+c8TmfaZVZn5H+tzgt867eHfm408HV1/wS5+sjQnJ3ULxpw5/GwLl6sX6Gmcrte4VTFm+Jz8U0Wy4QVgC4dg==
-  dependencies:
-    "@types/ioredis" "*"
-
 "@types/connect@*":
   version "3.4.34"
   resolved "https://registry.nlark.com/@types/connect/download/@types/connect-3.4.34.tgz"
@@ -932,13 +920,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/ioredis@*":
-  version "4.26.4"
-  resolved "https://registry.nlark.com/@types/ioredis/download/@types/ioredis-4.26.4.tgz"
-  integrity sha1-orHtUd3SxwfX6qxQF8w0oP5RVYo=
-  dependencies:
-    "@types/node" "*"
-
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.3"
   resolved "https://registry.nlark.com/@types/istanbul-lib-coverage/download/@types/istanbul-lib-coverage-2.0.3.tgz"
@@ -975,11 +956,6 @@
   version "0.0.29"
   resolved "https://registry.nlark.com/@types/json5/download/@types/json5-0.0.29.tgz"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
-
-"@types/lodash@^4.14.171":
-  version "4.14.172"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.172.tgz#aad774c28e7bfd7a67de25408e03ee5a8c3d028a"
-  integrity sha512-/BHF5HAx3em7/KkzVKm3LrsD6HZAXuXO1AJZQ3cRRBZj4oHZDviWPYu0aEplAqDFNHZPW6d3G7KN+ONcCCC7pw==
 
 "@types/mime@^1":
   version "1.3.2"
@@ -1772,22 +1748,6 @@ buffer@^6.0.3:
     base64-js "^1.3.1"
     ieee754 "^1.2.1"
 
-bull@^3.22.10:
-  version "3.28.0"
-  resolved "https://registry.yarnpkg.com/bull/-/bull-3.28.0.tgz#5c091d23785730ef9ec0891925031cbff3e67d24"
-  integrity sha512-MmjWI1YFGSbddqvVieCO8aA2xGs4/tJCalnomx97PDW/BBgg1/oe+LFiDe+Yjpj6Ay0Hcy5YFY5ubaoTRqcS1Q==
-  dependencies:
-    cron-parser "^2.13.0"
-    debuglog "^1.0.0"
-    get-port "^5.1.1"
-    ioredis "^4.27.0"
-    lodash "^4.17.21"
-    p-timeout "^3.2.0"
-    promise.prototype.finally "^3.1.2"
-    semver "^7.3.2"
-    util.promisify "^1.0.1"
-    uuid "^8.3.0"
-
 busboy@^0.2.11:
   version "0.2.14"
   resolved "https://registry.nlark.com/busboy/download/busboy-0.2.14.tgz"
@@ -1816,7 +1776,7 @@ cache-base@^1.0.1:
     union-value "^1.0.0"
     unset-value "^1.0.0"
 
-call-bind@^1.0.0, call-bind@^1.0.2:
+call-bind@^1.0.0:
   version "1.0.2"
   resolved "https://registry.nlark.com/call-bind/download/call-bind-1.0.2.tgz"
   integrity sha1-sdTonmiBGcPJqQOtMKuy9qkZvjw=
@@ -2038,11 +1998,6 @@ clone@^1.0.2:
   resolved "https://registry.nlark.com/clone/download/clone-1.0.4.tgz?cache=0&sync_timestamp=1622685917174&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fclone%2Fdownload%2Fclone-1.0.4.tgz"
   integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
 
-cluster-key-slot@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.nlark.com/cluster-key-slot/download/cluster-key-slot-1.1.0.tgz"
-  integrity sha1-MEdLKpgfsSFyaVgzBSvA0BM20Q0=
-
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.nlark.com/co/download/co-4.6.0.tgz"
@@ -2215,14 +2170,6 @@ create-require@^1.1.0:
   resolved "https://registry.npm.taobao.org/create-require/download/create-require-1.1.1.tgz"
   integrity sha1-wdfo8eX2z8n/ZfnNNS03NIdWwzM=
 
-cron-parser@^2.13.0:
-  version "2.18.0"
-  resolved "https://registry.nlark.com/cron-parser/download/cron-parser-2.18.0.tgz"
-  integrity sha1-3huwrVKMgVVINxmT+BpU5aCJ7c8=
-  dependencies:
-    is-nan "^1.3.0"
-    moment-timezone "^0.5.31"
-
 cron@1.7.2:
   version "1.7.2"
   resolved "https://registry.npm.taobao.org/cron/download/cron-1.7.2.tgz#2ea1f35c138a07edac2ac5af5084ed6fee5723db"
@@ -2304,11 +2251,6 @@ debug@^3.2.6:
   dependencies:
     ms "^2.1.1"
 
-debuglog@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.nlark.com/debuglog/download/debuglog-1.0.1.tgz"
-  integrity sha1-qiT/uaw9+aI1GDfPstJ5NgzXhJI=
-
 decamelize@^1.2.0:
   version "1.2.0"
   resolved "https://registry.nlark.com/decamelize/download/decamelize-1.2.0.tgz"
@@ -2351,13 +2293,6 @@ defaults@^1.0.3:
   dependencies:
     clone "^1.0.2"
 
-define-properties@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.nlark.com/define-properties/download/define-properties-1.1.3.tgz"
-  integrity sha1-z4jabL7ib+bbcJT2HYcMvYTO6fE=
-  dependencies:
-    object-keys "^1.0.12"
-
 define-property@^0.2.5:
   version "0.2.5"
   resolved "https://registry.nlark.com/define-property/download/define-property-0.2.5.tgz"
@@ -2389,11 +2324,6 @@ delegates@^1.0.0:
   version "1.0.0"
   resolved "https://registry.nlark.com/delegates/download/delegates-1.0.0.tgz"
   integrity sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=
-
-denque@^1.1.0:
-  version "1.5.0"
-  resolved "https://registry.nlark.com/denque/download/denque-1.5.0.tgz"
-  integrity sha1-dz3gaG/y2Owv+SkUMWpHtzscc94=
 
 depd@~1.1.2:
   version "1.1.2"
@@ -2552,41 +2482,10 @@ error-ex@^1.3.1:
   dependencies:
     is-arrayish "^0.2.1"
 
-es-abstract@^1.17.0-next.0, es-abstract@^1.18.0-next.2:
-  version "1.18.3"
-  resolved "https://registry.nlark.com/es-abstract/download/es-abstract-1.18.3.tgz"
-  integrity sha1-JcTDOAonqiA8RLK2hbupTaMbY+A=
-  dependencies:
-    call-bind "^1.0.2"
-    es-to-primitive "^1.2.1"
-    function-bind "^1.1.1"
-    get-intrinsic "^1.1.1"
-    has "^1.0.3"
-    has-symbols "^1.0.2"
-    is-callable "^1.2.3"
-    is-negative-zero "^2.0.1"
-    is-regex "^1.1.3"
-    is-string "^1.0.6"
-    object-inspect "^1.10.3"
-    object-keys "^1.1.1"
-    object.assign "^4.1.2"
-    string.prototype.trimend "^1.0.4"
-    string.prototype.trimstart "^1.0.4"
-    unbox-primitive "^1.0.1"
-
 es-module-lexer@^0.4.0:
   version "0.4.1"
   resolved "https://registry.nlark.com/es-module-lexer/download/es-module-lexer-0.4.1.tgz?cache=0&sync_timestamp=1623713151190&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fes-module-lexer%2Fdownload%2Fes-module-lexer-0.4.1.tgz"
   integrity sha1-3ajGoU2PNAok40Mx4Pqwy1BDjg4=
-
-es-to-primitive@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.nlark.com/es-to-primitive/download/es-to-primitive-1.2.1.tgz"
-  integrity sha1-5VzUyc3BiLzvsDs2bHNjI/xciYo=
-  dependencies:
-    is-callable "^1.1.4"
-    is-date-object "^1.0.1"
-    is-symbol "^1.0.2"
 
 escalade@^3.1.1:
   version "3.1.1"
@@ -3045,13 +2944,6 @@ follow-redirects@^1.10.0:
   resolved "https://registry.nlark.com/follow-redirects/download/follow-redirects-1.14.1.tgz"
   integrity sha1-2RFN7Qoc/dM04WTmZirQK/2R/0M=
 
-for-each@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.nlark.com/for-each/download/for-each-0.3.3.tgz"
-  integrity sha1-abRH6IoKXTLD5whPPxcQA0shN24=
-  dependencies:
-    is-callable "^1.1.3"
-
 for-in@^1.0.2:
   version "1.0.2"
   resolved "https://registry.nlark.com/for-in/download/for-in-1.0.2.tgz"
@@ -3196,7 +3088,7 @@ get-caller-file@^2.0.1, get-caller-file@^2.0.5:
   resolved "https://registry.nlark.com/get-caller-file/download/get-caller-file-2.0.5.tgz"
   integrity sha1-T5RBKoLbMvNuOwuXQfipf+sDH34=
 
-get-intrinsic@^1.0.2, get-intrinsic@^1.1.1:
+get-intrinsic@^1.0.2:
   version "1.1.1"
   resolved "https://registry.nlark.com/get-intrinsic/download/get-intrinsic-1.1.1.tgz"
   integrity sha1-FfWfN2+FXERpY5SPDSTNNje0q8Y=
@@ -3209,11 +3101,6 @@ get-package-type@^0.1.0:
   version "0.1.0"
   resolved "https://registry.nlark.com/get-package-type/download/get-package-type-0.1.0.tgz"
   integrity sha1-jeLYA8/0TfO8bEVuZmizbDkm4Ro=
-
-get-port@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.nlark.com/get-port/download/get-port-5.1.1.tgz"
-  integrity sha1-BGntB1Y0ed5u+5hrrwU9zX1OMZM=
 
 get-stream@^4.0.0:
   version "4.1.0"
@@ -3319,11 +3206,6 @@ has-ansi@^2.0.0:
   dependencies:
     ansi-regex "^2.0.0"
 
-has-bigints@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.nlark.com/has-bigints/download/has-bigints-1.0.1.tgz"
-  integrity sha1-ZP5qywIGc+O3jbA1pa9pqp0HsRM=
-
 has-flag@^3.0.0:
   version "3.0.0"
   resolved "https://registry.nlark.com/has-flag/download/has-flag-3.0.0.tgz"
@@ -3334,7 +3216,7 @@ has-flag@^4.0.0:
   resolved "https://registry.nlark.com/has-flag/download/has-flag-4.0.0.tgz"
   integrity sha1-lEdx/ZyByBJlxNaUGGDaBrtZR5s=
 
-has-symbols@^1.0.1, has-symbols@^1.0.2:
+has-symbols@^1.0.1:
   version "1.0.2"
   resolved "https://registry.nlark.com/has-symbols/download/has-symbols-1.0.2.tgz"
   integrity sha1-Fl0wcMADCXUqEjakeTMeOsVvFCM=
@@ -3559,22 +3441,6 @@ interpret@^1.0.0:
   resolved "https://registry.nlark.com/interpret/download/interpret-1.4.0.tgz"
   integrity sha1-Zlq4vE2iendKQFhOgS4+D6RbGh4=
 
-ioredis@^4.27.0:
-  version "4.27.6"
-  resolved "https://registry.nlark.com/ioredis/download/ioredis-4.27.6.tgz"
-  integrity sha1-pT1CfT/nX70Q7XrRUM4AVZ343Pg=
-  dependencies:
-    cluster-key-slot "^1.1.0"
-    debug "^4.3.1"
-    denque "^1.1.0"
-    lodash.defaults "^4.2.0"
-    lodash.flatten "^4.4.0"
-    p-map "^2.1.0"
-    redis-commands "1.7.0"
-    redis-errors "^1.2.0"
-    redis-parser "^3.0.0"
-    standard-as-callback "^2.1.0"
-
 ipaddr.js@1.9.1:
   version "1.9.1"
   resolved "https://registry.nlark.com/ipaddr.js/download/ipaddr.js-1.9.1.tgz"
@@ -3599,11 +3465,6 @@ is-arrayish@^0.2.1:
   resolved "https://registry.nlark.com/is-arrayish/download/is-arrayish-0.2.1.tgz"
   integrity sha1-d8mYQFJ6qOyxqLppe4BkWnqSap0=
 
-is-bigint@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.nlark.com/is-bigint/download/is-bigint-1.0.2.tgz"
-  integrity sha1-/7OBRCUDI1rSReqJ5Fs9v/BA7lo=
-
 is-binary-path@~2.1.0:
   version "2.1.0"
   resolved "https://registry.nlark.com/is-binary-path/download/is-binary-path-2.1.0.tgz"
@@ -3611,22 +3472,10 @@ is-binary-path@~2.1.0:
   dependencies:
     binary-extensions "^2.0.0"
 
-is-boolean-object@^1.1.0:
-  version "1.1.1"
-  resolved "https://registry.nlark.com/is-boolean-object/download/is-boolean-object-1.1.1.tgz"
-  integrity sha1-PAh48DXLghIo01DS4eNnGXFqPeg=
-  dependencies:
-    call-bind "^1.0.2"
-
 is-buffer@^1.1.5:
   version "1.1.6"
   resolved "https://registry.nlark.com/is-buffer/download/is-buffer-1.1.6.tgz"
   integrity sha1-76ouqdqg16suoTqXsritUf776L4=
-
-is-callable@^1.1.3, is-callable@^1.1.4, is-callable@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.nlark.com/is-callable/download/is-callable-1.2.3.tgz"
-  integrity sha1-ix4FALc6HXbHBIdjbzaOUZ3o244=
 
 is-ci@^2.0.0:
   version "2.0.0"
@@ -3655,11 +3504,6 @@ is-data-descriptor@^1.0.0:
   integrity sha1-2Eh2Mh0Oet0DmQQGq7u9NrqSaMc=
   dependencies:
     kind-of "^6.0.0"
-
-is-date-object@^1.0.1:
-  version "1.0.4"
-  resolved "https://registry.nlark.com/is-date-object/download/is-date-object-1.0.4.tgz"
-  integrity sha1-VQz8wDr62gXuo90wmBx7CVUfc+U=
 
 is-descriptor@^0.1.0:
   version "0.1.6"
@@ -3735,24 +3579,6 @@ is-interactive@^1.0.0:
   resolved "https://registry.nlark.com/is-interactive/download/is-interactive-1.0.0.tgz"
   integrity sha1-zqbmrlyHCnsKAAQHC3tYfgJSkS4=
 
-is-nan@^1.3.0:
-  version "1.3.2"
-  resolved "https://registry.nlark.com/is-nan/download/is-nan-1.3.2.tgz"
-  integrity sha1-BDpUreoxdItVts1OCara+mm9nh0=
-  dependencies:
-    call-bind "^1.0.0"
-    define-properties "^1.1.3"
-
-is-negative-zero@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.nlark.com/is-negative-zero/download/is-negative-zero-2.0.1.tgz"
-  integrity sha1-PedGwY3aIxkkGlNnWQjY92bxHCQ=
-
-is-number-object@^1.0.4:
-  version "1.0.5"
-  resolved "https://registry.nlark.com/is-number-object/download/is-number-object-1.0.5.tgz"
-  integrity sha1-bt+u7XlQz/Ga/tzp+/yp7m3Sies=
-
 is-number@^3.0.0:
   version "3.0.0"
   resolved "https://registry.nlark.com/is-number/download/is-number-3.0.0.tgz"
@@ -3777,14 +3603,6 @@ is-potential-custom-element-name@^1.0.1:
   resolved "https://registry.nlark.com/is-potential-custom-element-name/download/is-potential-custom-element-name-1.0.1.tgz"
   integrity sha1-Fx7W8Z46xVQ5Tt94yqBXhKRb67U=
 
-is-regex@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.nlark.com/is-regex/download/is-regex-1.1.3.tgz"
-  integrity sha1-0Cn5r/ZEi5Prvj8z2scVEf3L758=
-  dependencies:
-    call-bind "^1.0.2"
-    has-symbols "^1.0.2"
-
 is-stream@^1.1.0:
   version "1.1.0"
   resolved "https://registry.nlark.com/is-stream/download/is-stream-1.1.0.tgz"
@@ -3794,18 +3612,6 @@ is-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.nlark.com/is-stream/download/is-stream-2.0.0.tgz"
   integrity sha1-venDJoDW+uBBKdasnZIc54FfeOM=
-
-is-string@^1.0.5, is-string@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.nlark.com/is-string/download/is-string-1.0.6.tgz"
-  integrity sha1-P+XVmS+w2TQE8yWE1LAXmnG1Sl8=
-
-is-symbol@^1.0.2, is-symbol@^1.0.3:
-  version "1.0.4"
-  resolved "https://registry.nlark.com/is-symbol/download/is-symbol-1.0.4.tgz"
-  integrity sha1-ptrJO2NbBjymhyI23oiRClevE5w=
-  dependencies:
-    has-symbols "^1.0.2"
 
 is-typedarray@^1.0.0, is-typedarray@~1.0.0:
   version "1.0.0"
@@ -4511,16 +4317,6 @@ lodash.clonedeep@^4.5.0:
   resolved "https://registry.nlark.com/lodash.clonedeep/download/lodash.clonedeep-4.5.0.tgz"
   integrity sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
 
-lodash.defaults@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.npm.taobao.org/lodash.defaults/download/lodash.defaults-4.2.0.tgz"
-  integrity sha1-0JF4cW/+pN3p5ft7N/bwgCJ0WAw=
-
-lodash.flatten@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.npm.taobao.org/lodash.flatten/download/lodash.flatten-4.4.0.tgz"
-  integrity sha1-8xwiIlqWMtK7+OSt2+8kCqdlph8=
-
 lodash.get@4.4.2:
   version "4.4.2"
   resolved "https://registry.nlark.com/lodash.get/download/lodash.get-4.4.2.tgz"
@@ -4551,7 +4347,7 @@ lodash.truncate@^4.4.2:
   resolved "https://registry.nlark.com/lodash.truncate/download/lodash.truncate-4.4.2.tgz"
   integrity sha1-WjUNoLERO4N+z//VgSy+WNbq4ZM=
 
-lodash@4.17.21, lodash@4.x, lodash@^4.17.19, lodash@^4.17.21, lodash@^4.7.0:
+lodash@4.17.21, lodash@4.x, lodash@^4.17.19, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.nlark.com/lodash/download/lodash-4.17.21.tgz?cache=0&sync_timestamp=1622685830565&other_urls=https%3A%2F%2Fregistry.nlark.com%2Flodash%2Fdownload%2Flodash-4.17.21.tgz"
   integrity sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=
@@ -4755,7 +4551,7 @@ mkdirp@1.x, mkdirp@^1.0.4:
   dependencies:
     minimist "^1.2.5"
 
-moment-timezone@^0.5.31, moment-timezone@^0.5.x:
+moment-timezone@^0.5.x:
   version "0.5.33"
   resolved "https://registry.nlark.com/moment-timezone/download/moment-timezone-0.5.33.tgz"
   integrity sha1-slL9a7V/NBybWaWrYajlGnO70iw=
@@ -5067,15 +4863,10 @@ object-hash@2.1.1:
   resolved "https://registry.nlark.com/object-hash/download/object-hash-2.1.1.tgz"
   integrity sha1-lEfQJ5tPz4DP8yWb9modxzr6vgk=
 
-object-inspect@^1.10.3, object-inspect@^1.9.0:
+object-inspect@^1.9.0:
   version "1.10.3"
   resolved "https://registry.nlark.com/object-inspect/download/object-inspect-1.10.3.tgz"
   integrity sha1-wqp9LQn1DJk3VwT3oK3yTFeC02k=
-
-object-keys@^1.0.12, object-keys@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.nlark.com/object-keys/download/object-keys-1.1.1.tgz"
-  integrity sha1-HEfyct8nfzsdrwYWd9nILiMixg4=
 
 object-visit@^1.0.0:
   version "1.0.1"
@@ -5083,25 +4874,6 @@ object-visit@^1.0.0:
   integrity sha1-95xEk68MU3e1n+OdOV5BBC3QRbs=
   dependencies:
     isobject "^3.0.0"
-
-object.assign@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.nlark.com/object.assign/download/object.assign-4.1.2.tgz"
-  integrity sha1-DtVKNC7Os3s4/3brgxoOeIy2OUA=
-  dependencies:
-    call-bind "^1.0.0"
-    define-properties "^1.1.3"
-    has-symbols "^1.0.1"
-    object-keys "^1.1.1"
-
-object.getownpropertydescriptors@^2.1.1:
-  version "2.1.2"
-  resolved "https://registry.nlark.com/object.getownpropertydescriptors/download/object.getownpropertydescriptors-2.1.2.tgz"
-  integrity sha1-G9Y66s8NXS0vMbXjk7A6fGAaI/c=
-  dependencies:
-    call-bind "^1.0.2"
-    define-properties "^1.1.3"
-    es-abstract "^1.18.0-next.2"
 
 object.pick@^1.3.0:
   version "1.3.0"
@@ -5245,18 +5017,6 @@ p-locate@^4.1.0:
   integrity sha1-o0KLtwiLOmApL2aRkni3wpetTwc=
   dependencies:
     p-limit "^2.2.0"
-
-p-map@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.nlark.com/p-map/download/p-map-2.1.0.tgz"
-  integrity sha1-MQko/u+cnsxltosXaTAYpmXOoXU=
-
-p-timeout@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.nlark.com/p-timeout/download/p-timeout-3.2.0.tgz"
-  integrity sha1-x+F6vJcdKnli74NiazXWNazyPf4=
-  dependencies:
-    p-finally "^1.0.0"
 
 p-try@^2.0.0:
   version "2.2.0"
@@ -5511,15 +5271,6 @@ progress@^2.0.0:
   resolved "https://registry.nlark.com/progress/download/progress-2.0.3.tgz"
   integrity sha1-foz42PW48jnBvGi+tOt4Vn1XLvg=
 
-promise.prototype.finally@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.nlark.com/promise.prototype.finally/download/promise.prototype.finally-3.1.2.tgz"
-  integrity sha1-uK+JFgycZzzv47TEQ1tTz9AocGc=
-  dependencies:
-    define-properties "^1.1.3"
-    es-abstract "^1.17.0-next.0"
-    function-bind "^1.1.1"
-
 prompts@^2.0.1:
   version "2.4.1"
   resolved "https://registry.nlark.com/prompts/download/prompts-2.4.1.tgz"
@@ -5689,23 +5440,6 @@ rechoir@^0.6.2:
   integrity sha1-hSBLVNuoLVdC4oyWdW70OvUOM4Q=
   dependencies:
     resolve "^1.1.6"
-
-redis-commands@1.7.0:
-  version "1.7.0"
-  resolved "https://registry.nlark.com/redis-commands/download/redis-commands-1.7.0.tgz"
-  integrity sha1-Fab+otWCgeJ7HNGs+0spPieMOok=
-
-redis-errors@^1.0.0, redis-errors@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.nlark.com/redis-errors/download/redis-errors-1.2.0.tgz"
-  integrity sha1-62LSrbFeTq9GEMBK/hUpOEJQq60=
-
-redis-parser@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.nlark.com/redis-parser/download/redis-parser-3.0.0.tgz"
-  integrity sha1-tm2CjNyv5rS4pCin3vTGvKwxyLQ=
-  dependencies:
-    redis-errors "^1.0.0"
 
 reflect-metadata@^0.1.13:
   version "0.1.13"
@@ -6259,11 +5993,6 @@ stack-utils@^2.0.2:
   dependencies:
     escape-string-regexp "^2.0.0"
 
-standard-as-callback@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.nlark.com/standard-as-callback/download/standard-as-callback-2.1.0.tgz"
-  integrity sha1-iVP8BTWYaKd7W5c5pmXFl3u330U=
-
 static-extend@^0.1.1:
   version "0.1.2"
   resolved "https://registry.nlark.com/static-extend/download/static-extend-0.1.2.tgz"
@@ -6315,22 +6044,6 @@ string-width@^4.1.0, string-width@^4.2.0:
     emoji-regex "^8.0.0"
     is-fullwidth-code-point "^3.0.0"
     strip-ansi "^6.0.0"
-
-string.prototype.trimend@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.nlark.com/string.prototype.trimend/download/string.prototype.trimend-1.0.4.tgz"
-  integrity sha1-51rpDClCxjUEaGwYsoe0oLGkX4A=
-  dependencies:
-    call-bind "^1.0.2"
-    define-properties "^1.1.3"
-
-string.prototype.trimstart@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.nlark.com/string.prototype.trimstart/download/string.prototype.trimstart-1.0.4.tgz"
-  integrity sha1-s2OZr0qymZtMnGSL16P7K7Jv7u0=
-  dependencies:
-    call-bind "^1.0.2"
-    define-properties "^1.1.3"
 
 string_decoder@^1.1.1:
   version "1.3.0"
@@ -6870,16 +6583,6 @@ typescript@^4.2.3:
   resolved "https://registry.nlark.com/typescript/download/typescript-4.3.5.tgz"
   integrity sha1-TRw3zBbok5c8RaBohrcRMjTxGfQ=
 
-unbox-primitive@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.nlark.com/unbox-primitive/download/unbox-primitive-1.0.1.tgz"
-  integrity sha1-CF4hViXsMWJXTciFmr7nilmxRHE=
-  dependencies:
-    function-bind "^1.1.1"
-    has-bigints "^1.0.1"
-    has-symbols "^1.0.2"
-    which-boxed-primitive "^1.0.2"
-
 union-value@^1.0.0:
   version "1.0.1"
   resolved "https://registry.nlark.com/union-value/download/union-value-1.0.1.tgz"
@@ -6934,17 +6637,6 @@ util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.nlark.com/util-deprecate/download/util-deprecate-1.0.2.tgz"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
-
-util.promisify@^1.0.1:
-  version "1.1.1"
-  resolved "https://registry.nlark.com/util.promisify/download/util.promisify-1.1.1.tgz"
-  integrity sha1-d4MvV87SyUeBdBScrpuW6ZGM1Us=
-  dependencies:
-    call-bind "^1.0.0"
-    define-properties "^1.1.3"
-    for-each "^0.3.3"
-    has-symbols "^1.0.1"
-    object.getownpropertydescriptors "^2.1.1"
 
 utils-merge@1.0.1:
   version "1.0.1"
@@ -7115,17 +6807,6 @@ whatwg-url@^8.0.0, whatwg-url@^8.5.0:
     lodash "^4.7.0"
     tr46 "^2.1.0"
     webidl-conversions "^6.1.0"
-
-which-boxed-primitive@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.nlark.com/which-boxed-primitive/download/which-boxed-primitive-1.0.2.tgz"
-  integrity sha1-E3V7yJsgmwSf5dhkMOIc9AqJqOY=
-  dependencies:
-    is-bigint "^1.0.1"
-    is-boolean-object "^1.1.0"
-    is-number-object "^1.0.4"
-    is-string "^1.0.5"
-    is-symbol "^1.0.3"
 
 which-module@^2.0.0:
   version "2.0.0"
