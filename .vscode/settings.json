@@ -8,5 +8,4 @@
         "typeorm"
     ],
     "editor.formatOnSave": true,
-    "debug.javascript.autoAttachFilter": "smart",
 }
