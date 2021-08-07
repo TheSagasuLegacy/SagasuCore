@@ -2,10 +2,13 @@
     "cSpell.words": [
         "Bangumi",
         "Sagasu",
+        "accesscontrol",
         "nestjs",
         "postgres",
         "smartcn",
         "typeorm"
     ],
     "editor.formatOnSave": true,
+    "files.autoSave": "onFocusChange",
+    "typescript.tsdk": "./node_modules/typescript/lib",
 }
