@@ -5,9 +5,11 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { UserRoles } from './user-roles.entity';
 
 @Entity()
 @Index(['name'], { unique: true })
@@ -26,6 +28,14 @@ export class User {
   @Column()
   password: string;
 
+  async verifyPassword(password: string): Promise<boolean> {
+    return await argon2.verify(this.password, password);
+  }
+
+  async setPassword(password: string): Promise<void> {
+    this.password = await argon2.hash(password);
+  }
+
   @Column({ default: true })
   allow_login: boolean;
 
@@ -41,11 +51,6 @@ export class User {
   @UpdateDateColumn()
   updated: Date;
 
-  async verifyPassword(password: string): Promise<boolean> {
-    return await argon2.verify(this.password, password);
-  }
-
-  async setPassword(password: string): Promise<void> {
-    this.password = await argon2.hash(password);
-  }
+  @OneToMany(() => UserRoles, (role) => role.user, { eager: true })
+  roles: UserRoles[];
 }
