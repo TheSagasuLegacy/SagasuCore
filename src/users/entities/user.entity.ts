@@ -1,3 +1,4 @@
+import * as argon2 from 'argon2';
 import { Exclude } from 'class-transformer';
 import {
   Column,
@@ -39,4 +40,12 @@ export class User {
 
   @UpdateDateColumn()
   updated: Date;
+
+  async verifyPassword(password: string): Promise<boolean> {
+    return await argon2.verify(this.password, password);
+  }
+
+  async setPassword(password: string): Promise<void> {
+    this.password = await argon2.hash(password);
+  }
 }
