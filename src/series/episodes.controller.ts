@@ -10,7 +10,11 @@ import { EpisodesService } from './episodes.service';
   model: { type: Episodes },
   dto: { create: CreateEpisodeDto, update: UpdateEpisodeDto },
   routes: { exclude: ['replaceOneBase'] },
-  query: { alwaysPaginate: true, join: { series: { eager: true } } },
+  query: {
+    alwaysPaginate: true,
+    join: { series: { eager: true } },
+    maxLimit: 50,
+  },
 })
 @ApiTags('episodes')
 @Controller('episodes')
