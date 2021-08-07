@@ -36,6 +36,7 @@
     "@nestjs/typeorm": "^7.1.5",
     "@nestjsx/crud": "^5.0.0-alpha.3",
     "@nestjsx/crud-typeorm": "^5.0.0-alpha.3",
+    "argon2": "^0.28.2",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "nest-access-control": "^2.0.2",
