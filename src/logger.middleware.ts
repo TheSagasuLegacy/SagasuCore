@@ -9,14 +9,16 @@ export class LoggerMiddleware implements NestMiddleware {
     const begin = new Date().getTime();
     res.on('finish', () => {
       const delta = new Date().getTime() - begin;
+      const { ip, method, originalUrl } = req;
+      const { statusCode } = res;
       this.logger.log(
-        clc.cyanBright(req.ip) +
+        clc.cyanBright(ip) +
           ' - ' +
-          clc.red(req.method) +
+          clc.red(method) +
           ' | ' +
-          clc.green(req.originalUrl) +
+          clc.green(originalUrl) +
           ' ' +
-          clc.magentaBright(res.statusCode.toString()) +
+          clc.magentaBright(statusCode.toString()) +
           ' ' +
           clc.yellow(`+${delta}ms`),
       );
