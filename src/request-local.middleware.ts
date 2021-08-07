@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { AsyncLocalStorage } from 'async_hooks';
 
-export class RequestLocal extends Map<string, any> {
+export class RequestLocal extends Map<string, unknown> {
   readonly REQUEST_KEY = 'request';
 
   constructor(request: Express.Request) {
@@ -10,7 +10,7 @@ export class RequestLocal extends Map<string, any> {
   }
 
   get request(): Express.Request {
-    return this.get(this.REQUEST_KEY);
+    return this.get(this.REQUEST_KEY) as Express.Request;
   }
 }
 

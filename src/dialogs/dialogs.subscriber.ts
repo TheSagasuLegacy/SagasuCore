@@ -22,7 +22,7 @@ export class DialogsSubscriber implements EntitySubscriberInterface<Dialogs> {
     private index: DialogsIndexService,
   ) {
     this.connection.subscribers.push(this);
-    this.index.create();
+    void this.index.create();
   }
 
   listenTo() {

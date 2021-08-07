@@ -19,7 +19,7 @@ export class SeriesSubscriber implements EntitySubscriberInterface<Series> {
     private elasticIndex: SeriesIndexService,
   ) {
     this.connection.subscribers.push(this);
-    this.elasticIndex.create();
+    void this.elasticIndex.create();
   }
 
   listenTo() {
