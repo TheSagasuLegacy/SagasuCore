@@ -1,3 +1,4 @@
+import { AppRoles } from 'src/app.roles';
 import {
   Column,
   CreateDateColumn,
@@ -22,7 +23,7 @@ export class UserRoles {
   user: User;
 
   @Column()
-  role: string;
+  role: keyof typeof AppRoles;
 
   @CreateDateColumn()
   granted: Date;
