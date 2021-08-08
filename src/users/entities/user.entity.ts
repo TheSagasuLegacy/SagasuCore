@@ -1,13 +1,17 @@
 import * as argon2 from 'argon2';
 import { Exclude } from 'class-transformer';
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
   Index,
+  InsertEvent,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  UpdateEvent,
 } from 'typeorm';
 import { UserRoles } from './user-roles.entity';
 
@@ -28,12 +32,26 @@ export class User {
   @Column()
   password: string;
 
-  async verifyPassword(password: string): Promise<boolean> {
-    return await argon2.verify(this.password, password);
+  @BeforeInsert()
+  async passwordInsert(event: InsertEvent<User>) {
+    if (event.entity.password) {
+      event.entity.password = await argon2.hash(event.entity.password);
+    }
   }
 
-  async setPassword(password: string): Promise<void> {
-    this.password = await argon2.hash(password);
+  @BeforeUpdate()
+  async passwordUpdate(event: UpdateEvent<User>) {
+    if (
+      typeof event.entity.password === 'string' &&
+      !!event.entity.password.trim() &&
+      event.entity.password !== event.databaseEntity.password
+    ) {
+      event.entity.password = await argon2.hash(event.entity.password);
+    }
+  }
+
+  async verifyPassword(password: string): Promise<boolean> {
+    return await argon2.verify(this.password, password);
   }
 
   @Column({ default: true })
