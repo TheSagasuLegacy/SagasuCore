@@ -22,7 +22,7 @@ export class UserRoles {
   })
   user: User;
 
-  @Column()
+  @Column({ type: 'character varying' })
   role: keyof typeof AppRoles;
 
   @CreateDateColumn()
