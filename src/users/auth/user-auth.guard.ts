@@ -1,5 +1,5 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { Injectable } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AppRoles } from 'src/app.roles';
 import { User } from '../entities/user.entity';
 
@@ -15,10 +15,7 @@ export const Guest = {
 } as Partial<User>;
 
 @Injectable()
-export class UserAuthGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    return true;
-  }
-}
+export class UserAuthGuard extends AuthGuard('local') {}
+
+@Injectable()
+export class UserJwtAuthGuard extends AuthGuard('jwt') {}
