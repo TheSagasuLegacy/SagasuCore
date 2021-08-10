@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsUUID } from 'class-validator';
 
 export class CreateDialogDto {
@@ -7,6 +8,7 @@ export class CreateDialogDto {
 
   end: number;
 
+  @ApiProperty({ format: 'uuid' })
   @IsUUID()
   file: string;
 }

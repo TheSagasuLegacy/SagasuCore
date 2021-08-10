@@ -1,4 +1,4 @@
-import { OmitType } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { Max, Min } from 'class-validator';
 import { Series } from '../entities/series.entity';
@@ -34,6 +34,7 @@ export class SeriesSearchQuery {
   @Type(() => String)
   keyword: string;
 
+  @ApiProperty({ type: SearchFields, isArray: true })
   fields?: SearchFields[] = [
     SearchFields.Name,
     SearchFields.ChineseName,
@@ -43,6 +44,7 @@ export class SeriesSearchQuery {
   @Type(() => Number)
   from?: number = 0;
 
+  @ApiProperty({ minimum: 0, maximum: 30 })
   @Min(0)
   @Max(30)
   @Type(() => Number)
