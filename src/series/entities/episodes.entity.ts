@@ -28,6 +28,8 @@ export class Episodes {
   @ManyToOne(() => Series, (series) => series.episodes, {
     nullable: false,
     cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
   series: Series;
 

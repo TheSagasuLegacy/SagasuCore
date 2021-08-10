@@ -27,6 +27,8 @@ export class Dialogs {
   @ManyToOne(() => SubtitleFile, (file) => file.dialogs, {
     nullable: false,
     cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
   file: SubtitleFile;
 
