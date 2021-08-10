@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ACGuard } from 'nest-access-control';
 import { AppRoles } from 'src/app.roles';
 import { User } from '../entities/user.entity';
 
@@ -19,3 +20,11 @@ export class UserAuthGuard extends AuthGuard('local') {}
 
 @Injectable()
 export class UserJwtAuthGuard extends AuthGuard('jwt') {}
+
+@Injectable()
+export class AccessControlGuard extends ACGuard<Express.User> {
+  async getUserRoles(context: ExecutionContext) {
+    const user = await this.getUser(context);
+    return !!user ? user.roles.map((role) => role.role) : AppRoles.GUEST;
+  }
+}

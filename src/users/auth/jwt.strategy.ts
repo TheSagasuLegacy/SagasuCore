@@ -5,13 +5,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { classToPlain } from 'class-transformer';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Repository } from 'typeorm';
-import { User } from '../entities/user.entity';
+import { User as UserEntity } from '../entities/user.entity';
 import { UserAuthService } from './user-auth.service';
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Express {
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface
+    interface User extends UserEntity {}
+  }
+}
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @InjectRepository(User) private readonly repo: Repository<User>,
+    @InjectRepository(UserEntity) private readonly repo: Repository<UserEntity>,
     private readonly authService: UserAuthService,
     private readonly config: ConfigService,
   ) {
@@ -23,7 +31,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: { id: number }) {
-    const user = await this.repo.findOneOrFail(payload.id);
-    return classToPlain<User>(user);
+    const user: Express.User = await this.repo.findOneOrFail(payload.id); //TODO: implement a cache for jwt validate
+    return classToPlain<Express.User>(user);
   }
 }
