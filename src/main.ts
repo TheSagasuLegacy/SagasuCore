@@ -1,12 +1,18 @@
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as express from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('/api');
+
+  // * Support large request body: https://stackoverflow.com/questions/52783959
   app.use(express.json({ limit: '50mb' }));
+
+  // * Support X-Forwarded header: https://expressjs.com/en/guide/behind-proxies.html
+  app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
 
   const config = new DocumentBuilder()
     .setTitle(process.env.npm_package_name)
