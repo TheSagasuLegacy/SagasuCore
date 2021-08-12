@@ -364,9 +364,9 @@
     minimist "^1.2.0"
 
 "@elastic/elasticsearch@^7.13.0":
-  version "7.13.0"
-  resolved "https://registry.nlark.com/@elastic/elasticsearch/download/@elastic/elasticsearch-7.13.0.tgz#6dcf511dfa91187e22c81e54f41f4bd0fd96b4d6"
-  integrity sha1-bc9RHfqRGH4iyB5U9B9L0P2WtNY=
+  version "7.14.0"
+  resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-7.14.0.tgz#250d939c2dee41f92282ca8916b0eb11bca61094"
+  integrity sha512-BlxqykcNtdBxo0mF7UQ1OsUxoVOOnEaeF70u2N4jpePih9paCOOotTWfFSDrtEw0TWv1CZlzCGD3TD5+8ASx8A==
   dependencies:
     debug "^4.3.1"
     hpagent "^0.1.1"
@@ -1155,14 +1155,6 @@
     "@typescript-eslint/typescript-estree" "4.29.1"
     debug "^4.3.1"
 
-"@typescript-eslint/scope-manager@4.29.0":
-  version "4.29.0"
-  resolved "https://registry.nlark.com/@typescript-eslint/scope-manager/download/@typescript-eslint/scope-manager-4.29.0.tgz?cache=0&sync_timestamp=1627925116667&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40typescript-eslint%2Fscope-manager%2Fdownload%2F%40typescript-eslint%2Fscope-manager-4.29.0.tgz#cf5474f87321bedf416ef65839b693bddd838599"
-  integrity sha1-z1R0+HMhvt9BbvZYObaTvd2DhZk=
-  dependencies:
-    "@typescript-eslint/types" "4.29.0"
-    "@typescript-eslint/visitor-keys" "4.29.0"
-
 "@typescript-eslint/scope-manager@4.29.1":
   version "4.29.1"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-4.29.1.tgz#f25da25bc6512812efa2ce5ebd36619d68e61358"
@@ -1171,28 +1163,10 @@
     "@typescript-eslint/types" "4.29.1"
     "@typescript-eslint/visitor-keys" "4.29.1"
 
-"@typescript-eslint/types@4.29.0":
-  version "4.29.0"
-  resolved "https://registry.nlark.com/@typescript-eslint/types/download/@typescript-eslint/types-4.29.0.tgz?cache=0&sync_timestamp=1627925133781&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40typescript-eslint%2Ftypes%2Fdownload%2F%40typescript-eslint%2Ftypes-4.29.0.tgz#c8f1a1e4441ea4aca9b3109241adbc145f7f8a4e"
-  integrity sha1-yPGh5EQepKypsxCSQa28FF9/ik4=
-
 "@typescript-eslint/types@4.29.1":
   version "4.29.1"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-4.29.1.tgz#94cce6cf7cc83451df03339cda99d326be2feaf5"
   integrity sha512-Jj2yu78IRfw4nlaLtKjVaGaxh/6FhofmQ/j8v3NXmAiKafbIqtAPnKYrf0sbGjKdj0hS316J8WhnGnErbJ4RCA==
-
-"@typescript-eslint/typescript-estree@4.29.0":
-  version "4.29.0"
-  resolved "https://registry.nlark.com/@typescript-eslint/typescript-estree/download/@typescript-eslint/typescript-estree-4.29.0.tgz?cache=0&sync_timestamp=1627925119361&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40typescript-eslint%2Ftypescript-estree%2Fdownload%2F%40typescript-eslint%2Ftypescript-estree-4.29.0.tgz#af7ab547757b86c91bfdbc54ff86845410856256"
-  integrity sha1-r3q1R3V7hskb/bxU/4aEVBCFYlY=
-  dependencies:
-    "@typescript-eslint/types" "4.29.0"
-    "@typescript-eslint/visitor-keys" "4.29.0"
-    debug "^4.3.1"
-    globby "^11.0.3"
-    is-glob "^4.0.1"
-    semver "^7.3.5"
-    tsutils "^3.21.0"
 
 "@typescript-eslint/typescript-estree@4.29.1":
   version "4.29.1"
@@ -1206,14 +1180,6 @@
     is-glob "^4.0.1"
     semver "^7.3.5"
     tsutils "^3.21.0"
-
-"@typescript-eslint/visitor-keys@4.29.0":
-  version "4.29.0"
-  resolved "https://registry.nlark.com/@typescript-eslint/visitor-keys/download/@typescript-eslint/visitor-keys-4.29.0.tgz?cache=0&sync_timestamp=1627925142269&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40typescript-eslint%2Fvisitor-keys%2Fdownload%2F%40typescript-eslint%2Fvisitor-keys-4.29.0.tgz#1ff60f240def4d85ea68d4fd2e4e9759b7850c04"
-  integrity sha1-H/YPJA3vTYXqaNT9Lk6XWbeFDAQ=
-  dependencies:
-    "@typescript-eslint/types" "4.29.0"
-    eslint-visitor-keys "^2.0.0"
 
 "@typescript-eslint/visitor-keys@4.29.1":
   version "4.29.1"
