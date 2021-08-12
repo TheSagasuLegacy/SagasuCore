@@ -364,9 +364,9 @@
     minimist "^1.2.0"
 
 "@elastic/elasticsearch@^7.13.0":
-  version "7.13.0"
-  resolved "https://registry.nlark.com/@elastic/elasticsearch/download/@elastic/elasticsearch-7.13.0.tgz#6dcf511dfa91187e22c81e54f41f4bd0fd96b4d6"
-  integrity sha1-bc9RHfqRGH4iyB5U9B9L0P2WtNY=
+  version "7.14.0"
+  resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-7.14.0.tgz#250d939c2dee41f92282ca8916b0eb11bca61094"
+  integrity sha512-BlxqykcNtdBxo0mF7UQ1OsUxoVOOnEaeF70u2N4jpePih9paCOOotTWfFSDrtEw0TWv1CZlzCGD3TD5+8ASx8A==
   dependencies:
     debug "^4.3.1"
     hpagent "^0.1.1"
