@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Cache } from 'cache-manager';
 import { classToPlain } from 'class-transformer';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Repository } from 'typeorm';
 import { User as UserEntity } from '../entities/user.entity';
-import { UserAuthService } from './user-auth.service';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -20,7 +20,7 @@ declare global {
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     @InjectRepository(UserEntity) private readonly repo: Repository<UserEntity>,
-    private readonly authService: UserAuthService,
+    @Inject(CACHE_MANAGER) private readonly cache: Cache,
     private readonly config: ConfigService,
   ) {
     super({
@@ -31,7 +31,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: { id: number }) {
-    const user: Express.User = await this.repo.findOneOrFail(payload.id); //TODO: implement a cache for jwt validate
+    const { id } = payload;
+
+    let user = await this.cache.get<Express.User>(`user-auth:${id}`);
+    if (!user) {
+      user = await this.repo.findOneOrFail(id);
+      await this.cache.set(`user-auth:${id}`, user, { ttl: 2 * 60 });
+    }
+
     return classToPlain<Express.User>(user);
   }
 }

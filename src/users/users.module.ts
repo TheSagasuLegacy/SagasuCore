@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,6 +12,7 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 @Module({
   imports: [
+    CacheModule.register(),
     TypeOrmModule.forFeature([User, UserRoles]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
