@@ -1932,7 +1932,7 @@ chalk@^2.0.0:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^4.0.0, chalk@^4.1.0:
+chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.nlark.com/chalk/download/chalk-4.1.2.tgz?cache=0&sync_timestamp=1627646734234&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fchalk%2Fdownload%2Fchalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
   integrity sha1-qsTit3NKdAhnrrFr8CqtVWoeegE=
@@ -4853,6 +4853,13 @@ nest-access-control@^2.0.2:
   integrity sha1-YAYgQ1IwbjP1drvOdJN5swQ7Xfg=
   dependencies:
     accesscontrol "^2.2.1"
+
+nestjs-typeorm-paginate@^2.6.2:
+  version "2.6.2"
+  resolved "https://registry.nlark.com/nestjs-typeorm-paginate/download/nestjs-typeorm-paginate-2.6.2.tgz#a9848b333720e049ed8236ec88c467d34eebb347"
+  integrity sha1-qYSLMzcg4EntgjbsiMRn007rs0c=
+  dependencies:
+    chalk "^4.1.2"
 
 nice-try@^1.0.4:
   version "1.0.5"
