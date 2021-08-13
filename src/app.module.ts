@@ -2,7 +2,9 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AccessControlModule } from 'nest-access-control';
 import { AppController } from './app.controller';
+import { roles } from './app.roles';
 import { AppService } from './app.service';
 import { DialogsModule } from './dialogs/dialogs.module';
 import { ElasticIndexModule } from './elastic-index/elastic-index.module';
@@ -15,6 +17,7 @@ import { UsersModule } from './users/users.module';
   imports: [
     ConfigModule.forRoot(),
     ScheduleModule.forRoot(),
+    AccessControlModule.forRoles(roles),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

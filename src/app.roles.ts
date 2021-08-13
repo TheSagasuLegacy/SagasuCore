@@ -10,6 +10,7 @@ export enum AppResources {
 }
 
 export enum BasicRoles {
+  SEARCH_SERIES = 'SEARCH_SERIES',
   READ_SINGLE_SERIES = 'READ_SINGLE_SERIES',
   READ_MULTIPLE_SERIES = 'READ_MULTIPLE_SERIES',
   WRITE_OWN_SERIES = 'WRITE_OWN_SERIES',
@@ -52,6 +53,8 @@ export const roles: RolesBuilder = new RolesBuilder();
 
 // prettier-ignore
 roles
+  .grant(BasicRoles.SEARCH_SERIES)
+    .readAny(AppResources.SERIES)
   .grant(BasicRoles.READ_SINGLE_SERIES)
     .readAny(AppResources.SERIES)
   .grant(BasicRoles.READ_MULTIPLE_SERIES)
@@ -127,6 +130,7 @@ roles
 // prettier-ignore
 roles
   .grant(GroupedRoles.GUEST)
+    .inherit(BasicRoles.SEARCH_SERIES)
     .inherit(BasicRoles.READ_SINGLE_SERIES)
     .inherit(BasicRoles.READ_SINGLE_EPISODE)
     .inherit(BasicRoles.READ_MULTIPLE_EPISODE)
