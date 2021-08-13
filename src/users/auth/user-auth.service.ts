@@ -1,10 +1,20 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  createParamDecorator,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as argon2 from 'argon2';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import { AccessTokenDto } from '../dto/access-token.dto';
 import { User } from '../entities/user.entity';
+
+export const CurrentUser = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext) =>
+    ctx.switchToHttp().getRequest<Express.Request>().user,
+);
 
 @Injectable()
 export class UserAuthService {
