@@ -1,25 +1,26 @@
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import { ExecutionContext, Injectable, SetMetadata } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { ACGuard } from 'nest-access-control';
 import { AppRoles } from 'src/app.roles';
-import { User } from '../entities/user.entity';
 
-export const Guest = {
-  id: 0,
-  name: 'Guest',
-  email: 'guest@sagasu.project',
-  password: '',
-  allow_login: false,
-  created: new Date(0),
-  updated: new Date(0),
-  roles: [{ id: 0, role: AppRoles.GUEST, granted: new Date(0) }],
-} as Partial<User>;
+// * Support authentication bypass: https://stackoverflow.com/questions/57116789
+export const BypassJwtAuthGuard = () => SetMetadata('no-auth', true);
 
 @Injectable()
 export class UserAuthGuard extends AuthGuard('local') {}
 
 @Injectable()
-export class UserJwtAuthGuard extends AuthGuard('jwt') {}
+export class UserJwtAuthGuard extends AuthGuard('jwt') {
+  constructor(private readonly reflector: Reflector) {
+    super();
+  }
+
+  canActivate(context: ExecutionContext) {
+    const noAuth = this.reflector.get<boolean>('no-auth', context.getHandler());
+    return noAuth ? true : super.canActivate(context);
+  }
+}
 
 @Injectable()
 export class AccessControlGuard extends ACGuard<Express.User> {
