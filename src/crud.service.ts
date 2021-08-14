@@ -16,6 +16,7 @@ import {
   Pagination,
 } from 'nestjs-typeorm-paginate';
 import { DeepPartial, EntityNotFoundError, Repository } from 'typeorm';
+import { storage } from './request-local.middleware';
 
 export interface UpdateChecker<T> {
   (entity: T): Promise<boolean> | boolean;
@@ -41,7 +42,12 @@ export class PaginationDto implements IPaginationOptions {
 }
 
 @Injectable()
-export class CrudBaseService<Entity> {
+export abstract class CrudBaseService<
+  Entity,
+  PrimaryType = unknown,
+  CreateDto extends DeepPartial<Entity> = Entity,
+  UpdateDto extends DeepPartial<Entity> = Entity,
+> {
   constructor(
     protected repo: Repository<Entity>,
     protected primary: string = 'id',
@@ -51,11 +57,46 @@ export class CrudBaseService<Entity> {
     return this.repo.target as ClassType<Entity>;
   }
 
+  protected get currentUser(): Express.User | undefined {
+    return storage.getStore().request.user;
+  }
+
+  protected assertPermission(value: boolean): void {
+    if (!value) {
+      throw new ForbiddenException(
+        `Permission denied to operate entity '${this.entityType.name}'`,
+      );
+    }
+  }
+
+  abstract canCreate(
+    dto: CreateDto,
+    user?: Express.User,
+  ): Promise<boolean> | boolean;
+
+  abstract canRead(
+    primary?: PrimaryType,
+    user?: Express.User,
+  ): Promise<boolean> | boolean;
+
+  abstract canUpdate(
+    dto: UpdateDto,
+    entity: Entity,
+    user?: Express.User,
+  ): Promise<boolean> | boolean;
+
+  abstract canDelete(
+    primary: PrimaryType,
+    user?: Express.User,
+  ): Promise<boolean> | boolean;
+
   public async getMany(options: PaginationDto): Promise<Pagination<Entity>> {
+    this.assertPermission(await this.canRead(undefined, this.currentUser));
     return await paginate<Entity>(this.repo, options);
   }
 
-  public async getOne(primary: unknown): Promise<Entity> {
+  public async getOne(primary: PrimaryType): Promise<Entity> {
+    this.assertPermission(await this.canRead(primary, this.currentUser));
     try {
       return await this.repo.findOneOrFail({ [this.primary]: primary });
     } catch (err) {
@@ -67,40 +108,46 @@ export class CrudBaseService<Entity> {
     }
   }
 
-  public async createOne(dto: DeepPartial<Entity>): Promise<Entity> {
+  public async createOne(dto: CreateDto): Promise<Entity> {
+    this.assertPermission(await this.canCreate(dto, this.currentUser));
     const entity = this.repo.merge(new this.entityType(), dto);
     return await this.repo.save<any>(entity);
   }
 
   public async createMany(
-    dto: CreateManyDto<DeepPartial<Entity>>,
+    dto: CreateManyDto<CreateDto>,
     chunk = 50,
   ): Promise<Entity[]> {
-    if (dto.bulk.length <= 0) {
+    if (dto?.bulk?.length <= 0) {
       throw new BadRequestException(`Empty bulk data`);
     }
-    const entities = dto.bulk.map((entity) =>
-      this.repo.merge(new this.entityType(), entity),
+    const entities = await Promise.all(
+      dto.bulk.map(async (entity) => {
+        this.assertPermission(await this.canCreate(entity, this.currentUser));
+        return this.repo.merge(new this.entityType(), entity);
+      }),
     );
     return await this.repo.save<any>(entities, { chunk });
   }
 
   public async updateOne(
-    primary: unknown,
-    dto: DeepPartial<Entity>,
-    checker?: UpdateChecker<Entity>,
+    primary: PrimaryType,
+    dto: UpdateDto,
   ): Promise<Entity> {
     const found = await this.getOne(primary);
-    if (checker && !(await checker(found))) {
-      throw new ForbiddenException(`Target entity is forbidden to update`);
-    }
+    this.assertPermission(await this.canUpdate(dto, found, this.currentUser));
     const entity = this.repo.merge(found, dto);
     return await this.repo.save<any>(entity);
   }
 
-  public async deleteOne(primary: unknown, softdelete = false): Promise<void> {
+  public async deleteOne(
+    primary: PrimaryType,
+    softDelete = false,
+  ): Promise<void> {
+    this.assertPermission(await this.canDelete(primary, this.currentUser));
+
     const found = await this.getOne(primary);
-    if (softdelete === true) {
+    if (softDelete === true) {
       await this.repo.softDelete(found);
     } else {
       await this.repo.delete(found);
