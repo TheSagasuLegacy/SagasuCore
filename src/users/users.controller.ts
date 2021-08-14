@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -9,6 +10,7 @@ import {
   Query,
   Request,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -30,6 +32,7 @@ import { UsersService } from './users.service';
 
 @ApiTags('users')
 @Controller('users')
+@UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(UserJwtAuthGuard, AccessControlGuard)
 @UsePipes(new ValidationPipe({ transform: true }))
 export class UsersController {
@@ -75,14 +78,14 @@ export class UsersController {
   }
 
   @BypassJwtAuthGuard()
-  @Post('auth/register')
+  @Post('/auth/register')
   async userRegister(@Body() user: CreateUserDto): Promise<User> {
     return this.service.userRegister(user);
   }
 
   @BypassJwtAuthGuard()
   @UseGuards(UserAuthGuard)
-  @Post('auth/login')
+  @Post('/auth/login')
   userLogin(
     @Request() req: Express.Request,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -93,7 +96,7 @@ export class UsersController {
 
   @ApiBearerAuth()
   @UseGuards(UserJwtAuthGuard)
-  @Get('profile')
+  @Get('/auth/profile')
   getProfile(@Request() req: Express.Request): User {
     return req.user;
   }
