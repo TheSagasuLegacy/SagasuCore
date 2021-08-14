@@ -1,7 +1,10 @@
+import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -30,7 +33,18 @@ export class Series {
   @Column({ default: null })
   bangumi_id?: number;
 
-  @OneToMany(() => Episodes, (episode) => episode.series)
+  @Column({ default: null })
+  user_id?: number;
+
+  @ManyToOne(() => User, {
+    cascade: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user_id' })
+  user?: User;
+
+  @OneToMany(() => Episodes, (episode) => episode.series, { eager: true })
   episodes: Episodes[];
 
   @UpdateDateColumn({ nullable: true })

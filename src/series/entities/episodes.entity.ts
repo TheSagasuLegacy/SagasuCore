@@ -1,7 +1,9 @@
+import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
   Index,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -47,6 +49,17 @@ export class Episodes {
 
   @Column({ default: null })
   air_date?: Date;
+
+  @Column({ default: null })
+  user_id?: number;
+
+  @ManyToOne(() => User, {
+    cascade: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user_id' })
+  user?: User;
 
   @UpdateDateColumn({ nullable: true })
   updated?: Date;
