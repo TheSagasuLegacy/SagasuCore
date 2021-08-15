@@ -1,8 +1,13 @@
-import { Controller, Get, Param, Query, Req } from '@nestjs/common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
-import { plainToClass } from 'class-transformer';
-import { Request } from 'express';
 import { CreateSeriesDto } from './dto/create-series.dto';
 import {
   SeriesSearchQuery,
@@ -31,16 +36,13 @@ export class SeriesController implements CrudController<Series> {
     public searchService: SeriesSearchService,
   ) {}
 
-  @ApiOkResponse({ type: SeriesSearchResponse })
+  @UsePipes(new ValidationPipe({ transform: true }))
   @Get('search')
-  async search(@Query() _: SeriesSearchQuery, @Req() request: Request) {
-    const query = plainToClass(SeriesSearchQuery, request.query);
-    return this.searchService.search(
-      query.keyword,
-      typeof query.fields == 'string' ? [query.fields] : query.fields,
-      query.from,
-      query.size,
-    );
+  async search(
+    @Query() query: SeriesSearchQuery,
+  ): Promise<SeriesSearchResponse> {
+    const { keyword, fields, from, size } = query;
+    return this.searchService.search(keyword, fields, from, size);
   }
 
   @Get('bgm/:bgmId')

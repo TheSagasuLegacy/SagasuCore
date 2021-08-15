@@ -1,6 +1,6 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { Max, Min } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import { IsEnum, IsPositive, Max, Min } from 'class-validator';
 import { Series } from '../entities/series.entity';
 
 class SeriesSearchInfo extends OmitType(Series, ['episodes'] as const) {}
@@ -35,18 +35,25 @@ export class SeriesSearchQuery {
   keyword: string;
 
   @ApiProperty({ type: SearchFields, isArray: true })
+  @Transform(({ value }) =>
+    Array.from(typeof value === 'string' ? [value] : value),
+  )
+  @IsEnum(SearchFields, { each: true })
   fields?: SearchFields[] = [
     SearchFields.Name,
     SearchFields.ChineseName,
     SearchFields.Description,
   ];
 
+  @ApiProperty({ minimum: 0, maximum: 30 * 20, default: 0 })
+  @Min(0)
+  @Max(30 * 20)
   @Type(() => Number)
   from?: number = 0;
 
-  @ApiProperty({ minimum: 0, maximum: 30 })
-  @Min(0)
+  @ApiProperty({ minimum: 1, maximum: 30, default: 20 })
   @Max(30)
+  @IsPositive()
   @Type(() => Number)
   size?: number = 20;
 }
