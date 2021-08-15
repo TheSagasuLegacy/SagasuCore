@@ -12,4 +12,6 @@ export class CreateEpisodeDto {
   name_cn?: string;
 
   air_date?: Date;
+
+  user_id?: number;
 }

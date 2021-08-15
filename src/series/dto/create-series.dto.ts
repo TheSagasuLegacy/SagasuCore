@@ -8,4 +8,6 @@ export class CreateSeriesDto {
   air_date?: Date;
 
   bangumi_id?: number;
+
+  user_id?: number;
 }
