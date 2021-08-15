@@ -7,39 +7,16 @@ import {
   NotFoundException,
   Type as ClassType,
 } from '@nestjs/common';
-import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsPositive, Max } from 'class-validator';
-import {
-  IPaginationOptions,
-  paginate,
-  Pagination,
-} from 'nestjs-typeorm-paginate';
+import { plainToClass } from 'class-transformer';
+import { IPaginationMeta, paginate } from 'nestjs-typeorm-paginate';
 import { DeepPartial, EntityNotFoundError, Repository } from 'typeorm';
+import {
+  ICreateMany,
+  PaginationMeta,
+  PaginationOptionsDto,
+  TPaginate,
+} from './crud-base.models';
 import { storage } from './request-local.middleware';
-
-export interface UpdateChecker<T> {
-  (entity: T): Promise<boolean> | boolean;
-}
-
-export interface CreateManyDto<T = unknown> {
-  bulk: T[];
-}
-
-export class PaginationDto implements IPaginationOptions {
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  @ApiProperty({ type: Number, default: 30, maximum: 50, minimum: 0 })
-  @IsPositive()
-  @Max(50)
-  @Type(() => Number)
-  limit: number = 30;
-
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  @ApiProperty({ type: Number, default: 1, minimum: 1 })
-  @IsPositive()
-  @Type(() => Number)
-  page: number = 1;
-}
 
 @Injectable()
 export abstract class CrudBaseService<
@@ -57,8 +34,12 @@ export abstract class CrudBaseService<
     return this.repo.target as ClassType<Entity>;
   }
 
+  protected get currentRequest() {
+    return storage.getStore().request;
+  }
+
   protected get currentUser(): Express.User | undefined {
-    return storage.getStore().request.user;
+    return this.currentRequest.user;
   }
 
   protected assertPermission(value: boolean): void {
@@ -90,9 +71,16 @@ export abstract class CrudBaseService<
     user?: Express.User,
   ): Promise<boolean> | boolean;
 
-  public async getMany(options: PaginationDto): Promise<Pagination<Entity>> {
+  public async getMany(
+    options: PaginationOptionsDto,
+  ): Promise<TPaginate<Entity>> {
     this.assertPermission(await this.canRead(undefined, this.currentUser));
-    return await paginate<Entity>(this.repo, options);
+    return await paginate<Entity, PaginationMeta>(this.repo, {
+      ...options,
+      route: this.currentRequest.path,
+      metaTransformer: (meta) =>
+        plainToClass<PaginationMeta, IPaginationMeta>(PaginationMeta, meta),
+    });
   }
 
   public async getOne(primary: PrimaryType): Promise<Entity> {
@@ -115,7 +103,7 @@ export abstract class CrudBaseService<
   }
 
   public async createMany(
-    dto: CreateManyDto<CreateDto>,
+    dto: ICreateMany<CreateDto>,
     chunk = 50,
   ): Promise<Entity[]> {
     if (dto?.bulk?.length <= 0) {
