@@ -31,6 +31,6 @@ import { UsersService } from './users.service';
     LocalStrategy,
     JwtStrategy,
   ],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, CacheModule],
 })
 export class UsersModule {}
