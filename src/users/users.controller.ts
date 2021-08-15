@@ -22,7 +22,7 @@ import {
 } from 'src/crud-base.models';
 import {
   AccessControlGuard,
-  BypassJwtAuthGuard,
+  RequireUserLogin,
   UserAuthGuard,
   UserJwtAuthGuard,
 } from './auth/user-auth.guard';
@@ -85,13 +85,11 @@ export class UsersController {
     return this.service.deleteOne(name);
   }
 
-  @BypassJwtAuthGuard()
   @Post('/auth/register')
   async userRegister(@Body() user: CreateUserDto): Promise<User> {
     return this.service.userRegister(user);
   }
 
-  @BypassJwtAuthGuard()
   @UseGuards(UserAuthGuard)
   @Post('/auth/login')
   userLogin(
@@ -103,6 +101,7 @@ export class UsersController {
   }
 
   @ApiBearerAuth()
+  @RequireUserLogin()
   @UseGuards(UserJwtAuthGuard)
   @Get('/auth/profile')
   getProfile(@Request() req: Express.Request): User {
