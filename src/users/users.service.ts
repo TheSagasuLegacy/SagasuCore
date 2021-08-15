@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
 import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
 import { AppResources, AppRoles } from 'src/app.roles';
-import { CrudBaseService } from 'src/crud.service';
+import { CrudBaseService } from 'src/crud-base.service';
 import { Connection, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';

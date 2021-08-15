@@ -15,7 +15,11 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateManyDto, PaginationDto } from 'src/crud.service';
+import {
+  CreateMany,
+  PaginatedResult,
+  PaginationOptionsDto,
+} from 'src/crud-base.models';
 import {
   AccessControlGuard,
   BypassJwtAuthGuard,
@@ -30,6 +34,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
+class CreateManyUser extends CreateMany(CreateUserDto) {}
+
+class PaginateUserResult extends PaginatedResult(User) {}
+
 @ApiTags('users')
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -43,7 +51,7 @@ export class UsersController {
 
   @ApiBearerAuth()
   @Get('/')
-  getMany(@Query() options: PaginationDto) {
+  getMany(@Query() options: PaginationOptionsDto): Promise<PaginateUserResult> {
     return this.service.getMany(options);
   }
 
@@ -61,7 +69,7 @@ export class UsersController {
 
   @ApiBearerAuth()
   @Post('/bulk')
-  createMany(@Body() dto: CreateManyDto<CreateUserDto>) {
+  createMany(@Body() dto: CreateManyUser) {
     return this.service.createMany(dto);
   }
 
