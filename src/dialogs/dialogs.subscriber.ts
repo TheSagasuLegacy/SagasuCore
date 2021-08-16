@@ -41,23 +41,21 @@ export class DialogsSubscriber implements EntitySubscriberInterface<Dialogs> {
   }
 
   async afterUpdate(event: UpdateEvent<Dialogs>) {
+    const { id, content } = event.entity as Dialogs;
     const result = await this.index.insert({
-      id: event.entity.id,
-      content: event.entity.content,
+      id,
+      content,
     });
     this.logger.verbose(
-      `Elastic index for ${event.entity.id} updated, body=${JSON.stringify(
-        result.body,
-      )}.`,
+      `Elastic index for ${id} updated, body=${JSON.stringify(result.body)}.`,
     );
   }
 
   async afterRemove(event: RemoveEvent<Dialogs>) {
-    const result = await this.index.delete(event.entity.id);
+    const { id } = event.entity as Dialogs;
+    const result = await this.index.delete(id);
     this.logger.verbose(
-      `Elastic index for ${event.entity.id} removed, body=${JSON.stringify(
-        result.body,
-      )}.`,
+      `Elastic index for ${id} removed, body=${JSON.stringify(result.body)}.`,
     );
   }
 }

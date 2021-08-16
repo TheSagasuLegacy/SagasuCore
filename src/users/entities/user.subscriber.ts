@@ -26,7 +26,7 @@ export class UserSubscriber implements EntitySubscriberInterface<User> {
 
   async beforeUpdate(event: UpdateEvent<User>) {
     if (
-      typeof event.entity.password === 'string' &&
+      typeof event.entity?.password === 'string' &&
       !!event.entity.password.trim() &&
       event.entity.password !== event.databaseEntity.password
     ) {

@@ -19,9 +19,9 @@ async function bootstrap() {
   app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
 
   const config = new DocumentBuilder()
-    .setTitle(process.env.npm_package_name)
-    .setDescription(process.env.npm_package_description)
-    .setVersion(process.env.npm_package_version)
+    .setTitle(process.env.npm_package_name!)
+    .setDescription(process.env.npm_package_description!)
+    .setVersion(process.env.npm_package_version!)
     .addBearerAuth({ type: 'http', bearerFormat: 'JWT' })
     .build();
   const document = SwaggerModule.createDocument(app, config);

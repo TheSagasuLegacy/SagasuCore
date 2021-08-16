@@ -41,25 +41,23 @@ export class SeriesSubscriber implements EntitySubscriberInterface<Series> {
   }
 
   async afterUpdate(event: UpdateEvent<Series>) {
+    const { id, name, name_cn, description } = event.entity as Series;
     const result = await this.elasticIndex.insert({
-      id: event.entity.id,
-      name: event.entity.name,
-      name_cn: event.entity.name_cn,
-      description: event.entity.description,
+      id,
+      name,
+      name_cn,
+      description,
     });
     this.logger.verbose(
-      `Elastic index for ${event.entity.id} updated, body=${JSON.stringify(
-        result.body,
-      )}.`,
+      `Elastic index for ${id} updated, body=${JSON.stringify(result.body)}.`,
     );
   }
 
   async afterRemove(event: RemoveEvent<Series>) {
-    const result = await this.elasticIndex.delete(event.entity.id);
+    const { id } = event.entity as Series;
+    const result = await this.elasticIndex.delete(id);
     this.logger.verbose(
-      `Elastic index for ${event.entity.id} removed, body=${JSON.stringify(
-        result.body,
-      )}.`,
+      `Elastic index for ${id} removed, body=${JSON.stringify(result.body)}.`,
     );
   }
 }

@@ -8,7 +8,6 @@ import {
   Patch,
   Post,
   Query,
-  Request,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -26,7 +25,7 @@ import {
   UserAuthGuard,
   UserJwtAuthGuard,
 } from './auth/user-auth.guard';
-import { UserAuthService } from './auth/user-auth.service';
+import { CurrentUser, UserAuthService } from './auth/user-auth.service';
 import { AccessTokenDto } from './dto/access-token.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -93,18 +92,18 @@ export class UsersController {
   @UseGuards(UserAuthGuard)
   @Post('/auth/login')
   userLogin(
-    @Request() req: Express.Request,
+    @CurrentUser() user: User,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Body() body: LoginUserDto,
   ): AccessTokenDto {
-    return this.auth.certificateUser(req.user);
+    return this.auth.certificateUser(user);
   }
 
   @ApiBearerAuth()
   @RequireUserLogin()
   @UseGuards(UserJwtAuthGuard)
   @Get('/auth/profile')
-  getProfile(@Request() req: Express.Request): User {
-    return req.user;
+  getProfile(@CurrentUser() user: Express.User): Promise<User> {
+    return this.service.getOne(user.name);
   }
 }

@@ -15,8 +15,6 @@ export class CreateUserDto {
   @Matches(USER_PASS_REGEX)
   password: string;
 
-  allow_login: boolean;
-
   nick?: string;
 
   bio?: string;

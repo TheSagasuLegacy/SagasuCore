@@ -36,7 +36,11 @@ export abstract class CrudBaseService<
   }
 
   protected request() {
-    return storage.getStore()?.request;
+    const request = storage.getStore()?.request;
+    if (!request) {
+      throw new Error('request is not available');
+    }
+    return request;
   }
 
   protected async assert(result: boolean | Promise<boolean>): Promise<void> {
@@ -49,32 +53,32 @@ export abstract class CrudBaseService<
 
   abstract canCreate(data: {
     dto: CreateDto;
-    user?: Express.User;
+    user: Express.User;
   }): Promise<boolean> | boolean;
 
   abstract canRead(data: {
     primary?: PrimaryType;
     entity?: Entity;
-    user?: Express.User;
+    user: Express.User;
   }): Promise<boolean> | boolean;
 
   abstract canUpdate(data: {
     dto: UpdateDto;
     entity: Entity;
-    user?: Express.User;
+    user: Express.User;
   }): Promise<boolean> | boolean;
 
   abstract canDelete(data: {
     primary: PrimaryType;
     entity: Entity;
-    user?: Express.User;
+    user: Express.User;
   }): Promise<boolean> | boolean;
 
   public async getMany(
     options: PaginationOptionsDto,
   ): Promise<TPaginate<Entity>> {
     const { user, path } = this.request();
-    await this.assert(this.canRead({ user }));
+    await this.assert(this.canRead({ user: user! }));
     return await paginate<Entity, PaginationMeta>(this.repo, {
       ...options,
       route: path,
@@ -86,7 +90,7 @@ export abstract class CrudBaseService<
   public async getOne(primary: PrimaryType): Promise<Entity> {
     const entity = await this.repo.findOne({ [this.primary]: primary });
     await this.assert(
-      this.canRead({ primary, entity, user: this.request().user }),
+      this.canRead({ primary, entity, user: this.request().user! }),
     );
     if (!entity)
       throw new NotFoundException(
@@ -96,7 +100,7 @@ export abstract class CrudBaseService<
   }
 
   public async createOne(dto: CreateDto): Promise<Entity> {
-    await this.assert(this.canCreate({ dto, user: this.request().user }));
+    await this.assert(this.canCreate({ dto, user: this.request().user! }));
     const entity = this.repo.merge(new this.entityType(), dto);
     return await this.repo.save<any>(entity);
   }
@@ -111,7 +115,7 @@ export abstract class CrudBaseService<
     const entities = await Promise.all(
       dto.bulk.map(async (d) => {
         await this.assert(
-          this.canCreate({ dto: d, user: this.request().user }),
+          this.canCreate({ dto: d, user: this.request().user! }),
         );
         return this.repo.merge(new this.entityType(), d);
       }),
@@ -125,7 +129,7 @@ export abstract class CrudBaseService<
   ): Promise<Entity> {
     const found = await this.getOne(primary);
     await this.assert(
-      this.canUpdate({ dto, entity: found, user: this.request().user }),
+      this.canUpdate({ dto, entity: found, user: this.request().user! }),
     );
     const entity = this.repo.merge(found, dto);
     return await this.repo.save<any>(entity);
@@ -137,7 +141,7 @@ export abstract class CrudBaseService<
   ): Promise<void> {
     const entity = await this.getOne(primary);
     await this.assert(
-      this.canDelete({ primary, entity, user: this.request().user }),
+      this.canDelete({ primary, entity, user: this.request().user! }),
     );
     if (softDelete === true) {
       await this.repo.softDelete(entity);

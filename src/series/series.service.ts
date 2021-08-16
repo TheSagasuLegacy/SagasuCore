@@ -22,44 +22,39 @@ export class SeriesService extends CrudBaseService<
     super(repo, 'id');
   }
 
-  canCreate(dto: CreateSeriesDto, user?: Express.User) {
+  canCreate(data: { dto: CreateSeriesDto; user: Express.User }) {
+    const { dto, user } = data;
     return dto.user_id === user.id
-      ? this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .createOwn(AppResources.SERIES).granted
-      : this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .createOwn(AppResources.SERIES).granted;
+      ? this.rolesBuilder.can(user.roles).createOwn(AppResources.SERIES).granted
+      : this.rolesBuilder.can(user.roles).createOwn(AppResources.SERIES)
+          .granted;
   }
 
-  async canRead(id?: number, user?: Express.User) {
-    return (await this.isOwnBy(id, user))
-      ? this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .readOwn(AppResources.SERIES).granted
-      : this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .readAny(AppResources.SERIES).granted;
+  canRead(data: { entity?: Series; user: Express.User }) {
+    const { entity, user } = data;
+    return entity?.user_id === user.id
+      ? this.rolesBuilder.can(user.roles).readOwn(AppResources.SERIES).granted
+      : this.rolesBuilder.can(user.roles).readAny(AppResources.SERIES).granted;
   }
 
-  canUpdate(dto: UpdateSeriesDto, entity: Series, user?: Express.User) {
+  canUpdate(data: {
+    dto: UpdateSeriesDto;
+    entity: Series;
+    user: Express.User;
+  }) {
+    const { entity, user } = data;
     return entity.user_id === user.id
-      ? this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .updateOwn(AppResources.SERIES).granted
-      : this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .updateAny(AppResources.SERIES).granted;
+      ? this.rolesBuilder.can(user.roles).updateOwn(AppResources.SERIES).granted
+      : this.rolesBuilder.can(user.roles).updateAny(AppResources.SERIES)
+          .granted;
   }
 
-  async canDelete(id: number, user?: Express.User) {
-    return (await this.isOwnBy(id, user))
-      ? this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .deleteOwn(AppResources.SERIES).granted
-      : this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .deleteAny(AppResources.SERIES).granted;
+  canDelete(data: { primary: number; entity: Series; user: Express.User }) {
+    const { entity, user } = data;
+    return entity.user_id === user.id
+      ? this.rolesBuilder.can(user.roles).deleteOwn(AppResources.SERIES).granted
+      : this.rolesBuilder.can(user.roles).deleteAny(AppResources.SERIES)
+          .granted;
   }
 
   async getByBgmId(bgmId: number): Promise<Series> {
@@ -71,11 +66,5 @@ export class SeriesService extends CrudBaseService<
       throw new NotFoundException(null, 'Not found series by bangumi_id');
     }
     return result;
-  }
-
-  protected async isOwnBy(id: number, user: Express.User) {
-    return await this.repo
-      .findOne(id)
-      .then((entity) => entity?.user_id === user.id);
   }
 }

@@ -24,44 +24,32 @@ export class UsersService extends CrudBaseService<
     super(repo, 'name');
   }
 
-  canCreate(dto: CreateUserDto, user?: Express.User) {
+  canCreate(data: { dto: CreateUserDto; user: Express.User }) {
+    const { dto, user } = data;
     return dto.name === user.name
-      ? this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .createOwn(AppResources.USER).granted
-      : this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .createAny(AppResources.USER).granted;
+      ? this.rolesBuilder.can(user.roles).createOwn(AppResources.USER).granted
+      : this.rolesBuilder.can(user.roles).createAny(AppResources.USER).granted;
   }
 
-  canRead(name?: string, user?: Express.User) {
-    return !!name && name === user.name
-      ? this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .readOwn(AppResources.USER).granted
-      : this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .readAny(AppResources.USER).granted;
+  canRead(data: { primary?: string; user: Express.User }) {
+    const { primary, user } = data;
+    return !!primary && primary === user.name
+      ? this.rolesBuilder.can(user.roles).readOwn(AppResources.USER).granted
+      : this.rolesBuilder.can(user.roles).readAny(AppResources.USER).granted;
   }
 
-  canUpdate(dto: UpdateUserDto, entity: User, user?: Express.User) {
+  canUpdate(data: { dto: UpdateUserDto; entity: User; user: Express.User }) {
+    const { entity, user } = data;
     return entity.id === user.id
-      ? this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .updateOwn(AppResources.USER).granted
-      : this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .updateAny(AppResources.USER).granted;
+      ? this.rolesBuilder.can(user.roles).updateOwn(AppResources.USER).granted
+      : this.rolesBuilder.can(user.roles).updateAny(AppResources.USER).granted;
   }
 
-  canDelete(name: string, user?: Express.User) {
-    return name === user.name
-      ? this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .readOwn(AppResources.USER).granted
-      : this.rolesBuilder
-          .can(user.roles.map((r) => r.role))
-          .readAny(AppResources.USER).granted;
+  canDelete(data: { primary: string; user: Express.User }) {
+    const { primary, user } = data;
+    return primary === user.name
+      ? this.rolesBuilder.can(user.roles).readOwn(AppResources.USER).granted
+      : this.rolesBuilder.can(user.roles).readAny(AppResources.USER).granted;
   }
 
   async userRegister(user: CreateUserDto) {
@@ -75,6 +63,6 @@ export class UsersService extends CrudBaseService<
       await manager.save(roleEntity);
       return userEntity;
     });
-    return this.repo.findOne(id);
+    return this.repo.findOneOrFail(id);
   }
 }

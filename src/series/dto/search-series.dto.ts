@@ -39,21 +39,23 @@ export class SeriesSearchQuery {
     Array.from(typeof value === 'string' ? [value] : value),
   )
   @IsEnum(SearchFields, { each: true })
-  fields?: SearchFields[] = [
+  fields: SearchFields[] = [
     SearchFields.Name,
     SearchFields.ChineseName,
     SearchFields.Description,
   ];
 
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   @ApiProperty({ minimum: 0, maximum: 30 * 20, default: 0 })
   @Min(0)
   @Max(30 * 20)
   @Type(() => Number)
-  from?: number = 0;
+  from: number = 0;
 
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   @ApiProperty({ minimum: 1, maximum: 30, default: 20 })
   @Max(30)
   @IsPositive()
   @Type(() => Number)
-  size?: number = 20;
+  size: number = 20;
 }

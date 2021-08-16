@@ -39,7 +39,7 @@ export class AccessControlGuard extends ACGuard<Express.User> {
 
   async getUserRoles(context: ExecutionContext) {
     const user = await this.getUser(context);
-    return !!user ? user.roles.map((role) => role.role) : [AppRoles.GUEST];
+    return !!user ? user.roles : [AppRoles.GUEST];
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
