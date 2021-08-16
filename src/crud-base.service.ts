@@ -8,8 +8,9 @@ import {
   Type as ClassType,
 } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
+import { isArray } from 'class-validator';
 import { IPaginationMeta, paginate } from 'nestjs-typeorm-paginate';
-import { DeepPartial, EntityNotFoundError, Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import {
   ICreateMany,
   PaginationMeta,
@@ -34,70 +35,68 @@ export abstract class CrudBaseService<
     return this.repo.target as ClassType<Entity>;
   }
 
-  protected get currentRequest() {
-    return storage.getStore().request;
+  protected request() {
+    return storage.getStore()?.request;
   }
 
-  protected get currentUser(): Express.User | undefined {
-    return this.currentRequest.user;
-  }
-
-  protected assertPermission(value: boolean): void {
-    if (!value) {
+  protected async assert(result: boolean | Promise<boolean>): Promise<void> {
+    const value = await result;
+    if (!value)
       throw new ForbiddenException(
         `Permission denied to operate entity '${this.entityType.name}'`,
       );
-    }
   }
 
-  abstract canCreate(
-    dto: CreateDto,
-    user?: Express.User,
-  ): Promise<boolean> | boolean;
+  abstract canCreate(data: {
+    dto: CreateDto;
+    user?: Express.User;
+  }): Promise<boolean> | boolean;
 
-  abstract canRead(
-    primary?: PrimaryType,
-    user?: Express.User,
-  ): Promise<boolean> | boolean;
+  abstract canRead(data: {
+    primary?: PrimaryType;
+    entity?: Entity;
+    user?: Express.User;
+  }): Promise<boolean> | boolean;
 
-  abstract canUpdate(
-    dto: UpdateDto,
-    entity: Entity,
-    user?: Express.User,
-  ): Promise<boolean> | boolean;
+  abstract canUpdate(data: {
+    dto: UpdateDto;
+    entity: Entity;
+    user?: Express.User;
+  }): Promise<boolean> | boolean;
 
-  abstract canDelete(
-    primary: PrimaryType,
-    user?: Express.User,
-  ): Promise<boolean> | boolean;
+  abstract canDelete(data: {
+    primary: PrimaryType;
+    entity: Entity;
+    user?: Express.User;
+  }): Promise<boolean> | boolean;
 
   public async getMany(
     options: PaginationOptionsDto,
   ): Promise<TPaginate<Entity>> {
-    this.assertPermission(await this.canRead(undefined, this.currentUser));
+    const { user, path } = this.request();
+    await this.assert(this.canRead({ user }));
     return await paginate<Entity, PaginationMeta>(this.repo, {
       ...options,
-      route: this.currentRequest.path,
+      route: path,
       metaTransformer: (meta) =>
         plainToClass<PaginationMeta, IPaginationMeta>(PaginationMeta, meta),
     });
   }
 
   public async getOne(primary: PrimaryType): Promise<Entity> {
-    this.assertPermission(await this.canRead(primary, this.currentUser));
-    try {
-      return await this.repo.findOneOrFail({ [this.primary]: primary });
-    } catch (err) {
-      throw err instanceof EntityNotFoundError
-        ? new NotFoundException(
-            `condition ${this.primary}=${primary} not found`,
-          )
-        : err;
-    }
+    const entity = await this.repo.findOne({ [this.primary]: primary });
+    await this.assert(
+      this.canRead({ primary, entity, user: this.request().user }),
+    );
+    if (!entity)
+      throw new NotFoundException(
+        `condition ${this.primary}=${primary} not found`,
+      );
+    return entity;
   }
 
   public async createOne(dto: CreateDto): Promise<Entity> {
-    this.assertPermission(await this.canCreate(dto, this.currentUser));
+    await this.assert(this.canCreate({ dto, user: this.request().user }));
     const entity = this.repo.merge(new this.entityType(), dto);
     return await this.repo.save<any>(entity);
   }
@@ -106,13 +105,15 @@ export abstract class CrudBaseService<
     dto: ICreateMany<CreateDto>,
     chunk = 50,
   ): Promise<Entity[]> {
-    if (dto?.bulk?.length <= 0) {
+    if (isArray(dto?.bulk) || dto.bulk.length <= 0) {
       throw new BadRequestException(`Empty bulk data`);
     }
     const entities = await Promise.all(
-      dto.bulk.map(async (entity) => {
-        this.assertPermission(await this.canCreate(entity, this.currentUser));
-        return this.repo.merge(new this.entityType(), entity);
+      dto.bulk.map(async (d) => {
+        await this.assert(
+          this.canCreate({ dto: d, user: this.request().user }),
+        );
+        return this.repo.merge(new this.entityType(), d);
       }),
     );
     return await this.repo.save<any>(entities, { chunk });
@@ -123,7 +124,9 @@ export abstract class CrudBaseService<
     dto: UpdateDto,
   ): Promise<Entity> {
     const found = await this.getOne(primary);
-    this.assertPermission(await this.canUpdate(dto, found, this.currentUser));
+    await this.assert(
+      this.canUpdate({ dto, entity: found, user: this.request().user }),
+    );
     const entity = this.repo.merge(found, dto);
     return await this.repo.save<any>(entity);
   }
@@ -132,13 +135,14 @@ export abstract class CrudBaseService<
     primary: PrimaryType,
     softDelete = false,
   ): Promise<void> {
-    this.assertPermission(await this.canDelete(primary, this.currentUser));
-
-    const found = await this.getOne(primary);
+    const entity = await this.getOne(primary);
+    await this.assert(
+      this.canDelete({ primary, entity, user: this.request().user }),
+    );
     if (softDelete === true) {
-      await this.repo.softDelete(found);
+      await this.repo.softDelete(entity);
     } else {
-      await this.repo.delete(found);
+      await this.repo.delete(entity);
     }
   }
 }
