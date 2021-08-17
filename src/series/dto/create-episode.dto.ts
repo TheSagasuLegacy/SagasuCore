@@ -1,7 +1,8 @@
-import { EpisodeType } from '../entities/episodes.entity';
+import { DeepPartial } from 'typeorm';
+import { Episodes, EpisodeType } from '../entities/episodes.entity';
 
-export class CreateEpisodeDto {
-  series: number;
+export class CreateEpisodeDto implements DeepPartial<Episodes> {
+  series_id: number;
 
   name: string;
 
