@@ -12,14 +12,15 @@ import { User as UserEntity } from '../entities/user.entity';
 
 export class RequestUser implements Partial<Omit<UserEntity, 'roles'>> {
   static from(user?: UserEntity): RequestUser {
-    if (user) {
-      return plainToClass(RequestUser, {
-        ...user,
-        roles: user.roles.map((r) => r.role),
-      });
-    } else {
-      return new RequestUser();
-    }
+    return plainToClass(
+      RequestUser,
+      user
+        ? {
+            ...user,
+            roles: user.roles.map((r) => r.role),
+          }
+        : {},
+    );
   }
 
   id: number = 0;
@@ -46,11 +47,11 @@ declare global {
 }
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     @InjectRepository(UserEntity) private readonly repo: Repository<UserEntity>,
     @Inject(CACHE_MANAGER) private readonly cache: Cache,
-    private readonly config: ConfigService,
+    config: ConfigService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
