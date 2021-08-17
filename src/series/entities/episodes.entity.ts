@@ -27,12 +27,16 @@ export class Episodes {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  series_id: number;
+
   @ManyToOne(() => Series, (series) => series.episodes, {
     nullable: false,
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
+  @JoinColumn({ name: 'series_id' })
   series: Series;
 
   @Column({ default: null })
