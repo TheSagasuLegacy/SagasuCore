@@ -1,23 +1,83 @@
-import { Controller } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { Crud, CrudController } from '@nestjsx/crud';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AppRoles } from 'src/app.roles';
+import {
+  CreateMany,
+  PaginatedResult,
+  PaginationOptionsDto,
+} from 'src/crud-base.models';
+import {
+  AccessControlGuard,
+  HasRoles,
+  UserJwtAuthGuard,
+} from 'src/users/auth/user-auth.guard';
 import { CreateEpisodeDto } from './dto/create-episode.dto';
 import { UpdateEpisodeDto } from './dto/update-episode.dto';
 import { Episodes } from './entities/episodes.entity';
 import { EpisodesService } from './episodes.service';
 
-@Crud({
-  model: { type: Episodes },
-  dto: { create: CreateEpisodeDto, update: UpdateEpisodeDto },
-  routes: { exclude: ['replaceOneBase'] },
-  query: {
-    alwaysPaginate: true,
-    join: { series: { eager: true } },
-    maxLimit: 50,
-  },
-})
+class CreateManyEpisodes extends CreateMany(CreateEpisodeDto) {}
+
+class PaginateEpisodesResult extends PaginatedResult(Episodes) {}
+
 @ApiTags('episodes')
 @Controller('episodes')
-export class EpisodesController implements CrudController<Episodes> {
+@UseInterceptors(ClassSerializerInterceptor)
+@UseGuards(UserJwtAuthGuard, AccessControlGuard)
+@UsePipes(new ValidationPipe({ transform: true }))
+export class EpisodesController {
   constructor(public service: EpisodesService) {}
+
+  @ApiBearerAuth()
+  @HasRoles(AppRoles.READ_MULTIPLE_EPISODE)
+  @Get('/')
+  getMany(
+    @Query() options: PaginationOptionsDto,
+  ): Promise<PaginateEpisodesResult> {
+    return this.service.getMany(options);
+  }
+
+  @ApiBearerAuth()
+  @Get('/:id')
+  getOne(@Param('id') id: number) {
+    return this.service.getOne(id);
+  }
+
+  @ApiBearerAuth()
+  @Post('/')
+  createOne(@Body() dto: CreateEpisodeDto) {
+    return this.service.createOne(dto);
+  }
+
+  @ApiBearerAuth()
+  @Post('/bulk')
+  createMany(@Body() dto: CreateManyEpisodes) {
+    return this.service.createMany(dto);
+  }
+
+  @ApiBearerAuth()
+  @Patch('/:id')
+  updateOne(@Param('id') id: number, @Body() dto: UpdateEpisodeDto) {
+    return this.service.updateOne(id, dto);
+  }
+
+  @ApiBearerAuth()
+  @Delete('/:id')
+  deleteOne(@Param('id') id: number) {
+    return this.service.deleteOne(id);
+  }
 }
