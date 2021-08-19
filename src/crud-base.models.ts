@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { METADATA_FACTORY_NAME } from '@nestjs/swagger/dist/plugin/plugin-constants';
 import { BUILT_IN_TYPES } from '@nestjs/swagger/dist/services/constants';
 import { Type } from 'class-transformer';
-import { IsEnum, IsPositive, Max } from 'class-validator';
+import { IsEnum, IsOptional, IsPositive, Max } from 'class-validator';
 import { Request } from 'express';
 import {
   IPaginationLinks,
@@ -12,7 +12,7 @@ import {
   Pagination,
 } from 'nestjs-typeorm-paginate';
 
-export const AVAILABLE_PROPERTY_TYPES = new Set(BUILT_IN_TYPES);
+export const AVAILABLE_PROPERTY_TYPES = new Set([...BUILT_IN_TYPES, Date]);
 
 export type TPaginate<T> = Pagination<T, PaginationMeta>;
 
@@ -109,34 +109,28 @@ export function PaginationOptions<Entity>(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .map(([key, value]) => key);
 
-  console.log(ModelProperties);
-
   class PaginationOptions implements IPaginationOptions<Entity> {
     // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-    @ApiProperty({
-      type: Number,
-      default: 30,
-      maximum: 50,
-      minimum: 0,
-      required: false,
-    })
+    @ApiProperty({ type: Number, default: 30, maximum: 50, minimum: 0 })
     @IsPositive()
     @Max(50)
     @Type(() => Number)
     limit: number = 30;
 
     // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-    @ApiProperty({ type: Number, default: 1, minimum: 1, required: false })
+    @ApiProperty({ type: Number, default: 1, minimum: 1 })
     @IsPositive()
     @Type(() => Number)
     page: number = 1;
 
     @ApiProperty({ type: 'enum', enum: ModelProperties, required: false })
+    @IsOptional()
     @IsEnum(ModelProperties)
     @Type(() => String)
     sort_key?: keyof Entity;
 
     @ApiProperty({ type: 'enum', enum: PaginationOrder, required: false })
+    @IsOptional()
     @IsEnum(PaginationOrder)
     @Type(() => String)
     sort_order?: PaginationOrder;
