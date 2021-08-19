@@ -1,23 +1,39 @@
 import { Type as ClassType } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
+import { METADATA_FACTORY_NAME } from '@nestjs/swagger/dist/plugin/plugin-constants';
+import { BUILT_IN_TYPES } from '@nestjs/swagger/dist/services/constants';
 import { Type } from 'class-transformer';
-import { IsPositive, Max } from 'class-validator';
+import { IsEnum, IsPositive, Max } from 'class-validator';
+import { Request } from 'express';
 import {
   IPaginationLinks,
   IPaginationMeta,
-  IPaginationOptions,
+  IPaginationOptions as IPaginationOptionsBase,
   Pagination,
 } from 'nestjs-typeorm-paginate';
 
-export interface UpdateChecker<T> {
-  (entity: T): Promise<boolean> | boolean;
+export const AVAILABLE_PROPERTY_TYPES = new Set(BUILT_IN_TYPES);
+
+export type TPaginate<T> = Pagination<T, PaginationMeta>;
+
+export enum PaginationOrder {
+  ASC = 'ASC',
+  DESC = 'DESC',
+}
+
+export interface IUserRequest extends Request {
+  user: Express.User;
 }
 
 export interface ICreateMany<T = unknown> {
   bulk: T[];
 }
 
-export type TPaginate<T> = Pagination<T, PaginationMeta>;
+export interface IPaginationOptions<Entity = unknown>
+  extends IPaginationOptionsBase<PaginationMeta> {
+  sort_key?: keyof Entity;
+  sort_order?: PaginationOrder;
+}
 
 export class PaginationMeta implements IPaginationMeta {
   @ApiProperty({ type: Number })
@@ -50,22 +66,22 @@ export class PaginationLinks implements IPaginationLinks {
   last: string;
 }
 
-export function CreateMany<Model>(
-  model: ClassType<Model>,
-): ClassType<ICreateMany<Model>> {
-  class CreateMany implements ICreateMany<Model> {
+export function CreateMany<Entity>(
+  model: ClassType<Entity>,
+): ClassType<ICreateMany<Entity>> {
+  class CreateMany implements ICreateMany<Entity> {
     @ApiProperty({ type: model })
-    bulk: Model[];
+    bulk: Entity[];
   }
   return CreateMany;
 }
 
-export function PaginatedResult<Model>(
-  model: ClassType<Model>,
-): ClassType<TPaginate<Model>> {
-  class PaginatedResult extends Pagination<Model, PaginationMeta> {
+export function PaginatedResult<Entity>(
+  model: ClassType<Entity>,
+): ClassType<TPaginate<Entity>> {
+  class PaginatedResult extends Pagination<Entity, PaginationMeta> {
     @ApiProperty({ type: model })
-    items: Model[];
+    items: Entity[];
 
     @ApiProperty({ type: PaginationMeta })
     meta: PaginationMeta;
@@ -76,19 +92,55 @@ export function PaginatedResult<Model>(
   return PaginatedResult;
 }
 
-export class PaginationOptionsDto
-  implements IPaginationOptions<PaginationMeta>
-{
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  @ApiProperty({ type: Number, default: 30, maximum: 50, minimum: 0 })
-  @IsPositive()
-  @Max(50)
-  @Type(() => Number)
-  limit: number = 30;
+export function PaginationOptions<Entity>(
+  model: ClassType<Entity>,
+): ClassType<IPaginationOptions<Entity>> {
+  const ModelProperties = Object.entries(
+    (
+      model[METADATA_FACTORY_NAME] as () => {
+        [key: string]: { required: boolean; type: () => ObjectConstructor };
+      }
+    )(),
+  )
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .filter(([key, value]) =>
+      AVAILABLE_PROPERTY_TYPES.has(value.type?.call(undefined)),
+    )
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .map(([key, value]) => key);
 
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  @ApiProperty({ type: Number, default: 1, minimum: 1 })
-  @IsPositive()
-  @Type(() => Number)
-  page: number = 1;
+  console.log(ModelProperties);
+
+  class PaginationOptions implements IPaginationOptions<Entity> {
+    // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+    @ApiProperty({
+      type: Number,
+      default: 30,
+      maximum: 50,
+      minimum: 0,
+      required: false,
+    })
+    @IsPositive()
+    @Max(50)
+    @Type(() => Number)
+    limit: number = 30;
+
+    // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+    @ApiProperty({ type: Number, default: 1, minimum: 1, required: false })
+    @IsPositive()
+    @Type(() => Number)
+    page: number = 1;
+
+    @ApiProperty({ type: 'enum', enum: ModelProperties, required: false })
+    @IsEnum(ModelProperties)
+    @Type(() => String)
+    sort_key?: keyof Entity;
+
+    @ApiProperty({ type: 'enum', enum: PaginationOrder, required: false })
+    @IsEnum(PaginationOrder)
+    @Type(() => String)
+    sort_order?: PaginationOrder;
+  }
+
+  return PaginationOptions;
 }
