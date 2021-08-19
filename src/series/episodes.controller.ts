@@ -18,7 +18,7 @@ import { AppRoles } from 'src/app.roles';
 import {
   CreateMany,
   PaginatedResult,
-  PaginationOptionsDto,
+  PaginationOptions,
 } from 'src/crud-base.models';
 import {
   AccessControlGuard,
@@ -34,6 +34,8 @@ class CreateManyEpisodes extends CreateMany(CreateEpisodeDto) {}
 
 class PaginateEpisodesResult extends PaginatedResult(Episodes) {}
 
+class PaginateEpisodesOptions extends PaginationOptions(Episodes) {}
+
 @ApiTags('episodes')
 @Controller('episodes')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -46,7 +48,7 @@ export class EpisodesController {
   @HasRoles(AppRoles.READ_MULTIPLE_EPISODE)
   @Get('/')
   getMany(
-    @Query() options: PaginationOptionsDto,
+    @Query() options: PaginateEpisodesOptions,
   ): Promise<PaginateEpisodesResult> {
     return this.service.getMany(options);
   }

@@ -17,7 +17,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   CreateMany,
   PaginatedResult,
-  PaginationOptionsDto,
+  PaginationOptions,
 } from 'src/crud-base.models';
 import {
   AccessControlGuard,
@@ -37,6 +37,8 @@ class CreateManyUser extends CreateMany(CreateUserDto) {}
 
 class PaginateUserResult extends PaginatedResult(User) {}
 
+class PaginateUserOptions extends PaginationOptions(User) {}
+
 @ApiTags('users')
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -50,7 +52,7 @@ export class UsersController {
 
   @ApiBearerAuth()
   @Get('/')
-  getMany(@Query() options: PaginationOptionsDto): Promise<PaginateUserResult> {
+  getMany(@Query() options: PaginateUserOptions): Promise<PaginateUserResult> {
     return this.service.getMany(options);
   }
 
