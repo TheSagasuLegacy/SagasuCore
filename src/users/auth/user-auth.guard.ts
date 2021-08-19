@@ -20,14 +20,25 @@ export class UserJwtAuthGuard extends AuthGuard('jwt') {
     super();
   }
 
-  canActivate(context: ExecutionContext) {
+  handleRequest(
+    err: Error | null,
+    user: Express.User | null,
+    info: Error | null,
+    context: ExecutionContext,
+    status?: unknown,
+  ) {
     const requireLogin = this.reflector.getAllAndOverride<boolean>(
       'require-login',
       [context.getHandler(), context.getClass()],
     );
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    context.switchToHttp().getRequest().user = RequestUser.from();
-    return !requireLogin || super.canActivate(context);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return super.handleRequest(
+      err,
+      user ? user : requireLogin ? false : RequestUser.from(),
+      info,
+      context,
+      status,
+    );
   }
 }
 

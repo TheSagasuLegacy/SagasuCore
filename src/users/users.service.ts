@@ -31,9 +31,9 @@ export class UsersService extends CrudBaseService<
       : this.rolesBuilder.can(user.roles).createAny(AppResources.USER).granted;
   }
 
-  canRead(data: { primary?: string; user: Express.User }) {
-    const { primary, user } = data;
-    return !!primary && primary === user.name
+  canRead(data: { primary?: string; entity?: User; user: Express.User }) {
+    const { entity, user } = data;
+    return entity?.id === user.id
       ? this.rolesBuilder.can(user.roles).readOwn(AppResources.USER).granted
       : this.rolesBuilder.can(user.roles).readAny(AppResources.USER).granted;
   }
@@ -45,9 +45,9 @@ export class UsersService extends CrudBaseService<
       : this.rolesBuilder.can(user.roles).updateAny(AppResources.USER).granted;
   }
 
-  canDelete(data: { primary: string; user: Express.User }) {
-    const { primary, user } = data;
-    return primary === user.name
+  canDelete(data: { primary: string; entity: User; user: Express.User }) {
+    const { entity, user } = data;
+    return entity.id === user.id
       ? this.rolesBuilder.can(user.roles).readOwn(AppResources.USER).granted
       : this.rolesBuilder.can(user.roles).readAny(AppResources.USER).granted;
   }
