@@ -23,14 +23,16 @@ import { storage } from './request-local.middleware';
 
 @Injectable()
 export abstract class CrudBaseService<
-  Entity,
+  Entity extends { id: any },
   PrimaryType = unknown,
   CreateDto extends DeepPartial<Entity> = Entity,
   UpdateDto extends DeepPartial<Entity> = Entity,
 > {
+  constructor(repo: Repository<Entity>);
+  constructor(repo: Repository<Entity>, primary: keyof Entity);
   constructor(
     protected repo: Repository<Entity>,
-    protected primary: string = 'id',
+    protected primary: keyof Entity = 'id',
   ) {}
 
   protected get entityType(): ClassType<Entity> {
