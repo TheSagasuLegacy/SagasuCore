@@ -1,7 +1,9 @@
+import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
   Index,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -24,13 +26,28 @@ export class Dialogs {
   @Column()
   end: number;
 
+  @Column()
+  file_id: string;
+
   @ManyToOne(() => SubtitleFile, (file) => file.dialogs, {
     nullable: false,
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
+  @JoinColumn({ name: 'file_id' })
   file: SubtitleFile;
+
+  @Column({ default: null })
+  user_id?: number;
+
+  @ManyToOne(() => User, {
+    cascade: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user_id' })
+  user?: User;
 
   @UpdateDateColumn()
   updated: Date;

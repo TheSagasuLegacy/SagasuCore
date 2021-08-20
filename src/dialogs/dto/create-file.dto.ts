@@ -5,13 +5,15 @@ import {
   registerDecorator,
   ValidationOptions,
 } from 'class-validator';
+import { DeepPartial } from 'typeorm';
 import * as isFilename from 'valid-filename';
+import { SubtitleFile } from '../entities/files.entity';
 
 export function IsFilename(validationOptions?: ValidationOptions) {
   // eslint-disable-next-line @typescript-eslint/ban-types
   return function (object: Object, propertyName: string) {
     registerDecorator({
-      name: 'isLongerThan',
+      name: 'isFilename',
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
@@ -24,7 +26,7 @@ export function IsFilename(validationOptions?: ValidationOptions) {
   };
 }
 
-export class CreateSubtitleFileDto {
+export class CreateSubtitleFileDto implements DeepPartial<SubtitleFile> {
   @ApiProperty({ minLength: 4, maxLength: 1024 })
   @IsFilename()
   @Length(4, 1024)
@@ -36,7 +38,9 @@ export class CreateSubtitleFileDto {
 
   remark?: string;
 
-  series: number;
+  series_id: number;
 
-  episode?: number;
+  episode_id?: number;
+
+  user_id: number;
 }
