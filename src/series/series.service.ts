@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
 import { AppResources } from 'src/app.roles';
 import { CrudBaseService } from 'src/crud-base.service';
 import { Repository } from 'typeorm';
@@ -15,10 +14,7 @@ export class SeriesService extends CrudBaseService<
   CreateSeriesDto,
   UpdateSeriesDto
 > {
-  constructor(
-    @InjectRepository(Series) repo: Repository<Series>,
-    @InjectRolesBuilder() private readonly rolesBuilder: RolesBuilder,
-  ) {
+  constructor(@InjectRepository(Series) repo: Repository<Series>) {
     super(repo, 'id');
   }
 

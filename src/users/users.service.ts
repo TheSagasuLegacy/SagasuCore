@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
-import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
+import { InjectRepository } from '@nestjs/typeorm';
 import { AppResources, AppRoles } from 'src/app.roles';
 import { CrudBaseService } from 'src/crud-base.service';
-import { Connection, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRoles } from './entities/user-roles.entity';
@@ -16,11 +15,7 @@ export class UsersService extends CrudBaseService<
   CreateUserDto,
   UpdateUserDto
 > {
-  constructor(
-    @InjectRepository(User) repo: Repository<User>,
-    @InjectConnection() private readonly connection: Connection,
-    @InjectRolesBuilder() private readonly rolesBuilder: RolesBuilder,
-  ) {
+  constructor(@InjectRepository(User) repo: Repository<User>) {
     super(repo, 'name');
   }
 
@@ -53,16 +48,18 @@ export class UsersService extends CrudBaseService<
   }
 
   async userRegister(user: CreateUserDto) {
-    const { id } = await this.connection.transaction(async (manager) => {
-      const userEntity = manager.merge(User, new User(), user);
-      await manager.save(userEntity);
-      const roleEntity = manager.merge(UserRoles, new UserRoles(), {
-        user: userEntity,
-        role: AppRoles.REGISTERED_USER,
-      } as UserRoles);
-      await manager.save(roleEntity);
-      return userEntity;
-    });
+    const { id } = await this.repo.manager.connection.transaction(
+      async (manager) => {
+        const userEntity = manager.merge(User, new User(), user);
+        await manager.save(userEntity);
+        const roleEntity = manager.merge(UserRoles, new UserRoles(), {
+          user: userEntity,
+          role: AppRoles.REGISTERED_USER,
+        } as UserRoles);
+        await manager.save(roleEntity);
+        return userEntity;
+      },
+    );
     return this.repo.findOneOrFail(id);
   }
 }

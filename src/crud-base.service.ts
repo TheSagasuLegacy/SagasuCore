@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { isArray } from 'class-validator';
+import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
 import { IPaginationMeta, paginate } from 'nestjs-typeorm-paginate';
 import { DeepPartial, Repository } from 'typeorm';
 import {
@@ -23,16 +24,17 @@ import { storage } from './request-local.middleware';
 
 @Injectable()
 export abstract class CrudBaseService<
-  Entity extends { id: any },
+  Entity,
   PrimaryType = unknown,
   CreateDto extends DeepPartial<Entity> = Entity,
   UpdateDto extends DeepPartial<Entity> = Entity,
 > {
-  constructor(repo: Repository<Entity>);
-  constructor(repo: Repository<Entity>, primary: keyof Entity);
+  @InjectRolesBuilder()
+  protected rolesBuilder: RolesBuilder;
+
   constructor(
     protected repo: Repository<Entity>,
-    protected primary: keyof Entity = 'id',
+    protected primary: keyof Entity,
   ) {}
 
   protected get entityType(): ClassType<Entity> {

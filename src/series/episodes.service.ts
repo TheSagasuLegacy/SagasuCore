@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
 import { AppResources } from 'src/app.roles';
 import { CrudBaseService } from 'src/crud-base.service';
 import { Repository } from 'typeorm';
@@ -15,10 +14,7 @@ export class EpisodesService extends CrudBaseService<
   CreateEpisodeDto,
   UpdateEpisodeDto
 > {
-  constructor(
-    @InjectRepository(Episodes) repo: Repository<Episodes>,
-    @InjectRolesBuilder() private readonly rolesBuilder: RolesBuilder,
-  ) {
+  constructor(@InjectRepository(Episodes) repo: Repository<Episodes>) {
     super(repo, 'id');
   }
 

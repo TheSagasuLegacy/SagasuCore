@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
 import { AppResources } from 'src/app.roles';
 import { ICreateMany } from 'src/crud-base.models';
 import { CrudBaseService } from 'src/crud-base.service';
@@ -23,7 +22,6 @@ export class DialogsService extends CrudBaseService<
 
   constructor(
     @InjectRepository(Dialogs) repo: Repository<Dialogs>,
-    @InjectRolesBuilder() private readonly rolesBuilder: RolesBuilder,
     private readonly index: DialogsIndexService,
   ) {
     super(repo, 'id');
