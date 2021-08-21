@@ -126,7 +126,7 @@ export abstract class CrudBaseService<
     dto: ICreateMany<CreateDto>,
     chunk = 50,
   ): Promise<Entity[]> {
-    if (isArray(dto?.bulk) || dto.bulk.length <= 0) {
+    if (!isArray(dto?.bulk) || dto.bulk.length <= 0) {
       throw new BadRequestException(`Empty bulk data`);
     }
     const entities = await Promise.all(
