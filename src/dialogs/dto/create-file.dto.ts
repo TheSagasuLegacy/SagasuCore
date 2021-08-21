@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsHash,
+  IsPositive,
   Length,
   registerDecorator,
   ValidationOptions,
@@ -42,5 +43,7 @@ export class CreateSubtitleFileDto implements DeepPartial<SubtitleFile> {
 
   episode_id?: number;
 
+  @ApiProperty({ required: true })
+  @IsPositive()
   user_id: number;
 }
