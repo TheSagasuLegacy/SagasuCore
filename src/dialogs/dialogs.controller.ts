@@ -25,8 +25,10 @@ import {
   HasRoles,
   UserJwtAuthGuard,
 } from 'src/users/auth/user-auth.guard';
+import { DialogsSearchService } from './dialogs-search.service';
 import { DialogsService } from './dialogs.service';
 import { CreateDialogDto } from './dto/create-dialog.dto';
+import { DialogSearchQuery } from './dto/search-dialog.dto';
 import { UpdateDialogDto } from './dto/update-dialog.dto';
 import { Dialogs } from './entities/dialog.entity';
 
@@ -42,7 +44,10 @@ class PaginateDialogsOptions extends PaginationOptions(Dialogs) {}
 @UseGuards(UserJwtAuthGuard, AccessControlGuard)
 @UsePipes(new ValidationPipe({ transform: true }))
 export class DialogsController {
-  constructor(public service: DialogsService) {}
+  constructor(
+    private readonly service: DialogsService,
+    private readonly searchService: DialogsSearchService,
+  ) {}
 
   @ApiBearerAuth()
   @HasRoles(AppRoles.READ_MULTIPLE_DIALOG)
@@ -51,6 +56,24 @@ export class DialogsController {
     @Query() options: PaginateDialogsOptions,
   ): Promise<PaginateDialogsResult> {
     return this.service.getMany(options);
+  }
+
+  @ApiBearerAuth()
+  @HasRoles(AppRoles.SEARCH_DIALOG)
+  @Get('/search')
+  search(@Query() options: DialogSearchQuery) {
+    return this.searchService.search(
+      options.keyword,
+      options.from,
+      options.size,
+    );
+  }
+
+  @ApiBearerAuth()
+  @HasRoles(AppRoles.SEARCH_DIALOG)
+  @Get('/suggest')
+  suggest(@Query('keyword') keyword: string) {
+    return this, this.searchService.suggest(keyword);
   }
 
   @ApiBearerAuth()
