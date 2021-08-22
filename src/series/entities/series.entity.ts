@@ -45,7 +45,7 @@ export class Series extends BaseEntity {
   @JoinColumn({ name: 'user_id' })
   user?: User;
 
-  @OneToMany(() => Episodes, (episode) => episode.series, { eager: true })
+  @OneToMany(() => Episodes, (episode) => episode.series)
   episodes: Episodes[];
 
   @UpdateDateColumn({ nullable: true })
