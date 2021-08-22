@@ -39,6 +39,7 @@ DATABASE_URL=postgresql://postgres:password@localhost:5432/postgres
 ES_NODE=http://localhost:9200
 REDIS_URL=redis://localhost:6379
 JWT_SECRET=FuckYouMother # DOES NOT public it at any condition
+NEW_RELIC_LICENSE_KEY= # New Relic APM license key
 ```
 
 - Run database migration
