@@ -43,6 +43,7 @@
     "compression": "^1.7.4",
     "nest-access-control": "^2.0.2",
     "nestjs-typeorm-paginate": "^2.6.2",
+    "newrelic": "^8.1.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
