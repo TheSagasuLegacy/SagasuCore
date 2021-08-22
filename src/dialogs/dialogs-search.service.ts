@@ -79,14 +79,15 @@ export class DialogsSearchService {
     };
     await Promise.all(
       result.body.hits.hits.map(async (hit) => {
-        const result = await this.database.findOne(hit._id, { relations: [] });
-        if (result === undefined) {
-          return;
-        }
-        response.results.push({
-          info: result,
-          search: { highlight: hit.highlight, score: hit._score },
+        const result = await this.database.findOne(hit._id, {
+          relations: ['file'],
         });
+        if (result !== undefined) {
+          response.results.push({
+            info: result,
+            search: { highlight: hit.highlight, score: hit._score },
+          });
+        }
       }),
     );
     response.results.sort((a, b) => a.search.score - b.search.score).reverse();
