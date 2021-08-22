@@ -12,12 +12,14 @@ import { plainToClass } from 'class-transformer';
 import { isArray } from 'class-validator';
 import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
 import { IPaginationMeta, paginate } from 'nestjs-typeorm-paginate';
-import { DeepPartial, Repository } from 'typeorm';
+import { DeepPartial, FindOptionsUtils, Repository } from 'typeorm';
 import {
+  EntityFieldsNames,
   ICreateMany,
   IPaginationOptions,
   IUserRequest,
   PaginationMeta,
+  PaginationOrder,
   TPaginate,
 } from './crud-base.models';
 import { storage } from './request-local.middleware';
@@ -34,7 +36,7 @@ export abstract class CrudBaseService<
 
   constructor(
     protected repo: Repository<Entity>,
-    protected primary: keyof Entity,
+    protected primary: EntityFieldsNames<Entity>,
   ) {}
 
   protected get entityType(): ClassType<Entity> {
@@ -86,22 +88,28 @@ export abstract class CrudBaseService<
     options: IPaginationOptions<Entity>,
   ): Promise<TPaginate<Entity>> {
     const { user, path } = this.request();
+
     await this.assert(this.canRead({ user: user }));
-    return await paginate<Entity, PaginationMeta>(
-      this.repo
-        .createQueryBuilder()
-        .orderBy(
-          options.sort_key && options.sort_order
-            ? { [options.sort_key]: options.sort_order }
-            : {},
-        ),
+
+    const query = FindOptionsUtils.applyOptionsToQueryBuilder(
+      this.repo.createQueryBuilder(),
       {
-        ...options,
-        route: path,
-        metaTransformer: (meta) =>
-          plainToClass<PaginationMeta, IPaginationMeta>(PaginationMeta, meta),
+        relations: options.join as string[] | undefined,
+        order:
+          options.sort_key && options.sort_order
+            ? ({
+                [options.sort_key]: options.sort_order,
+              } as { [P in EntityFieldsNames<Entity>]: PaginationOrder })
+            : undefined,
       },
     );
+
+    return await paginate<Entity, PaginationMeta>(query, {
+      ...options,
+      route: path,
+      metaTransformer: (meta) =>
+        plainToClass<PaginationMeta, IPaginationMeta>(PaginationMeta, meta),
+    });
   }
 
   public async getOne(primary: PrimaryType): Promise<Entity> {

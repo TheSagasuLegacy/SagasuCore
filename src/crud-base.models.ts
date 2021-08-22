@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Type as ClassType } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { METADATA_FACTORY_NAME } from '@nestjs/swagger/dist/plugin/plugin-constants';
 import { BUILT_IN_TYPES } from '@nestjs/swagger/dist/services/constants';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IsEnum, IsOptional, IsPositive, Max } from 'class-validator';
 import { Request } from 'express';
 import {
@@ -11,10 +12,12 @@ import {
   IPaginationOptions as IPaginationOptionsBase,
   Pagination,
 } from 'nestjs-typeorm-paginate';
-
-export const AVAILABLE_PROPERTY_TYPES = new Set([...BUILT_IN_TYPES, Date]);
+import { getMetadataArgsStorage } from 'typeorm';
+import { EntityFieldsNames } from 'typeorm/common/EntityFieldsNames';
 
 export type TPaginate<T> = Pagination<T, PaginationMeta>;
+
+export { EntityFieldsNames };
 
 export enum PaginationOrder {
   ASC = 'ASC',
@@ -31,7 +34,8 @@ export interface ICreateMany<T = unknown> {
 
 export interface IPaginationOptions<Entity = unknown>
   extends IPaginationOptionsBase<PaginationMeta> {
-  sort_key?: keyof Entity;
+  join?: EntityFieldsNames<Entity>[];
+  sort_key?: EntityFieldsNames<Entity>;
   sort_order?: PaginationOrder;
 }
 
@@ -95,18 +99,28 @@ export function PaginatedResult<Entity>(
 export function PaginationOptions<Entity>(
   model: ClassType<Entity>,
 ): ClassType<IPaginationOptions<Entity>> {
-  const ModelProperties = Object.entries(
-    (
-      model[METADATA_FACTORY_NAME] as () => {
-        [key: string]: { required: boolean; type: () => ObjectConstructor };
-      }
-    )(),
-  )
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    .filter(([key, value]) =>
-      AVAILABLE_PROPERTY_TYPES.has(value.type?.call(undefined)),
-    )
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const baseTypes = new Set([...BUILT_IN_TYPES, Date]);
+  const entityTypes = new Set(
+    getMetadataArgsStorage().tables.map((t) => t.target),
+  );
+
+  const modelProperties = Object.fromEntries(
+    Object.entries(
+      (
+        model[METADATA_FACTORY_NAME] as () => {
+          [key: string]: {
+            required: boolean;
+            type?: () => ObjectConstructor;
+          };
+        }
+      )(),
+    ).map(([key, value]) => [key, value.type ? value.type() : undefined]),
+  );
+  const baseProperties = Object.entries(modelProperties)
+    .filter(([key, value]) => (value ? baseTypes.has(value) : false))
+    .map(([key, value]) => key);
+  const entityProperties = Object.entries(modelProperties)
+    .filter(([key, value]) => (value ? entityTypes.has(value) : false))
     .map(([key, value]) => key);
 
   class PaginationOptions implements IPaginationOptions<Entity> {
@@ -123,11 +137,24 @@ export function PaginationOptions<Entity>(
     @Type(() => Number)
     page: number = 1;
 
-    @ApiProperty({ type: 'enum', enum: ModelProperties, required: false })
+    @ApiProperty({
+      type: 'enum',
+      enum: entityProperties,
+      required: false,
+      isArray: true,
+    })
     @IsOptional()
-    @IsEnum(ModelProperties)
+    @IsEnum(entityProperties, { each: true })
+    @Transform(({ value }) =>
+      Array.from(typeof value === 'string' ? [value] : value),
+    )
+    join?: EntityFieldsNames<Entity>[];
+
+    @ApiProperty({ type: 'enum', enum: baseProperties, required: false })
+    @IsOptional()
+    @IsEnum(baseProperties)
     @Type(() => String)
-    sort_key?: keyof Entity;
+    sort_key?: EntityFieldsNames<Entity>;
 
     @ApiProperty({ type: 'enum', enum: PaginationOrder, required: false })
     @IsOptional()
