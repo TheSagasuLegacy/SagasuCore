@@ -1,5 +1,6 @@
 import { User } from 'src/users/entities/user.entity';
 import {
+  BaseEntity,
   Column,
   Entity,
   Index,
@@ -13,7 +14,7 @@ import { SubtitleFile } from './files.entity';
 
 @Entity()
 @Index(['file'])
-export class Dialogs {
+export class Dialogs extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

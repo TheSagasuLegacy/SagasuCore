@@ -1,5 +1,6 @@
 import { User } from 'src/users/entities/user.entity';
 import {
+  BaseEntity,
   Column,
   Entity,
   Index,
@@ -14,7 +15,7 @@ import { Episodes } from './episodes.entity';
 
 @Entity()
 @Index(['bangumi_id'], { unique: true })
-export class Series {
+export class Series extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

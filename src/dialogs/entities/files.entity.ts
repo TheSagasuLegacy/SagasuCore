@@ -2,6 +2,7 @@ import { Episodes } from 'src/series/entities/episodes.entity';
 import { Series } from 'src/series/entities/series.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
@@ -16,7 +17,7 @@ import { Dialogs } from './dialog.entity';
 @Entity()
 @Index(['sha1'], { unique: true })
 @Index(['series'])
-export class SubtitleFile {
+export class SubtitleFile extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

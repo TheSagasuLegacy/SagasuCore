@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
@@ -13,7 +14,7 @@ import { UserRoles } from './user-roles.entity';
 @Entity()
 @Index(['name'], { unique: true })
 @Index(['email'], { unique: true })
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -1,5 +1,6 @@
 import { AppRoles } from 'src/app.roles';
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
@@ -12,7 +13,7 @@ import { User } from './user.entity';
 @Entity()
 @Index(['user'])
 @Index(['user', 'role'], { unique: true })
-export class UserRoles {
+export class UserRoles extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

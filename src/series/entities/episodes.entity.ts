@@ -1,5 +1,6 @@
 import { User } from 'src/users/entities/user.entity';
 import {
+  BaseEntity,
   Column,
   Entity,
   Index,
@@ -23,7 +24,7 @@ export enum EpisodeType {
 
 @Entity()
 @Index(['series', 'sort', 'type'], { unique: true })
-export class Episodes {
+export class Episodes extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
