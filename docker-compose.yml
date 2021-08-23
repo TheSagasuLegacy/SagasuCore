@@ -34,7 +34,6 @@ services:
     ports:
       - '9200:9200'
     environment:
-      ES_JAVA_OPTS: -Xms1G -Xmx1G
       discovery.type: single-node
 
   core:
