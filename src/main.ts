@@ -8,7 +8,11 @@ import * as express from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: {
+      origin: [/127\.0\.0\.1$/, /localhost$/, /x86\.app$/],
+    },
+  });
   app.setGlobalPrefix('/api');
 
   // * Compress response: https://docs.nestjs.com/techniques/compression
