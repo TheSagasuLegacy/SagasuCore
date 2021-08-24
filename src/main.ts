@@ -1,9 +1,10 @@
+require('newrelic');
+
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as compression from 'compression';
 import * as express from 'express';
-import 'newrelic';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
