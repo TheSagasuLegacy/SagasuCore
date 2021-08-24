@@ -6,7 +6,7 @@ COPY ./ /data
 
 WORKDIR /data
 
-RUN yarn install --verbose && \
+RUN yarn install && \
     yarn run build
 
 CMD [ "/bin/sh","-xve","./docker/entrypoint" ]
