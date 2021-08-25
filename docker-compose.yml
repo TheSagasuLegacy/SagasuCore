@@ -9,7 +9,7 @@ services:
   redis:
     image: redis:alpine
     container_name: sagasu_redis
-    restart: unless-stopped
+    restart: on-failure
     volumes:
       - sagasu_redis:/data
     ports:
@@ -18,7 +18,7 @@ services:
   postgres:
     image: postgres:alpine
     container_name: sagasu_postgres
-    restart: unless-stopped
+    restart: on-failure
     volumes:
       - sagasu_postgres:/var/lib/postgresql/data
     ports:
@@ -28,7 +28,7 @@ services:
 
   elasticsearch:
     container_name: sagasu_es
-    restart: unless-stopped
+    restart: on-failure
     build:
       dockerfile: ./docker/elasticsearch.dockerfile
       context: .
