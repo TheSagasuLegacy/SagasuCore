@@ -7,5 +7,5 @@ RUN elasticsearch-plugin install analysis-smartcn && \
 
 ENTRYPOINT [ "/bin/tini","/usr/local/bin/docker-entrypoint.sh" ]
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=5 \
-    CMD [ "/bin/sh","curl","-v","-f","http://localhost:9200" ]
+HEALTHCHECK --interval=10s --timeout=5s --start-period=1m --retries=5 \
+    CMD curl -I -f --max-time 5 http://localhost:9200 || exit 1

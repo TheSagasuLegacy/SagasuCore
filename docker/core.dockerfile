@@ -12,4 +12,4 @@ RUN yarn install && \
 CMD [ "/bin/sh","-xve","./docker/entrypoint" ]
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=5 \
-    CMD [ "/bin/sh","wget","-qO","-","localhost:3000/api/statistics" ]
+    CMD wget -qO /dev/null http://localhost:3000/api/statistics
