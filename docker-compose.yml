@@ -5,53 +5,72 @@ volumes:
   sagasu_redis: {}
   sagasu_postgres: {}
 
+networks:
+  sagasu_net: {}
+
 services:
   redis:
     image: redis:alpine
     container_name: sagasu_redis
-    restart: on-failure
+    healthcheck:
+      test: ['CMD-SHELL', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sagasu_net
     volumes:
       - sagasu_redis:/data
-    ports:
-      - '6379:6379'
+    expose: [6379]
 
   postgres:
     image: postgres:alpine
     container_name: sagasu_postgres
-    restart: on-failure
     volumes:
       - sagasu_postgres:/var/lib/postgresql/data
-    ports:
-      - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sagasu_net
     environment:
       POSTGRES_PASSWORD: password
+    expose: [5432]
 
   elasticsearch:
     container_name: sagasu_es
-    restart: on-failure
     build:
       dockerfile: ./docker/elasticsearch.dockerfile
       context: .
     volumes:
       - sagasu_es:/usr/share/elasticsearch/data
-    ports:
-      - '9200:9200'
+    networks:
+      - sagasu_net
     env_file:
       - ./docker/elasticsearch.env
     environment:
       discovery.type: single-node
+    expose: [9200]
 
   core:
     container_name: sagasu_core
     build:
       dockerfile: ./docker/core.dockerfile
       context: .
+    restart: on-failure
+    networks:
+      - sagasu_net
     depends_on:
-      - redis
-      - postgres
-      - elasticsearch
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
     ports:
-      - '3000:3000'
+      - '127.0.0.1:3000:3000'
     env_file:
       - ./.env
     environment:
