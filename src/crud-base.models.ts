@@ -104,23 +104,36 @@ export function PaginationOptions<Entity>(
     getMetadataArgsStorage().tables.map((t) => t.target),
   );
 
+  type MetadataModel = Record<string, unknown> & {
+    [METADATA_FACTORY_NAME]: () => Record<
+      string,
+      {
+        required: boolean;
+        type?: () => ObjectConstructor | [ObjectConstructor];
+      }
+    >;
+  };
+
   const modelProperties = Object.fromEntries(
     Object.entries(
-      (
-        model[METADATA_FACTORY_NAME] as () => {
-          [key: string]: {
-            required: boolean;
-            type?: () => ObjectConstructor;
-          };
-        }
-      )(),
+      (model as unknown as MetadataModel)[METADATA_FACTORY_NAME](),
     ).map(([key, value]) => [key, value.type ? value.type() : undefined]),
   );
+
   const baseProperties = Object.entries(modelProperties)
-    .filter(([key, value]) => (value ? baseTypes.has(value) : false))
+    .filter(([key, value]) =>
+      value ? !Array.isArray(value) && baseTypes.has(value) : false,
+    )
     .map(([key, value]) => key);
+
   const entityProperties = Object.entries(modelProperties)
-    .filter(([key, value]) => (value ? entityTypes.has(value) : false))
+    .filter(([key, value]) =>
+      value
+        ? Array.isArray(value)
+          ? entityTypes.has(...value)
+          : entityTypes.has(value)
+        : false,
+    )
     .map(([key, value]) => key);
 
   class PaginationOptions implements IPaginationOptions<Entity> {
