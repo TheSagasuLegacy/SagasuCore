@@ -14,6 +14,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AppRoles } from 'src/app.roles';
 import {
   CreateMany,
   PaginatedResult,
@@ -21,13 +22,16 @@ import {
 } from 'src/crud-base.models';
 import {
   AccessControlGuard,
+  HasRoles,
   RequireUserLogin,
   UserAuthGuard,
   UserJwtAuthGuard,
 } from './auth/user-auth.guard';
 import { CurrentUser, UserAuthService } from './auth/user-auth.service';
 import { AccessTokenDto } from './dto/access-token.dto';
+import { AddRolesDto } from './dto/add-roles.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { DeleteRolesDto } from './dto/delete-roles.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -103,7 +107,29 @@ export class UsersController {
 
   @ApiBearerAuth()
   @RequireUserLogin()
-  @UseGuards(UserJwtAuthGuard)
+  @Get('/auth/roles')
+  getRoles() {
+    return this.service.getRoles();
+  }
+
+  @ApiBearerAuth()
+  @RequireUserLogin()
+  @HasRoles(AppRoles.ADMIN_USER_ROLE)
+  @Post('/auth/roles')
+  addRoles(@Body() dto: AddRolesDto) {
+    return this.service.addRoles(dto);
+  }
+
+  @ApiBearerAuth()
+  @RequireUserLogin()
+  @HasRoles(AppRoles.ADMIN_USER_ROLE)
+  @Delete('/auth/roles')
+  deleteRoles(@Body() dto: DeleteRolesDto) {
+    return this.service.deleteRoles(dto);
+  }
+
+  @ApiBearerAuth()
+  @RequireUserLogin()
   @Get('/auth/profile')
   getProfile(@CurrentUser() user: Express.User): Promise<User> {
     return this.service.getOne(user.name);
