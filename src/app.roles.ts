@@ -37,7 +37,7 @@ export enum BasicRoles {
   WRITE_OWN_USER = 'WRITE_OWN_USER',
   WRITE_ANY_USER = 'WRITE_ANY_USER',
 
-  ADMIN_USER_ROLE = 'MODIFY_USER_ROLE',
+  ADMIN_USER_ROLE = 'ADMIN_USER_ROLE',
 }
 
 export enum GroupedRoles {
