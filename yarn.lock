@@ -948,9 +948,9 @@
   integrity sha1-1X5+XmN00QN73OdToFyXA+RINAE=
 
 "@types/compression@^1.7.1":
-  version "1.7.1"
-  resolved "https://registry.nlark.com/@types/compression/download/@types/compression-1.7.1.tgz#d935a1cd6f5cd9a4dc8b0d8aadf2ee91a2975acc"
-  integrity sha1-2TWhzW9c2aTciw2KrfLukaKXWsw=
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@types/compression/-/compression-1.7.2.tgz#7cc1cdb01b4730eea284615a68fc70a2cdfd5e71"
+  integrity sha512-lwEL4M/uAGWngWFLSG87ZDr2kLrbuR8p7X+QZB1OQlT+qkHsCPDVFnHPyXf4Vyl4yDDorNY+mAhosxkCvppatg==
   dependencies:
     "@types/express" "*"
 
