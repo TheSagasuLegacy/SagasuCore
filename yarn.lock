@@ -4800,9 +4800,9 @@ nestjs-typeorm-paginate@^2.6.2:
     chalk "^4.1.2"
 
 newrelic@^8.1.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-8.2.0.tgz#c1a4e51dfadd67cc5a2cc6931b2f2240efc4a736"
-  integrity sha512-jMgzCyiGg6aY3kBJVnRYMSzQCm5CFNDDEu1h5Nn1l3+r035laXRLCeWRu7hFZJVr9cGZUrvmShoNXbV/6LMqSA==
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-8.3.0.tgz#9e690110c241c1394923a91a15338a1c2eb980db"
+  integrity sha512-xVoVkPR6Jr1OcqTo7DSmTKaxS643AeFWYAYJLRNz7WKG6pZkpAfz7mIaCtGtxDH+6XRJpdJ5leovn4T50Cd64g==
   dependencies:
     "@grpc/grpc-js" "^1.2.11"
     "@grpc/proto-loader" "^0.5.6"
@@ -5359,9 +5359,9 @@ prettier-linter-helpers@^1.0.0:
     fast-diff "^1.1.2"
 
 prettier-plugin-organize-imports@^2.2.0:
-  version "2.3.3"
-  resolved "https://registry.nlark.com/prettier-plugin-organize-imports/download/prettier-plugin-organize-imports-2.3.3.tgz#6877bcf8ca02569198d8f419c954a0d90a95de15"
-  integrity sha1-aHe8+MoCVpGY2PQZyVSg2QqV3hU=
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-organize-imports/-/prettier-plugin-organize-imports-2.3.4.tgz#65473861ae5ab7960439fff270a2258558fbe9ba"
+  integrity sha512-R8o23sf5iVL/U71h9SFUdhdOEPsi3nm42FD/oDYIZ2PQa4TNWWuWecxln6jlIQzpZTDMUeO1NicJP6lLn2TtRw==
 
 prettier@^2.2.1:
   version "2.3.2"
