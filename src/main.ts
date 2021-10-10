@@ -10,7 +10,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: {
-      origin: [/127\.0\.0\.1$/, /localhost$/, /x86\.app$/],
+      origin: [/127\.0\.0\.1$/, /localhost:\d+$/, /x86\.app$/],
     },
   });
   app.setGlobalPrefix('/api');
@@ -28,6 +28,8 @@ async function bootstrap() {
     .setTitle(process.env.npm_package_name!)
     .setDescription(process.env.npm_package_description!)
     .setVersion(process.env.npm_package_version!)
+    .addServer('https://api.sagasu.x86.app', 'production')
+    .addServer('http://localhost:3000', 'development')
     .addBearerAuth({ type: 'http', bearerFormat: 'JWT' })
     .build();
   const document = SwaggerModule.createDocument(app, config);
