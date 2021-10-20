@@ -4827,16 +4827,16 @@ nest-access-control@^2.0.2:
     accesscontrol "^2.2.1"
 
 nestjs-typeorm-paginate@^2.6.2:
-  version "2.6.2"
-  resolved "https://registry.nlark.com/nestjs-typeorm-paginate/download/nestjs-typeorm-paginate-2.6.2.tgz#a9848b333720e049ed8236ec88c467d34eebb347"
-  integrity sha1-qYSLMzcg4EntgjbsiMRn007rs0c=
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/nestjs-typeorm-paginate/-/nestjs-typeorm-paginate-2.6.3.tgz#f399ce52eea9fa1a62467ebc14c86ee0856c65ec"
+  integrity sha512-YxrqG3n7OXTjbSKqqceGhQc5MSaUKz8mCiT1gn3+wwYrrLCDS6B5QKGBm3NTx3GqZg16p48amlFGNH8MCHKvqw==
   dependencies:
     chalk "^4.1.2"
 
 newrelic@^8.1.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-8.3.0.tgz#9e690110c241c1394923a91a15338a1c2eb980db"
-  integrity sha512-xVoVkPR6Jr1OcqTo7DSmTKaxS643AeFWYAYJLRNz7WKG6pZkpAfz7mIaCtGtxDH+6XRJpdJ5leovn4T50Cd64g==
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-8.5.0.tgz#e1b636991b7298185d5107fde07696a9a30bb669"
+  integrity sha512-7A5BysogvdwRb5bAJ1apctVObMG5XyqGPsYbSWA+COUL3iSr6BV0n71VzSEdrqoP+wwf2Cl0G+pb3i1E+J0dBA==
   dependencies:
     "@grpc/grpc-js" "^1.2.11"
     "@grpc/proto-loader" "^0.5.6"
