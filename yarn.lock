@@ -4827,9 +4827,9 @@ nest-access-control@^2.0.2:
     accesscontrol "^2.2.1"
 
 nestjs-typeorm-paginate@^2.6.2:
-  version "2.6.2"
-  resolved "https://registry.nlark.com/nestjs-typeorm-paginate/download/nestjs-typeorm-paginate-2.6.2.tgz#a9848b333720e049ed8236ec88c467d34eebb347"
-  integrity sha1-qYSLMzcg4EntgjbsiMRn007rs0c=
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/nestjs-typeorm-paginate/-/nestjs-typeorm-paginate-2.6.3.tgz#f399ce52eea9fa1a62467ebc14c86ee0856c65ec"
+  integrity sha512-YxrqG3n7OXTjbSKqqceGhQc5MSaUKz8mCiT1gn3+wwYrrLCDS6B5QKGBm3NTx3GqZg16p48amlFGNH8MCHKvqw==
   dependencies:
     chalk "^4.1.2"
 
