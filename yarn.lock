@@ -4834,9 +4834,9 @@ nestjs-typeorm-paginate@^2.6.2:
     chalk "^4.1.2"
 
 newrelic@^8.1.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-8.3.0.tgz#9e690110c241c1394923a91a15338a1c2eb980db"
-  integrity sha512-xVoVkPR6Jr1OcqTo7DSmTKaxS643AeFWYAYJLRNz7WKG6pZkpAfz7mIaCtGtxDH+6XRJpdJ5leovn4T50Cd64g==
+  version "8.5.2"
+  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-8.5.2.tgz#c4869d829eef0d97e7eef0a7f8d2049221409d5f"
+  integrity sha512-gVEqMi6HIxnkFFsDPcx7cffPFNMOz1tcRHn9OTEQx4+diM1V2zjV76bJ33uVeEg1dyzezwaBXQjowq5C4dkH7g==
   dependencies:
     "@grpc/grpc-js" "^1.2.11"
     "@grpc/proto-loader" "^0.5.6"
