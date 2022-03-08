@@ -4780,9 +4780,9 @@ neo-async@^2.6.2:
   integrity sha1-tKr7k+OustgXTKU88WOrfXMIMF8=
 
 nest-access-control@^2.0.2:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/nest-access-control/-/nest-access-control-2.0.3.tgz#c1e81355e3e406bfa308435b5ee61652e6c47174"
-  integrity sha512-oRMhSrMdvSLuAXYokWmLSafvOf+dVGOgRYgelWWGLZZYXxj3DbgGua9DwXRiqp3hbmoT8dP5HZVoa5UPbBqrdg==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/nest-access-control/-/nest-access-control-2.2.0.tgz#4921ed7b591c12757467a1bafd1a00754bd070c2"
+  integrity sha512-2H9tJHsC8XBb//yYnmVlCGcYsEaCFnoOMp4OeJreTG/CusaTH9jQT+PE4yp4ZSlJm4xabk6A466KVbdd04ZXNQ==
   dependencies:
     accesscontrol "^2.2.1"
 
