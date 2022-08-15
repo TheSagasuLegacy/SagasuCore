@@ -6253,9 +6253,9 @@ symbol-tree@^3.2.4:
   integrity sha1-QwY30ki6d+B4iDlR+5qg7tfGP6I=
 
 systeminformation@^5.8.0:
-  version "5.9.17"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.9.17.tgz#9b0c405346fcd9ad37a95df4990eefa3d164d7a3"
-  integrity sha512-hbJtPsG63PCst4PLXFq8hycbkeR5oGDquRowfLK0gNX7nJ1qx3tCbsWu83OL4GP1dkcLMKsVooLUn5x2K1Epgg==
+  version "5.12.5"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.12.5.tgz#ba223aca6d99453136986fb6a4c96518d13d27b5"
+  integrity sha512-lWhWMZTQzwHaB2aacQ9wbhSncgXo8bYv7M9K5Qrz9tJuvqPepiCvb5Uauq2xwH+JhbjPO9YJD2qLXQEXFAjwwA==
 
 table@^6.0.9:
   version "6.7.1"
