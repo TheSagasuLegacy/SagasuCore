@@ -1086,9 +1086,9 @@
   integrity sha1-xrkZgXjaUE38of0L6bLhAC8VhvA=
 
 "@types/node@^14.14.36":
-  version "14.18.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.3.tgz#b3682cfd9d5542b025df13233d073cb4347f63f3"
-  integrity sha512-GtTH2crF4MtOIrrAa+jgTV9JX/PfoUCYr6MiZw7O/dkZu5b6gm5dc1nAL0jwGo4ortSBBtGyeVaxdC8X6V+pLg==
+  version "14.18.25"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.25.tgz#57c72455af0a658da5b59aa062b2f89e73df0a61"
+  integrity sha512-9pLfceRSrKIsv/MISN6RoFWTIzka36Uk2Uuf5a8cHyDYhEgl5Hm5dXoe621KULeBjt+cFsY18mILsWWtJeG80w==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
